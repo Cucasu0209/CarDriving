@@ -13,7 +13,8 @@ public class Car_Camera : MonoBehaviour
 
     void Update()
     {
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position + new Vector3(0, Height, -Distance), Time.deltaTime * Damping);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position + new Vector3(0, Height, -Distance), Time.deltaTime * Damping);   
+       // Camera.main.transform.position = transform.position + new Vector3(0, Height, -Distance);
         Camera.main.transform.rotation = Quaternion.Euler(Angle, 0, 0);
     }
 }
