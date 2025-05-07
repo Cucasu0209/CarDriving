@@ -6,15 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(Car_Movement))]
 public class Car_Camera : MonoBehaviour
 {
-    [SerializeField] private float Height = 20;
-    [SerializeField] private float Distance = 15;
-    [SerializeField] private float Angle = 45;
-    [SerializeField] private float Damping = 5.0f;
+    [SerializeField, Tooltip("Height from ground")] private float Height = 21;
+    [SerializeField, Tooltip("Distance form behind")] private float Distance = 11;
+    [SerializeField] private float Angle = 50;
+    [SerializeField] private float Damping = 15f;
 
     void Update()
     {
-        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position + new Vector3(0, Height, -Distance), Time.deltaTime * Damping);   
-       // Camera.main.transform.position = transform.position + new Vector3(0, Height, -Distance);
+        Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, transform.position + new Vector3(0, Height, -Distance), Time.deltaTime * Damping);
         Camera.main.transform.rotation = Quaternion.Euler(Angle, 0, 0);
     }
 }
