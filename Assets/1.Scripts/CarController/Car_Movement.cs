@@ -23,10 +23,12 @@ public class Car_Movement : MonoBehaviour
     }
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0) && GameManager.Instance.IsGameRunning == false) GameManager.Instance.StartGame();
+
         if (Input.GetMouseButton(0))
             TargetSpeed = Mathf.Min(TargetSpeed + MaxSpeed * Time.deltaTime / Throtlte, MaxSpeed);
         else
-            TargetSpeed = Mathf.Max(TargetSpeed -  MaxSpeed * Time.deltaTime/Drag, 0);
+            TargetSpeed = Mathf.Max(TargetSpeed - MaxSpeed * Time.deltaTime / Drag, 0);
 
         Vector3 normalizedDirection = (CarTrace.GetNextPoint(transform.position) - transform.position);
         normalizedDirection = new Vector3(normalizedDirection.x, 0, normalizedDirection.z);
