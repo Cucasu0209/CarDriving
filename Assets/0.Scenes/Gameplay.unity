@@ -4781,7 +4781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 50
-  Drag: 0.3
+  Drag: 0.4
   Throtlte: 0.7
   RotateDamper: 0.5
   CarTrace: {fileID: 910931253}
