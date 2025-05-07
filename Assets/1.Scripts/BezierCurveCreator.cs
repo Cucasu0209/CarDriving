@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BezierCurveCreator : MonoBehaviour
 {
+    [SerializeField] private Transform CustomerStartPos;
+    [SerializeField] public Transform CustomerEndPos;
+    [SerializeField] private Transform PickupPoint;
     [Header("Line Drawing")]
     [SerializeField] private LineRenderer LineRenderer;
     [SerializeField] private float PointGap = 0.3f;//Khoảng cách lớn nhất giữa 2 điểm trên line
@@ -15,7 +17,7 @@ public class BezierCurveCreator : MonoBehaviour
     private List<Vector3> LinePoints;
     private List<Vector3> Knots;
     private List<bool> KnotAnchorMarks;//Is Anchor Knot
-
+    private int StartPointCount = 0;
     float minGap;
     Vector3 pP, cP, nP;// preveous Point, current Point, next Point
 
@@ -117,10 +119,30 @@ public class BezierCurveCreator : MonoBehaviour
         }
         Lines.Add(LinePoints[LinePoints.Count - 1]);
 
-
         LinePoints = Lines;
+        StartPointCount = LinePoints.Count;
         LineRenderer.positionCount = LinePoints.Count;
         LineRenderer.SetPositions(LinePoints.ToArray());
+
+
+
+
+
+    }
+    private IEnumerator Start()
+    {
+        yield return null;
+        int NearistPickupPointIndex = 0;
+        float NearistPickupPointDistance = 9999;
+        for (int i = 0; i < LinePoints.Count; i++)
+        {
+            if (Vector3.Distance(LinePoints[i], PickupPoint.position) < NearistPickupPointDistance)
+            {
+                NearistPickupPointDistance = Vector3.Distance(LinePoints[i], PickupPoint.position);
+                NearistPickupPointIndex = i;
+            }
+        }
+        GameManager.Instance.OnUpdatePickupPoint?.Invoke((NearistPickupPointIndex + 1) * 1f / StartPointCount);
     }
     public Vector3 GetNextPoint(Vector3 position)
     {
@@ -134,11 +156,11 @@ public class BezierCurveCreator : MonoBehaviour
                 resultIndex = i;
             }
         }
-        Debug.Log(resultIndex + 1);
         for (int i = 0; i < resultIndex; i++)
         {
             LinePoints.RemoveAt(0);
         }
+        GameManager.Instance.OnUpdateProgress(1 - LinePoints.Count * 1f / StartPointCount);
         LineRenderer.positionCount = LinePoints.Count;
         LineRenderer.SetPositions(LinePoints.ToArray());
         if (LinePoints.Count < 2) return position;
@@ -147,5 +169,13 @@ public class BezierCurveCreator : MonoBehaviour
     public Vector3 GetStartPoint()
     {
         return LinePoints[0];
+    }
+    public bool HitPickupPoint(Vector3 position)
+    {
+        return Vector3.Distance(PickupPoint.position, position) < 2f;
+    }
+    public bool CheckHitFinishPoint(Vector3 position)
+    {
+        return Vector3.Distance(Points[Points.Count - 1].position, position) < 1f;
     }
 }
