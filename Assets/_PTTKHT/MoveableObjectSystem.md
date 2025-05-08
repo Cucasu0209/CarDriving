@@ -8,12 +8,22 @@ classDiagram
 
 
     class MoveableObject{
-        + TraceData Trace
+        + TraceData Trace;
+
+        + virtual void Run()
+        + virtual void Stop()
+        + virtual void OnHit()
+
     }
 
     class Player{
-        + void Run()
-        + void Stop()
+        - Vector3 TargetVelocity
+        - float TargetAngle
+
+        + void DrawLine()
+        + override void Run() //user Input 
+        + override void Stop() //user Input
+        + override void OnHit() //Game over
     }
 
     class CarBot{

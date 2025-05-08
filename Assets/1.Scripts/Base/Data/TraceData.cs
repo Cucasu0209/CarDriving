@@ -25,7 +25,7 @@ public class TraceData : ScriptableObject
     public List<Vector3> GetBezierTrace()
     {
         float CornerGap = 2;
-        float PointGap = 0.3f;//Khoảng cách lớn nhất giữa 2 điểm trên line
+        float PointGap = 1;//Khoảng cách lớn nhất giữa 2 điểm trên line
         Vector3 pP, cP, nP;// preveous Point, current Point, next Point
         float minGap;
 

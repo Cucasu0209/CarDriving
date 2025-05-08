@@ -35,15 +35,15 @@ public class CarCustomer : MonoBehaviour
             transform.SetParent(doorTf);
         });
     }
-    private void GoOffCar(Transform endPos)
+    private void GoOffCar()
     {
         HidePin(EndPin);
 
         DOVirtual.DelayedCall(0.3f, () =>
         {
             transform.localScale = Vector3.one * 2;
-            transform.LookAt(endPos);
-            transform.DOMove(endPos.position, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
+            transform.LookAt(LevelManager.Instace.CurrentLevelData.FinalCustomerPoint);
+            transform.DOMove(LevelManager.Instace.CurrentLevelData.FinalCustomerPoint, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
             {
                 transform.LookAt(transform.parent);
                 Animator.SetTrigger("Congrat");

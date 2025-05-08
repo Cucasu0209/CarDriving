@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Obstacle_Car : Obstacle
+public class GameConfig 
 {
-    
+
 }

@@ -22,11 +22,13 @@ classDiagram
     }
     
     class ObstacleData{
+        + int MapIndex;
         + TraceData Trace;
         + ObstacleType Type;
     }
 
     class LevelData{
+        + int MapIndex;
         + TraceData PlayerTrace;
         + Vector3 PickupPoint;
         + List~List~Vector3~~ Traps;

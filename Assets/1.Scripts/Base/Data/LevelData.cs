@@ -13,10 +13,11 @@ public class LevelData : ScriptableObject
         public TrapType Trap;
         public List<Vector3> Positions;
     }
-    [SerializeField] private TraceData PlayerTrace;
-    [SerializeField] private Vector3 PickupPoint;
-    [SerializeField] private List<TrapPlace> Traps;
-    [SerializeField] private List<ObstacleData> Obstacles;
+    public TraceData PlayerTrace;
+    public Vector3 PickupPoint;
+    public Vector3 FinalCustomerPoint;
+    public List<TrapPlace> Traps;
+    public List<ObstacleData> Obstacles;
 }
 public enum TrapType
 {

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d68ae0e5071a5af4088cc33b8c99d0b3, type: 3}
-  m_Name: MapData
+  m_Script: {fileID: 11500000, guid: ab703785d1a6cd2478d65d47a12df61e, type: 3}
+  m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  Intersections:
-  - {x: 0, y: 0, z: 0}
-  Connections: []
+  Throttle: 0.7
+  Drag: 0.4
+  MaxSpeed: 50

@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
     //Events
     public Action OnGameStart;
     public Action<Transform> OnPickCustomer;
-    public Action<Transform> OnFinishTrace;
+    public Action OnFinishTrace;
+
     public Action<float> OnUpdateProgress;
     public Action<float> OnUpdatePickupPoint;
 

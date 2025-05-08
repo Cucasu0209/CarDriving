@@ -12,19 +12,48 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     [Header("Points")]
     [SerializeField] private RectTransform StartPoint;
     [SerializeField] private RectTransform PickupPoint;
+    [SerializeField] private GameObject Pickup_Pin;
+    [SerializeField] private GameObject Pickup_Flag;
     [SerializeField] private RectTransform EndPoint;
+    [SerializeField] private GameObject EndPoint_Pin;
+    [SerializeField] private GameObject EndPoint_Flag;
     float PickupPosRate = 0;
     private void Start()
     {
         GameManager.Instance.OnGameStart += ShowProgress;
         GameManager.Instance.OnUpdateProgress += UpdateProgress;
         GameManager.Instance.OnUpdatePickupPoint += SetPickupPoint;
+
+        GameManager.Instance.OnPickCustomer += UpdateIconPickup;
+        GameManager.Instance.OnFinishTrace += UpdateIconEndPoint;
     }
     private void OnDestroy()
     {
         GameManager.Instance.OnGameStart -= ShowProgress;
         GameManager.Instance.OnUpdateProgress -= UpdateProgress;
         GameManager.Instance.OnUpdatePickupPoint -= SetPickupPoint;
+
+        GameManager.Instance.OnPickCustomer -= UpdateIconPickup;
+        GameManager.Instance.OnFinishTrace -= UpdateIconEndPoint;
+    }
+    private void UpdateIconPickup(Transform door)
+    {
+        Pickup_Pin.transform.DOScale(0, 0.3f).OnComplete(() =>
+        {
+            Pickup_Pin.SetActive(false);
+            Pickup_Flag.SetActive(true);
+            Pickup_Flag.transform.DOScale(1, 0.3f);
+        });
+    }
+
+    private void UpdateIconEndPoint()
+    {
+        EndPoint_Pin.transform.DOScale(0, 0.3f).OnComplete(() =>
+        {
+            EndPoint_Pin.SetActive(false);
+            EndPoint_Flag.SetActive(true);
+            EndPoint_Flag.transform.DOScale(1, 0.3f);
+        });
     }
     private void UpdateProgress(float rate)
     {

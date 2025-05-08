@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[RequireComponent(typeof(Car_Movement))]
-public class Car_Camera : MonoBehaviour
+public class PlayerCamera : MonoBehaviour
 {
     [SerializeField, Tooltip("Height from ground")] private float Height = 21;
     [SerializeField, Tooltip("Distance form behind")] private float Distance = 11;
