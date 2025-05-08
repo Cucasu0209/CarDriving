@@ -17,6 +17,7 @@ public class Car_Movement : MonoBehaviour
     [SerializeField] private float Drag = 0.3f;
     [SerializeField] private float Throtlte = 0.3f;
     [SerializeField] private float RotateDamper = 0.2f;
+    [SerializeField] private float Gravity = 9.8f;
     [Header("Car Road")]
     [SerializeField] private BezierCurveCreator CarTrace;
     [Header("Car")]
@@ -38,13 +39,16 @@ public class Car_Movement : MonoBehaviour
             else
                 TargetSpeed = Mathf.Max(TargetSpeed - MaxSpeed * Time.deltaTime / Drag, 0);
         }
-
-
         Vector3 normalizedDirection = (CarTrace.GetNextPoint(transform.position) - transform.position);
         normalizedDirection = new Vector3(normalizedDirection.x, 0, normalizedDirection.z);
         if (normalizedDirection.magnitude != 0) normalizedDirection = normalizedDirection.normalized;
+
+
+
         Move(normalizedDirection);
         RotateCarWhileMoving(normalizedDirection);
+        ApplyGravity();
+
         CheckCanPickCustomerUp();
         CheckEndTrace();
     }
@@ -54,7 +58,7 @@ public class Car_Movement : MonoBehaviour
     /// <param name="dir"></param>
     private void Move(Vector3 dir)
     {
-        CarBody.velocity = Vector3.Lerp(CarBody.velocity, TargetSpeed * dir, RotateDamper);
+        CarBody.velocity = new Vector3(Mathf.Lerp(CarBody.velocity.x, TargetSpeed * dir.x, RotateDamper), CarBody.velocity.y, Mathf.Lerp(CarBody.velocity.z, TargetSpeed * dir.z, RotateDamper));
         Debug.DrawRay(transform.position, dir * 10, Color.red);
     }
 
@@ -71,9 +75,22 @@ public class Car_Movement : MonoBehaviour
             Mathf.Lerp(currentAngle, TargetAngle, 0.1f),
             transform.rotation.z);
 
+        //if (Mathf.Abs(TargetAngle - currentAngle) > 3) CarBody.angularVelocity = Vector3.up * 360;
+        //else CarBody.angularVelocity = Vector3.zero;
     }
 
+    private void ApplyGravity()
+    {
+        if (transform.position.y > 0)
+        {
+            CarBody.velocity += Vector3.down * Gravity * Time.deltaTime;
+        }
+        else
+        {
+            CarBody.velocity = new Vector3(CarBody.velocity.x, 0, CarBody.velocity.z);
 
+        }
+    }
     private void Break()
     {
         TargetSpeed = 0;
@@ -97,7 +114,6 @@ public class Car_Movement : MonoBehaviour
             Interactable = true;
         });
     }
-
     private void CheckEndTrace()
     {
         if (IsEndTrace == false
