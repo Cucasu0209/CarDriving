@@ -5,11 +5,11 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     #region Simple Singleton
-    public static LevelManager Instace;
+    public static LevelManager Instance;
     public Player Player;
     private void Awake()
     {
-        Instace = this;
+        Instance = this;
     }
     #endregion
 
@@ -24,12 +24,16 @@ public class LevelManager : MonoBehaviour
 
     #region Unity Behaviour
 
-    private IEnumerator Start()
+    private void Start()
     {
-        yield return null;
-        LoadLevel();
+        GameManager.Instance.OnSetupGame += LoadLevel;
     }
-    private void LoadLevel()
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnSetupGame -= LoadLevel;
+
+    }
+    public void LoadLevel()
     {
         CurrentMapData = Resources.Load<MapData>($"Data/Level/Level_{MapIndex}/Map{MapIndex}");
         CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{LevelIndex}/Level{LevelIndex}");

@@ -42,8 +42,8 @@ public class CarCustomer : MonoBehaviour
         DOVirtual.DelayedCall(0.3f, () =>
         {
             transform.localScale = Vector3.one * 2;
-            transform.LookAt(LevelManager.Instace.CurrentLevelData.FinalCustomerPoint);
-            transform.DOMove(LevelManager.Instace.CurrentLevelData.FinalCustomerPoint, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
+            transform.LookAt(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint);
+            transform.DOMove(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
             {
                 transform.LookAt(transform.parent);
                 Animator.SetTrigger("Congrat");

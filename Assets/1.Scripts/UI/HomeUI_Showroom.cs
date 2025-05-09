@@ -7,21 +7,29 @@ using UnityEngine.UI;
 public class HomeUI_Showroom : MonoBehaviour
 {
     [SerializeField] private Button ShowroomButton;
-
+    private float StartPosX;
     private void Start()
     {
-        GameManager.Instance.OnGameStart += OnGameStart;
+        StartPosX = ShowroomButton.GetComponent<RectTransform>().anchoredPosition.x;
+        GameManager.Instance.OnHideHomeUI += OnHide;
+        GameManager.Instance.OnShowHomeUI += OnShow;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStart -= OnGameStart;
+        GameManager.Instance.OnHideHomeUI -= OnHide;
+        GameManager.Instance.OnShowHomeUI -= OnShow;
 
     }
 
 
-    private void OnGameStart()
+    private void OnHide()
     {
-        ShowroomButton.GetComponent<RectTransform>().DOAnchorPosX(232, 0.3f);
+        ShowroomButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX - 800, 0.3f);
+    }
+    private void OnShow()
+    {
+        ShowroomButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX, 0.3f);
+
     }
 }

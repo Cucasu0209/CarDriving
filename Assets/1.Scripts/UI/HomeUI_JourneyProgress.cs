@@ -17,24 +17,39 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     [SerializeField] private RectTransform EndPoint;
     [SerializeField] private GameObject EndPoint_Pin;
     [SerializeField] private GameObject EndPoint_Flag;
-    float PickupPosRate = 0;
     private void Start()
     {
         GameManager.Instance.OnGameStart += ShowProgress;
+        GameManager.Instance.OnFinishTrace += HideProgress;
+
         GameManager.Instance.OnUpdateProgress += UpdateProgress;
         GameManager.Instance.OnUpdatePickupPoint += SetPickupPoint;
 
         GameManager.Instance.OnPickCustomer += UpdateIconPickup;
         GameManager.Instance.OnFinishTrace += UpdateIconEndPoint;
+
+        GameManager.Instance.OnSetupGame += SetupPin;
     }
     private void OnDestroy()
     {
         GameManager.Instance.OnGameStart -= ShowProgress;
+        GameManager.Instance.OnFinishTrace -= HideProgress;
+
+
         GameManager.Instance.OnUpdateProgress -= UpdateProgress;
         GameManager.Instance.OnUpdatePickupPoint -= SetPickupPoint;
 
         GameManager.Instance.OnPickCustomer -= UpdateIconPickup;
         GameManager.Instance.OnFinishTrace -= UpdateIconEndPoint;
+
+        GameManager.Instance.OnSetupGame -= SetupPin;
+    }
+    private void SetupPin()
+    {
+        Pickup_Pin.transform.DOScale(1, 0.1f).OnComplete(() => Pickup_Pin.SetActive(true));
+        Pickup_Flag.transform.DOScale(0, 0.1f).OnComplete(() => Pickup_Flag.SetActive(false));
+        EndPoint_Pin.transform.DOScale(1, 0.1f).OnComplete(() => EndPoint_Pin.SetActive(true));
+        EndPoint_Flag.transform.DOScale(0, 0.1f).OnComplete(() => EndPoint_Flag.SetActive(false));
     }
     private void UpdateIconPickup(Transform door)
     {
@@ -45,7 +60,6 @@ public class HomeUI_JourneyProgress : MonoBehaviour
             Pickup_Flag.transform.DOScale(1, 0.3f);
         });
     }
-
     private void UpdateIconEndPoint()
     {
         EndPoint_Pin.transform.DOScale(0, 0.3f).OnComplete(() =>
@@ -62,12 +76,16 @@ public class HomeUI_JourneyProgress : MonoBehaviour
 
     private void SetPickupPoint(float rate)
     {
-        PickupPosRate = rate;
         PickupPoint.anchoredPosition = (EndPoint.anchoredPosition - StartPoint.anchoredPosition) * rate + StartPoint.anchoredPosition;
     }
 
     private void ShowProgress()
     {
-        BodySelf.DOAnchorPosY(-412, 0.4f).SetDelay(0.2f);
+        BodySelf.DOAnchorPosY(-242, 0.4f).SetDelay(0.2f);
+    }
+    private void HideProgress()
+    {
+        BodySelf.DOAnchorPosY(242, 0.4f);
+
     }
 }

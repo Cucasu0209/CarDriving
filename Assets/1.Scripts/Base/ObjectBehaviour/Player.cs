@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using DG.Tweening;
@@ -13,26 +13,47 @@ public class Player : MoveableObject
     private bool IsEndTrace = false;
     private bool Interactable = true;
 
+    protected override void Start()
+    {
+        base.Start();
+        UserInput.Instance.OnUserMouse += SetTargetSpeed;
+    }
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        UserInput.Instance.OnUserMouse -= SetTargetSpeed;
+
+    }
     public override void SetupTrace(TraceData data)
     {
         base.SetupTrace(data);
-        GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instace.CurrentLevelData.PickupPoint) * 1f / Points.Count);
+        Interactable = true;
+        IsEndTrace = false;
+        PickedCustomerUp = false;
+        GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instance.CurrentLevelData.PickupPoint) * 1f / Points.Count);
+        GameManager.Instance.OnUpdateProgress?.Invoke(0);
+
     }
     public override void Run()
     {
-        if (Interactable)
-        {
-            if (Input.GetMouseButtonDown(0) && GameManager.Instance.IsGameRunning == false) GameManager.Instance.StartGame();
-
-            if (Input.GetMouseButton(0))
-                TargetSpeed = Mathf.Min(TargetSpeed + Config.MaxSpeed * Time.deltaTime / Config.Throttle, Config.MaxSpeed);
-            else
-                TargetSpeed = Mathf.Max(TargetSpeed - Config.MaxSpeed * Time.deltaTime / Config.Drag, 0);
-        }
         base.Run();
         UpdateProgress();
         CheckCanPickCustomerUp();
         CheckEndTrace();
+    }
+    private void SetTargetSpeed(bool isUserDragging)
+    {
+        if (Interactable)
+        {
+            if (isUserDragging)
+            {
+                TargetSpeed = Mathf.Min(TargetSpeed + Config.MaxSpeed * Time.deltaTime / Config.Throttle, Config.MaxSpeed);
+                if (GameManager.Instance.IsGameRunning == false)
+                    GameManager.Instance.StartGame();
+            }
+            else
+                TargetSpeed = Mathf.Max(TargetSpeed - Config.MaxSpeed * Time.deltaTime / Config.Drag, 0);
+        }
     }
     private void UpdateProgress()
     {
@@ -54,7 +75,7 @@ public class Player : MoveableObject
     private void CheckCanPickCustomerUp()
     {
         if (PickedCustomerUp == false
-            && Vector3.Distance(transform.position, LevelManager.Instace.CurrentLevelData.PickupPoint) < 2f)
+            && Vector3.Distance(transform.position, LevelManager.Instance.CurrentLevelData.PickupPoint) < 2f)
         {
             PickedCustomerUp = true;
             PickCustomerUp();
@@ -85,5 +106,9 @@ public class Player : MoveableObject
         GameManager.Instance.OnUpdateProgress?.Invoke(1);
         Interactable = false;
         Stop();
+        DOVirtual.DelayedCall(5f, () =>
+        {
+            GameManager.Instance.OnShowEndgamePopup?.Invoke();
+        });
     }
 }

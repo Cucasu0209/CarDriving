@@ -14,24 +14,32 @@ public class HomeUI_Banner : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI TapToPlayTest;
     [SerializeField] private Image Dark;
-
+    private float StartPosY;
     private void Start()
     {
-        GameManager.Instance.OnGameStart += OnGameStart;
+        StartPosY = BodySelf.anchoredPosition.y;
+        GameManager.Instance.OnHideHomeUI += OnHide;
+        GameManager.Instance.OnShowHomeUI += OnShow;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnGameStart -= OnGameStart;
+        GameManager.Instance.OnHideHomeUI -= OnHide;
+        GameManager.Instance.OnShowHomeUI -= OnShow;
 
     }
-
-
-    private void OnGameStart()
+    private void OnHide()
     {
         float duration = 0.4f;
-        BodySelf.DOAnchorPosY(663, duration);
+        BodySelf.DOAnchorPosY(StartPosY + 2500, duration);
         TapToPlayTest.DOFade(0, duration);
         Dark.DOFade(0, duration);
+    }
+    private void OnShow()
+    {
+        float duration = 0.4f;
+        BodySelf.DOAnchorPosY(StartPosY, duration);
+        TapToPlayTest.DOFade(1, duration);
+        Dark.DOFade(0.6f, duration);
     }
 }
