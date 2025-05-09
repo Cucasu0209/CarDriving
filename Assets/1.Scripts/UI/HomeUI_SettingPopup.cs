@@ -4,9 +4,8 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HomeUI_Setting : MonoBehaviour
+public class HomeUI_SettingPopup : MonoBehaviour
 {
-    [SerializeField] private Button SettingButton;
     [SerializeField] private RectTransform SettingPopup;
     [SerializeField] private Image PopupDark;
     [SerializeField] private Button SaveButton;
@@ -14,35 +13,14 @@ public class HomeUI_Setting : MonoBehaviour
 
     private void Start()
     {
-        SettingButton.onClick.AddListener(OnOpenPopup);
         SaveButton.onClick.AddListener(SaveSetting);
-        CancelButton.onClick.AddListener(OnClosePopup);
-
-        GameManager.Instance.OnHideHomeUI += OnHide;
-        GameManager.Instance.OnShowHomeUI += OnShow;
+        CancelButton.onClick.AddListener(HidePopup);
     }
-
-    private void OnDestroy()
-    {
-        GameManager.Instance.OnHideHomeUI -= OnHide;
-        GameManager.Instance.OnShowHomeUI -= OnShow;
-    }
-
     private void SaveSetting()
     {
-        OnClosePopup();
+        HidePopup();
     }
-    private void OnHide()
-    {
-        SettingButton.transform.DOScale(0, 0.3f);
-    }
-    private void OnShow()
-    {
-        SettingButton.transform.DOScale(1, 0.3f);
-
-    }
-
-    private void OnOpenPopup()
+    public void ShowPopup()
     {
         GameManager.Instance.OnHideHomeUI?.Invoke();
         SettingPopup.gameObject.SetActive(true);
@@ -50,7 +28,7 @@ public class HomeUI_Setting : MonoBehaviour
         SettingPopup.DOScale(1, 0.4f).SetDelay(0.4f);
         PopupDark.DOFade(0.8f, 0.3f).SetDelay(0.4f);
     }
-    private void OnClosePopup()
+    private void HidePopup()
     {
         SettingPopup.DOScale(0, 0.3f).OnComplete(() =>
         {

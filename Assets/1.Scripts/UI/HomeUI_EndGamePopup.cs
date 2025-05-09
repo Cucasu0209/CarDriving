@@ -38,7 +38,7 @@ public class HomeUI_EndGamePopup : MonoBehaviour
         });
         for (int i = 0; i < ComponentsInPopup.Count; i++)
         {
-            ComponentsInPopup[i].DOScale(0, 0.3f).SetEase(Ease.OutBounce);
+            ComponentsInPopup[i].DOScale(0, 0.3f);
         }
     }
     private void OnButtonNextClick()
