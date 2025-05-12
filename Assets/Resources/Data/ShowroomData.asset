@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3190736dbce5f54fa22ac9f4e69816d, type: 3}
+  m_Name: ShowroomData
+  m_EditorClassIdentifier: 
+  CarListData:
+  - Id: 0
+    CarName: Car0
+    Price: 600
+  - Id: 1
+    CarName: Car1
+    Price: 800
+  - Id: 2
+    CarName: Car2
+    Price: 500
+  - Id: 3
+    CarName: Car3
+    Price: 700
+  - Id: 4
+    CarName: Car4
+    Price: 1200
+  - Id: 5
+    CarName: Car5
+    Price: 1100
+  - Id: 6
+    CarName: Car6
+    Price: 1000
+  - Id: 7
+    CarName: Car7
+    Price: 2000
+  - Id: 8
+    CarName: Car8
+    Price: 2500
+  - Id: 9
+    CarName: Car9
+    Price: 300
+  - Id: 10
+    CarName: Car10
+    Price: 3200
+  - Id: 11
+    CarName: Car11
+    Price: 1400

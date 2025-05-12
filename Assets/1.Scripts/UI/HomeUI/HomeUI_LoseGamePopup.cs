@@ -1,0 +1,71 @@
+using System.Collections;
+using System.Collections.Generic;
+using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HomeUI_LoseGamePopup : MonoBehaviour
+{
+    [SerializeField] private Image Background;
+    [SerializeField] private List<RectTransform> ComponentsInPopup;
+    [SerializeField] private Image Progress;
+    [SerializeField] private Button ContinueButton;
+    [SerializeField] private Button RetryButton;
+
+    void Start()
+    {
+        OnClosePopup();
+        ContinueButton.onClick.AddListener(Revive);
+        RetryButton.onClick.AddListener(Retry);
+        GameManager.Instance.OnShowEndgamePopup += OnOpenPopup;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.Instance.OnShowEndgamePopup -= OnOpenPopup;
+
+    }
+
+    private void OnOpenPopup(bool isWin)
+    {
+        if (isWin) return;
+        Background.gameObject.SetActive(true);
+        Background.DOFade(0.7f, 0.3f);
+        for (int i = 0; i < ComponentsInPopup.Count; i++)
+        {
+            ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
+        }
+        Progress.fillAmount = 0;
+        Progress.DOFillAmount(1, GameConfig.TIME_WAIT_LOSE_GAME).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            ContinueButton.transform.DOScale(0, 0.2f);
+            RetryButton.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+        });
+    }
+    private void OnClosePopup()
+    {
+        Background.DOFade(0, 0.3f).SetDelay(0.3f).OnComplete(() =>
+        {
+            Background.gameObject.SetActive(false);
+        });
+        for (int i = 0; i < ComponentsInPopup.Count; i++)
+        {
+            ComponentsInPopup[i].DOScale(0, 0.3f);
+        }
+        RetryButton.transform.DOScale(0, 0.3f);
+    }
+
+    private void Revive()
+    {
+        Progress.DOKill();
+        OnClosePopup();
+        GameManager.Instance.Revive();
+
+    }
+    private void Retry()
+    {
+        OnClosePopup();
+        GameManager.Instance.Retry();
+
+    }
+}

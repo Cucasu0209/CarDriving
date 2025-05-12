@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     #region Variables
     private string LevelKey = "CurrentLevel";
     public int MapIndex { get; private set; }
-    [SerializeField] public int LevelIndex;/* { get; private set; }*/
+    public int LevelIndex;/* { get; private set; }*/
 
     public MapData CurrentMapData { get; private set; }
     public LevelData CurrentLevelData { get; private set; }

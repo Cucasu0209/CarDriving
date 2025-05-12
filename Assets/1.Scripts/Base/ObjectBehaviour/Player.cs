@@ -32,7 +32,7 @@ public class Player : MoveableObject
         PickedCustomerUp = false;
         GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instance.CurrentLevelData.PickupPoint) * 1f / Points.Count);
         GameManager.Instance.OnUpdateProgress?.Invoke(0);
-
+        LoadModel();
     }
     public override void Run()
     {
@@ -108,7 +108,17 @@ public class Player : MoveableObject
         Stop();
         DOVirtual.DelayedCall(5f, () =>
         {
-            GameManager.Instance.OnShowEndgamePopup?.Invoke();
+            GameManager.Instance.OnShowEndgamePopup?.Invoke(true);
         });
     }
+    private void LoadModel()
+    {
+        GameObject Model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
+        if (Model != null)
+        {
+            Model = Instantiate(Model, transform);
+            Model.transform.localPosition = Vector3.zero;
+        }
+    }
+
 }

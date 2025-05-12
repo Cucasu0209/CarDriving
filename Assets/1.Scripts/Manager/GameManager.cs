@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     public Action<Transform> OnPickCustomer;
 
     public Action OnFinishTrace;
-    public Action OnShowEndgamePopup;
+    public Action<bool> OnShowEndgamePopup;
 
     public Action<float> OnUpdateProgress;
     public Action<float> OnUpdatePickupPoint;
@@ -51,4 +51,16 @@ public class GameManager : MonoBehaviour
         OnShowHomeUI?.Invoke();
     }
 
+    public void Retry()
+    {
+        IsGameRunning = false;
+        OnSetupGame?.Invoke();
+        OnShowHomeUI?.Invoke();
+    }
+    public void Revive()
+    {
+        IsGameRunning = false;
+        OnSetupGame?.Invoke();
+        OnShowHomeUI?.Invoke();
+    }
 }
