@@ -1,18 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
+--- !u!114 &1
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 53
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28e5facecd60d8f469012b1e6f6d0dfe, type: 3}
-  m_Name: PlayerTraceLevel1
+  m_Script: {fileID: 11500000, guid: a287be6c49135cd4f9b2b8666c39d999, type: 3}
+  m_Name: 
   m_EditorClassIdentifier: 
-  TracePoints:
-  - {x: -93.3, y: 0.4, z: 129.9}
-  - {x: -93.3, y: 0.4, z: 8.5}
-  LoopType: 2
+  assetDefaultFramerate: 60
+  m_DefaultFrameRate: 60

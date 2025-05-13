@@ -7,9 +7,9 @@ public class LevelManager : MonoBehaviour
 {
     #region Simple Singleton
     public static LevelManager Instance;
-    public Player Player;
 
     public Action OnLevelChange;
+    public Action OnLoadLevelComplete;
     private void Awake()
     {
         Instance = this;
@@ -19,12 +19,11 @@ public class LevelManager : MonoBehaviour
     #region Variables
     private string LevelKey = "CurrentLevel";
     public int MapIndex { get; private set; }
-    public int LevelIndex;/* { get; private set; }*/
+    public int LevelIndex { get; private set; }
 
     public MapData CurrentMapData { get; private set; }
     public LevelData CurrentLevelData { get; private set; }
     #endregion
-
 
     #region Unity Behaviour
 
@@ -45,10 +44,12 @@ public class LevelManager : MonoBehaviour
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1);
         MapIndex = LevelIndex / 10 + 1;
         OnLevelChange?.Invoke();
+        LevelIndex = 3;
+        CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{LevelIndex}/Level{LevelIndex}");
+        OnLoadLevelComplete?.Invoke();
 
-        CurrentMapData = Resources.Load<MapData>($"Data/Level/Level_{1}/Map{1}");
-        CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{1}/Level{1}");
-        Player.SetupTrace(CurrentLevelData.PlayerTrace);
+        CreateObstacles();
+
     }
     public void NextLevel()
     {
@@ -60,5 +61,30 @@ public class LevelManager : MonoBehaviour
 
     #endregion
 
+    #region Setup Start Game
+    private List<GameObject> Obstacles = new List<GameObject>();
+    private void CreateObstacles()
+    {
+        //clear cache
+        for (int i = 0; i < Obstacles.Count; i++) Destroy(Obstacles[i]);
+        Obstacles.Clear();
 
+        //Create Obstacle
+        GameObject ObstaclePrefab = Resources.Load<GameObject>(GameConfig.OBSTACLE_PREFAB_LINK);
+        if (ObstaclePrefab != null)
+        {
+            for (int i = 0; i < CurrentLevelData.Obstacles.Count; i++)
+            {
+                GameObject newObstacle = Instantiate(ObstaclePrefab, Vector3.zero, Quaternion.identity);
+                Obstacles.Add(newObstacle);
+                newObstacle.GetComponent<Obstacle>().SetObstacleData(CurrentLevelData.Obstacles[i]);
+            }
+        }
+
+    }
+    #endregion
+
+    #region Reset End Game
+
+    #endregion
 }

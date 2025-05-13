@@ -19,6 +19,9 @@ public class GameConfig
     public static string SHOWROOM_DATA_LINK = "Data/ShowroomData";
     public static string SHOWROOM_ICON_LINK = "Vehicles/Icons/";
     public static string SHOWROOM_MODEL_LINK = "Vehicles/Models/";
+    public static string CAR_MODEL_LINK = "Vehicles/Models/";
+    public static string HUMAN_MODEL_LINK = "Humans/Models/";
+    public static string OBSTACLE_PREFAB_LINK = "GameplayPrefab/Obstacle";
     public static int SHOWROOM_ELEMENT_PER_PAGE = 9;
 
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -12,12 +13,11 @@ public class TraceData : ScriptableObject
         Restart,
         None
     }
-    [SerializeField] private MapData Map;
     /// <summary>
     /// Đường đi các điểm trong map
     /// </summary>
-    [SerializeField] private List<int> TracePoints;
-    [SerializeField] private TraceLoopType LoopType;
+    [SerializeField] private List<Vector3> TracePoints;
+    [SerializeField] public TraceLoopType LoopType;
 
 
     #region Draw Bezier line Algorithm
@@ -33,7 +33,7 @@ public class TraceData : ScriptableObject
 
         for (int i = 0; i < TracePoints.Count; i++)
         {
-            Points.Add(Map.GetIntersectionPos(TracePoints[i]));
+            Points.Add(TracePoints[i]);
         }
 
         List<Vector3> Knots = new List<Vector3>();
@@ -130,15 +130,22 @@ public class TraceData : ScriptableObject
         }
         return resultIndex;
     }
-    public Vector3 GetNextPoint(Vector3 position)
+    public Vector3 GetNextPoint(Vector3 position, bool isPositiveDir=true)
     {
         int resultIndex = GetIndexByPosition(position);
+        if (LoopType == TraceLoopType.Yoyo && isPositiveDir == false)
+            return resultIndex <= 0 ? position : LinePoints[resultIndex - 1];
         return resultIndex >= LinePoints.Count - 1 ? position : LinePoints[resultIndex + 1];
     }
     public Vector3 GetStartPoint()
     {
         return LinePoints[0];
     }
+    public Vector3 GetLastPoint()
+    {
+        return LinePoints[LinePoints.Count - 1];
+    }
+    public List<Vector3> GetIntersectionList() => TracePoints;
     public bool CheckHitFinishPoint(Vector3 position)
     {
         return GetIndexByPosition(position) == LinePoints.Count - 1;

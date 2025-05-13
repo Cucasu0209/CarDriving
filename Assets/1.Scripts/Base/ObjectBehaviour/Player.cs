@@ -17,12 +17,18 @@ public class Player : MoveableObject
     {
         base.Start();
         UserInput.Instance.OnUserMouse += SetTargetSpeed;
+        LevelManager.Instance.OnLoadLevelComplete += OnLevelComplete;
+
     }
     protected override void OnDestroy()
     {
         base.OnDestroy();
         UserInput.Instance.OnUserMouse -= SetTargetSpeed;
-
+        LevelManager.Instance.OnLoadLevelComplete -= OnLevelComplete;
+    }
+    private void OnLevelComplete()
+    {
+        SetupTrace(LevelManager.Instance.CurrentLevelData.PlayerTrace);
     }
     public override void SetupTrace(TraceData data)
     {
@@ -70,8 +76,6 @@ public class Player : MoveableObject
         GameManager.Instance.OnUpdateProgress?.Invoke((NextPoint) * 1f / Points.Count);
 
     }
-
-
     private void CheckCanPickCustomerUp()
     {
         if (PickedCustomerUp == false
@@ -121,4 +125,28 @@ public class Player : MoveableObject
         }
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision is null || Interactable == false) return;
+        if (collision.gameObject.tag == "Enemy" && collision.gameObject.GetComponent<MoveableObject>() != null)
+        {
+            MoveableObject obstacle = collision.gameObject.GetComponent<MoveableObject>();
+            obstacle.StopInstantly();
+            obstacle.OnHit((obstacle.transform.position - transform.position));
+            StopInstantly();
+            OnHit(transform.position - obstacle.transform.position);
+
+            Interactable = false;
+            DOVirtual.DelayedCall(3, () =>
+            {
+                GameManager.Instance.OnShowEndgamePopup?.Invoke(false);
+            });
+        }
+
+    }
+    public override void OnHit(Vector3 dir)
+    {
+        ObjectBody.AddForce(dir.normalized * 700);
+    }
 }
