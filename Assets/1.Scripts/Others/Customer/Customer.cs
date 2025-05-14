@@ -22,7 +22,9 @@ public class Customer : MonoBehaviour
 
     private void SetStartPoint()
     {
+        Animator.SetTrigger("Restart");
         transform.SetParent(null);
+        transform.localScale = Vector3.one;
         transform.position = LevelManager.Instance.CurrentLevelData.CustomerStartPoint;
     }
 
@@ -41,7 +43,7 @@ public class Customer : MonoBehaviour
     {
         DOVirtual.DelayedCall(0.3f, () =>
         {
-            transform.localScale = Vector3.one * 2;
+            transform.localScale = Vector3.one;
             transform.LookAt(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint);
             transform.DOMove(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
             {

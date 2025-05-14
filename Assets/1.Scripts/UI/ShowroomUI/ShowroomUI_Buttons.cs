@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,10 +34,14 @@ public class ShowroomUI_Buttons : MonoBehaviour
     }
     private void OnPrevButtonClick()
     {
+        PrevButton.interactable = false;
+        DOVirtual.DelayedCall(0.4f, () => PrevButton.interactable = true);
         ShowroomManager.Instance.ChangePage(false);
     }
     private void OnNextButtonClick()
     {
+        NextButton.interactable = false;
+        DOVirtual.DelayedCall(0.4f, () => NextButton.interactable = true);
         ShowroomManager.Instance.ChangePage(true);
 
     }

@@ -20,7 +20,7 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnGameStart += ShowProgress;
-        GameManager.Instance.OnFinishTrace += HideProgress;
+        GameManager.Instance.OnEndGame += HideProgress;
 
         GameManager.Instance.OnUpdateProgress += UpdateProgress;
         GameManager.Instance.OnUpdatePickupPoint += SetPickupPoint;
@@ -33,7 +33,7 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.OnGameStart -= ShowProgress;
-        GameManager.Instance.OnFinishTrace -= HideProgress;
+        GameManager.Instance.OnEndGame -= HideProgress;
 
 
         GameManager.Instance.OnUpdateProgress -= UpdateProgress;
@@ -83,7 +83,7 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     {
         BodySelf.DOAnchorPosY(-242, 0.4f).SetDelay(0.2f);
     }
-    private void HideProgress()
+    private void HideProgress(bool isWin)
     {
         BodySelf.DOAnchorPosY(242, 0.4f);
 

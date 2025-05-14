@@ -11,6 +11,7 @@ public class PlayerData : MonoBehaviour
     private const string CURRENT_SKIN_KEY = "CurrentSkin";
     private const string UNLOCKED_SKINS_KEY = "UnlockedSkins";
     private const string CURRENT_MONEY_KEY = "MoneyAmount";
+    private const string CURRENT_REWARD_PROGRESS_KEY = "RewardProgress";
 
 
     public int CurrentSkinId { get; private set; }
@@ -19,6 +20,7 @@ public class PlayerData : MonoBehaviour
     public Action OnSkinUnlocked;
 
     public int CurrentMoney { get; private set; }
+    public int CurrentRewardRate { get; private set; }
     public Action OnMoneyChange;
     #endregion
 
@@ -40,6 +42,8 @@ public class PlayerData : MonoBehaviour
         //load Money
         CurrentMoney = PlayerPrefs.GetInt(CURRENT_MONEY_KEY, 0);
 
+        //Reward
+        LoadRewardProgress();
 
         yield return null;
         OnSkinChange?.Invoke();
@@ -109,6 +113,22 @@ public class PlayerData : MonoBehaviour
         CurrentMoney += count;
         SaveMoney();
         OnMoneyChange?.Invoke();
+    }
+    #endregion
+
+    #region Reward
+    public void LoadRewardProgress()
+    {
+        CurrentRewardRate = PlayerPrefs.GetInt(CURRENT_REWARD_PROGRESS_KEY, 0);
+    }
+    public void SaveRewardProgress()
+    {
+        PlayerPrefs.SetInt(CURRENT_REWARD_PROGRESS_KEY, CurrentRewardRate);
+    }
+    public void AddRewardProgress(int value)
+    {
+        CurrentRewardRate += value;
+        SaveRewardProgress();
     }
     #endregion
 }

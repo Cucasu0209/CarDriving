@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -19,12 +18,16 @@ public class GameManager : MonoBehaviour
     public Action<Transform> OnPickCustomer;
 
     public Action OnFinishTrace;
-    public Action<bool> OnShowEndgamePopup;
+    public Action<bool> OnEndGame;
 
     public Action<float> OnUpdateProgress;
     public Action<float> OnUpdatePickupPoint;
 
+    public Action OnNextLevel;
+    public Action OnReset;
+    public Action OnRevive;
 
+    public Action<Vector3, Vector3> OnCameraMove; // Cam Pos, Player Pos
     private void Awake()
     {
         IsGameRunning = false;
@@ -51,16 +54,26 @@ public class GameManager : MonoBehaviour
         OnShowHomeUI?.Invoke();
     }
 
-    public void Retry()
+    public void NextLevel()
     {
         IsGameRunning = false;
         OnSetupGame?.Invoke();
         OnShowHomeUI?.Invoke();
+        OnNextLevel?.Invoke();
+    }
+
+    public void ResetLevel()
+    {
+        IsGameRunning = false;
+        OnSetupGame?.Invoke();
+        OnShowHomeUI?.Invoke();
+        OnReset?.Invoke();
     }
     public void Revive()
     {
         IsGameRunning = false;
         OnSetupGame?.Invoke();
         OnShowHomeUI?.Invoke();
+        OnRevive?.Invoke();
     }
 }

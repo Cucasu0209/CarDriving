@@ -19,3 +19,5 @@ MonoBehaviour:
   FinalCustomerPoint: {x: -101.5, y: 0, z: 11.7}
   Traps: []
   Obstacles: []
+  Money: 200
+  RewardRate: 5

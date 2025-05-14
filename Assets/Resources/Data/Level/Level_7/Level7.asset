@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d998c803b9aa335439b53ab9eb429462, type: 3}
+  m_Name: Level7
+  m_EditorClassIdentifier: 
+  PlayerTrace: {fileID: 11400000, guid: ee28453219ea2f14a99fd46179cb52e3, type: 2}
+  CamDirection: 2
+  CustomerStartPoint: {x: 70.65, y: 0, z: -126.75}
+  PickupPoint: {x: 70.03, y: 0, z: -119.05}
+  FinalCustomerPoint: {x: 145, y: 0, z: 63}
+  Traps: []
+  Obstacles:
+  - {fileID: 11400000, guid: 85d0b73bd5347ab4a95397a982aac991, type: 2}
+  - {fileID: 11400000, guid: ef78ad6feb0743148999a5164d106720, type: 2}
+  - {fileID: 11400000, guid: 2f46afc4b828c424b9504046eeb7b417, type: 2}
+  Money: 200
+  RewardRate: 11

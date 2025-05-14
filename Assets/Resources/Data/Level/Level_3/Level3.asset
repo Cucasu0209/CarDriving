@@ -20,3 +20,5 @@ MonoBehaviour:
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 230b051107f7f9a4bbe970983d3af36d, type: 2}
+  Money: 200
+  RewardRate: 7

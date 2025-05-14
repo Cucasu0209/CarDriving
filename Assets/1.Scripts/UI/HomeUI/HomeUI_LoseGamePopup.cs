@@ -17,30 +17,34 @@ public class HomeUI_LoseGamePopup : MonoBehaviour
         OnClosePopup();
         ContinueButton.onClick.AddListener(Revive);
         RetryButton.onClick.AddListener(Retry);
-        GameManager.Instance.OnShowEndgamePopup += OnOpenPopup;
+        GameManager.Instance.OnEndGame += OnOpenPopup;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnShowEndgamePopup -= OnOpenPopup;
+        GameManager.Instance.OnEndGame -= OnOpenPopup;
 
     }
 
     private void OnOpenPopup(bool isWin)
     {
         if (isWin) return;
-        Background.gameObject.SetActive(true);
-        Background.DOFade(0.7f, 0.3f);
-        for (int i = 0; i < ComponentsInPopup.Count; i++)
+        DOVirtual.DelayedCall(1, () =>
         {
-            ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
-        }
-        Progress.fillAmount = 0;
-        Progress.DOFillAmount(1, GameConfig.TIME_WAIT_LOSE_GAME).SetEase(Ease.Linear).OnComplete(() =>
-        {
-            ContinueButton.transform.DOScale(0, 0.2f);
-            RetryButton.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+            Background.gameObject.SetActive(true);
+            Background.DOFade(0.7f, 0.3f);
+            for (int i = 0; i < ComponentsInPopup.Count; i++)
+            {
+                ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
+            }
+            Progress.fillAmount = 0;
+            Progress.DOFillAmount(1, GameConfig.TIME_WAIT_LOSE_GAME).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                ContinueButton.transform.DOScale(0, 0.2f);
+                RetryButton.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+            });
         });
+
     }
     private void OnClosePopup()
     {
@@ -65,7 +69,7 @@ public class HomeUI_LoseGamePopup : MonoBehaviour
     private void Retry()
     {
         OnClosePopup();
-        GameManager.Instance.Retry();
+        GameManager.Instance.ResetLevel();
 
     }
 }

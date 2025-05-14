@@ -30,6 +30,8 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.OnSetupGame += LoadLevel;
+        GameManager.Instance.OnNextLevel += NextLevel;
+        GameManager.Instance.OnReset += LoadLevel;
     }
     private void Update()
     {
@@ -38,14 +40,15 @@ public class LevelManager : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.Instance.OnSetupGame -= LoadLevel;
+        GameManager.Instance.OnNextLevel -= NextLevel;
+        GameManager.Instance.OnReset -= LoadLevel;
     }
     public void LoadLevel()
     {
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1);
         MapIndex = LevelIndex / 10 + 1;
         OnLevelChange?.Invoke();
-        LevelIndex = 3;
-        CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{LevelIndex}/Level{LevelIndex}");
+        CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{(LevelIndex - 1) % 10 + 1}/Level{(LevelIndex - 1) % 10 + 1}");
         OnLoadLevelComplete?.Invoke();
 
         CreateObstacles();
@@ -57,6 +60,7 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt(LevelKey, LevelIndex);
         MapIndex = LevelIndex / GameConfig.LEVEL_PER_MAP + 1;
         OnLevelChange?.Invoke();
+        LoadLevel();
     }
 
     #endregion

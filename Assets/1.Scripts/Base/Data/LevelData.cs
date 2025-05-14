@@ -24,6 +24,10 @@ public class LevelData : ScriptableObject
     [Header("Traps")]
     public List<TrapPlace> Traps;
     public List<ObstacleData> Obstacles;
+
+    [Header("Reward")]
+    public int Money = 200;
+    public int RewardRate = 5;
 }
 public enum TrapType
 {

@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Rendering;
 [CreateAssetMenu(fileName = "TraceData", menuName = "Data/TraceData", order = 0)]
 public class TraceData : ScriptableObject
 {
@@ -120,6 +117,7 @@ public class TraceData : ScriptableObject
     {
         float MinDis = 9999;
         int resultIndex = 0;
+        position = new Vector3(position.x, LinePoints[0].y, position.z);
         for (int i = 0; i < LinePoints.Count; i++)
         {
             if (Vector3.Distance(position, LinePoints[i]) < MinDis)
@@ -130,12 +128,20 @@ public class TraceData : ScriptableObject
         }
         return resultIndex;
     }
-    public Vector3 GetNextPoint(Vector3 position, bool isPositiveDir=true)
+    public Vector3 GetNextPoint(Vector3 position, bool isPositiveDir = true)
     {
         int resultIndex = GetIndexByPosition(position);
+        position = new Vector3(position.x, LinePoints[0].y, position.z);
         if (LoopType == TraceLoopType.Yoyo && isPositiveDir == false)
-            return resultIndex <= 0 ? position : LinePoints[resultIndex - 1];
-        return resultIndex >= LinePoints.Count - 1 ? position : LinePoints[resultIndex + 1];
+        {
+            if (Vector3.Distance(position, GetStartPoint()) < 1) return position;
+            return resultIndex - 1 < 0 ? position : LinePoints[resultIndex - 1];
+        }
+        else
+        {
+            if (Vector3.Distance(position, GetLastPoint()) < 1) return position;
+            return resultIndex + 1 > LinePoints.Count - 1 ? position : LinePoints[resultIndex + 1];
+        }
     }
     public Vector3 GetStartPoint()
     {
@@ -148,7 +154,7 @@ public class TraceData : ScriptableObject
     public List<Vector3> GetIntersectionList() => TracePoints;
     public bool CheckHitFinishPoint(Vector3 position)
     {
-        return GetIndexByPosition(position) == LinePoints.Count - 1;
+        return Vector3.Distance(position, GetLastPoint()) < 1;
     }
     #endregion
 }

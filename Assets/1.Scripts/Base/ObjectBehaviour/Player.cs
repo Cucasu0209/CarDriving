@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using DG.Tweening;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ public class Player : MoveableObject
     [SerializeField] private PlayerConfig Config;
     [SerializeField] private LineRenderer RoadLine;
     [SerializeField] private Transform Door;
+    [SerializeField] private GameObject ExploderFX;
     private bool PickedCustomerUp = false;
     private bool IsEndTrace = false;
     private bool Interactable = true;
@@ -36,6 +36,7 @@ public class Player : MoveableObject
         Interactable = true;
         IsEndTrace = false;
         PickedCustomerUp = false;
+        IsControllingVelocity = true;
         GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instance.CurrentLevelData.PickupPoint) * 1f / Points.Count);
         GameManager.Instance.OnUpdateProgress?.Invoke(0);
         LoadModel();
@@ -110,10 +111,7 @@ public class Player : MoveableObject
         GameManager.Instance.OnUpdateProgress?.Invoke(1);
         Interactable = false;
         Stop();
-        DOVirtual.DelayedCall(5f, () =>
-        {
-            GameManager.Instance.OnShowEndgamePopup?.Invoke(true);
-        });
+        GameManager.Instance.OnEndGame?.Invoke(true);
     }
     private void LoadModel()
     {
@@ -126,25 +124,26 @@ public class Player : MoveableObject
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision is null || Interactable == false) return;
-        if (collision.gameObject.tag == "Enemy" && collision.gameObject.GetComponent<MoveableObject>() != null)
+        if (other is null || Interactable == false) return;
+        if (other.gameObject.tag == "Enemy" && other.gameObject.GetComponent<MoveableObject>() != null)
         {
-            MoveableObject obstacle = collision.gameObject.GetComponent<MoveableObject>();
+            MoveableObject obstacle = other.gameObject.GetComponent<MoveableObject>();
             obstacle.StopInstantly();
             obstacle.OnHit((obstacle.transform.position - transform.position));
             StopInstantly();
             OnHit(transform.position - obstacle.transform.position);
-
+            GameObject Exploder = Instantiate(ExploderFX, (other.transform.position + transform.position) / 2, Quaternion.identity);
             Interactable = false;
+            GameManager.Instance.OnEndGame?.Invoke(false);
             DOVirtual.DelayedCall(3, () =>
             {
-                GameManager.Instance.OnShowEndgamePopup?.Invoke(false);
+                Destroy(Exploder);
             });
         }
-
     }
+
     public override void OnHit(Vector3 dir)
     {
         ObjectBody.AddForce(dir.normalized * 700);

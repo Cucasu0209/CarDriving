@@ -42,7 +42,7 @@ public class MoveableObject : MonoBehaviour
         // Set Velocity
         Vector3 normalizedDirection = (Trace.GetNextPoint(transform.position, isPositiveDir) - transform.position);
         normalizedDirection = new Vector3(normalizedDirection.x, 0, normalizedDirection.z);
-        if (normalizedDirection.magnitude != 0) normalizedDirection = normalizedDirection.normalized;
+        if (normalizedDirection.magnitude < 0.001f) normalizedDirection = normalizedDirection.normalized;
         ObjectBody.velocity = new Vector3(Mathf.Lerp(ObjectBody.velocity.x, TargetSpeed * normalizedDirection.x, 0.5f),
             ObjectBody.velocity.y,
             Mathf.Lerp(ObjectBody.velocity.z, TargetSpeed * normalizedDirection.z, 0.5f));
@@ -51,7 +51,7 @@ public class MoveableObject : MonoBehaviour
 
         //Set Angle
         //ObjectBody.angularVelocity = Vector3.up * 20;
-        if (normalizedDirection.magnitude > 0)
+        if (normalizedDirection.magnitude > 0.001f)
         {
             TargetAngle = Vector2.SignedAngle(new Vector2(normalizedDirection.x, normalizedDirection.z), Vector2.up);
             float currentAngle = (transform.rotation.eulerAngles.y + 360 + 180) % 360 - 180;
@@ -62,7 +62,6 @@ public class MoveableObject : MonoBehaviour
         }
         else if (Trace.LoopType == TraceData.TraceLoopType.Restart)
         {
-            Debug.Log("Restart");
             transform.position = Trace.GetStartPoint();
         }
         else if (Trace.LoopType == TraceData.TraceLoopType.Yoyo)

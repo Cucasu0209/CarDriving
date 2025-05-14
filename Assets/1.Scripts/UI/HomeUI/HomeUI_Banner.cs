@@ -28,7 +28,6 @@ public class HomeUI_Banner : MonoBehaviour
         GameManager.Instance.OnHideHomeUI += OnHide;
         GameManager.Instance.OnShowHomeUI += OnShow;
         LevelManager.Instance.OnLevelChange += UpdateLevel;
-
     }
 
     private void OnDestroy()
@@ -36,14 +35,13 @@ public class HomeUI_Banner : MonoBehaviour
         GameManager.Instance.OnHideHomeUI -= OnHide;
         GameManager.Instance.OnShowHomeUI -= OnShow;
         LevelManager.Instance.OnLevelChange -= UpdateLevel;
-
     }
     private void UpdateLevel()
     {
         Level.SetText($"LEVEL {LevelManager.Instance.LevelIndex}");
         LocationName.SetText(GameConfig.LOCATIONS_NAME[Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP, 0, GameConfig.LOCATIONS_NAME.Length - 1)]);
         LocationImage.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
-        TitleNextLocation.SetText($"NEXT LOCATION IN LEVEL {(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) + 1) * GameConfig.LEVEL_PER_MAP}");
+        TitleNextLocation.SetText($"NEXT LOCATION IN LEVEL {(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) + 1) * GameConfig.LEVEL_PER_MAP + 1}");
 
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         NextLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 2, 1, GameConfig.LOCATIONS_NAME.Length));

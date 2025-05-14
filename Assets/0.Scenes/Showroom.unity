@@ -2354,8 +2354,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -6722,7 +6722,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65086b68c9badc48818c734651e090c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SkinUnlocked: 
 --- !u!1 &2042931317
 GameObject:
   m_ObjectHideFlags: 0

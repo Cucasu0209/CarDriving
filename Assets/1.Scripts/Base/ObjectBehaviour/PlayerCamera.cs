@@ -32,7 +32,7 @@ public class PlayerCamera : MonoBehaviour
                 break;
             case LevelData.CameraDirection.Up:
                 Direction = Vector3.forward;
-                YAngle =0;
+                YAngle = 0;
                 break;
             case LevelData.CameraDirection.Left:
                 Direction = Vector3.left;
@@ -52,6 +52,9 @@ public class PlayerCamera : MonoBehaviour
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
                        transform.position + Vector3.up * Height - Direction * Distance, Time.deltaTime * Damping);
+
+            GameManager.Instance.OnCameraMove?.Invoke(Camera.main.transform.position, transform.position);
+
         }
 
     }

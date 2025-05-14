@@ -19,40 +19,48 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     {
         OnClosePopup();
         NextButton.onClick.AddListener(OnButtonNextClick);
-        GameManager.Instance.OnShowEndgamePopup += OnOpenPopup;
+        GameManager.Instance.OnEndGame += OnOpenPopup;
     }
 
     private void OnDestroy()
     {
-        GameManager.Instance.OnShowEndgamePopup -= OnOpenPopup;
+        GameManager.Instance.OnEndGame -= OnOpenPopup;
 
     }
     private void OnOpenPopup(bool isWin)
     {
         if (isWin == false) return;
-        Popup.gameObject.SetActive(true);
-        Backgound.DOFade(1, 0.3f);
-        for (int i = 0; i < ComponentsInPopup.Count; i++)
+        DOVirtual.DelayedCall(3.4f, () =>
         {
-            ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
-        }
 
-        StartCoroutine(IIncreasePercentage());
 
-        MoneyPlus.SetText("+ " + Random.Range(200, 400).ToString());
+            Popup.gameObject.SetActive(true);
+            Backgound.DOFade(1, 0.3f);
+            for (int i = 0; i < ComponentsInPopup.Count; i++)
+            {
+                ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
+            }
+
+            StartCoroutine(IIncreasePercentage());
+
+            MoneyPlus.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money);
+            PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money);
+        });
     }
 
     IEnumerator IIncreasePercentage()
     {
-        int StartValue = 0;
-        int EndValue = Random.Range(10, 101);
+        int StartValue = Mathf.Clamp(PlayerData.Instance.CurrentRewardRate, 0, 100);
+        PlayerData.Instance.AddRewardProgress(LevelManager.Instance.CurrentLevelData.RewardRate);
+        int EndValue = Mathf.Clamp(PlayerData.Instance.CurrentRewardRate, 0, 100);
         float time = (EndValue - StartValue) * 0.05f;
         RewardProgressImage.fillAmount = StartValue / 100f;
-        RewardProgressImage.DOFillAmount(EndValue / 100f, (EndValue - StartValue) * 0.05f).SetEase(Ease.Linear);
+
+        RewardProgressImage.DOFillAmount(EndValue / 100f, (EndValue - StartValue) * 0.1f).SetEase(Ease.Linear);
         for (int i = StartValue; i <= EndValue; i++)
         {
             RewardProgressText.SetText(i + "%");
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.1f);
         }
 
     }
@@ -70,6 +78,6 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     private void OnButtonNextClick()
     {
         OnClosePopup();
-        GameManager.Instance.SetupGame();
+        GameManager.Instance.NextLevel();
     }
 }
