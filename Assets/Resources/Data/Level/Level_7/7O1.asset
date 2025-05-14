@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2aa10128a5872a14fa6a473b7c44a3ce, type: 3}
   m_Name: 7O1
   m_EditorClassIdentifier: 
-  Speed: 1.5
+  Speed: 4.5
   Type: 1
   Trace: {fileID: 11400000, guid: 40f819c0946d08b4d842d979f5c43bab, type: 2}

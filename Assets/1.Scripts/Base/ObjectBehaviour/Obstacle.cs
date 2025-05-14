@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obstacle : MoveableObject
 {
     [SerializeField]
-    protected ObstacleData Data;
+    public ObstacleData Data { get; private set; }
     protected GameObject CurrentModel;
     protected override void Start()
     {
@@ -53,6 +53,11 @@ public class Obstacle : MoveableObject
     public override void OnHit(Vector3 dir)
     {
         if (Data.Type == ObstacleType.Car) ObjectBody.AddForce(dir.normalized * 700);
-        else GetComponentInChildren<Animator>().SetTrigger("Die");
+        else
+        {
+            ObjectBody.AddForce(dir.normalized * 400);
+            transform.LookAt(transform.position - dir);
+            GetComponentInChildren<Animator>().SetTrigger("Die");
+        }
     }
 }

@@ -57,7 +57,7 @@ public class MoveableObject : MonoBehaviour
             float currentAngle = (transform.rotation.eulerAngles.y + 360 + 180) % 360 - 180;
             if (Mathf.Abs(TargetAngle - currentAngle) > 180) currentAngle = currentAngle + (TargetAngle > currentAngle ? 360 : -360);
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-              Mathf.Lerp(currentAngle, TargetAngle, 0.1f),
+              Mathf.Lerp(currentAngle, TargetAngle, 0.25f),
             transform.rotation.z);
         }
         else if (Trace.LoopType == TraceData.TraceLoopType.Restart)

@@ -9,6 +9,7 @@ public class UserInput : MonoBehaviour
 {
     public static UserInput Instance;
     public Action<bool> OnUserMouse;
+    bool IsTouchUI = false;
     private void Awake()
     {
         Instance = this;
@@ -16,6 +17,18 @@ public class UserInput : MonoBehaviour
 
     private void Update()
     {
-        OnUserMouse?.Invoke(Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject());
+        IsTouchUI = EventSystem.current.IsPointerOverGameObject();
+
+#if UNITY_ANDROID
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+            {
+                IsTouchUI = true;
+            }
+        }
+#endif
+        OnUserMouse?.Invoke(Input.GetMouseButton(0) && !IsTouchUI);
     }
 }

@@ -12,6 +12,7 @@ public class Player : MoveableObject
     private bool PickedCustomerUp = false;
     private bool IsEndTrace = false;
     private bool Interactable = true;
+    private GameObject CurrentModel;
 
     protected override void Start()
     {
@@ -115,11 +116,12 @@ public class Player : MoveableObject
     }
     private void LoadModel()
     {
+        if (CurrentModel != null) Destroy(CurrentModel);
         GameObject Model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
         if (Model != null)
         {
-            Model = Instantiate(Model, transform);
-            Model.transform.localPosition = Vector3.zero;
+            CurrentModel = Instantiate(Model, transform);
+            CurrentModel.transform.localPosition = Vector3.zero;
         }
     }
 
@@ -129,18 +131,25 @@ public class Player : MoveableObject
         if (other is null || Interactable == false) return;
         if (other.gameObject.tag == "Enemy" && other.gameObject.GetComponent<MoveableObject>() != null)
         {
-            MoveableObject obstacle = other.gameObject.GetComponent<MoveableObject>();
+            Obstacle obstacle = other.gameObject.GetComponent<Obstacle>();
+
             obstacle.StopInstantly();
             obstacle.OnHit((obstacle.transform.position - transform.position));
             StopInstantly();
-            OnHit(transform.position - obstacle.transform.position);
-            GameObject Exploder = Instantiate(ExploderFX, (other.transform.position + transform.position) / 2, Quaternion.identity);
             Interactable = false;
-            GameManager.Instance.OnEndGame?.Invoke(false);
-            DOVirtual.DelayedCall(3, () =>
+
+            if (obstacle.Data.Type == ObstacleType.Car)
             {
-                Destroy(Exploder);
-            });
+                OnHit(transform.position - obstacle.transform.position);
+                GameObject Exploder = Instantiate(ExploderFX, (other.transform.position + transform.position) / 2, Quaternion.identity);
+
+                DOVirtual.DelayedCall(3, () =>
+                {
+                    Destroy(Exploder);
+                });
+            }
+            GameManager.Instance.OnEndGame?.Invoke(false);
+
         }
     }
 

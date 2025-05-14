@@ -1,10 +1,11 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int FPSTarget = 60;
     public static GameManager Instance;
     public bool IsGameRunning { get; private set; }
 
@@ -35,10 +36,15 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator Start()
     {
+        QualitySettings.vSyncCount = 0;         
+        Application.targetFrameRate = 30;
         yield return null;
         SetupGame();
     }
-
+    void OnGUI()
+    {
+        GUILayout.Label("FPS: " + (1.0f / Time.deltaTime).ToString("F1"));
+    }
     public void StartGame()
     {
         IsGameRunning = true;
