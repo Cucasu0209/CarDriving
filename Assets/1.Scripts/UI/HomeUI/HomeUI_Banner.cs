@@ -9,7 +9,6 @@ public class HomeUI_Banner : MonoBehaviour
 {
     [SerializeField] private RectTransform BodySelf;
     [SerializeField] private TextMeshProUGUI Level;
-    [SerializeField] private Image LocationImage;
     [SerializeField] private TextMeshProUGUI LocationName;
     [SerializeField] private TextMeshProUGUI TitleNextLocation;
 
@@ -40,7 +39,6 @@ public class HomeUI_Banner : MonoBehaviour
     {
         Level.SetText($"LEVEL {LevelManager.Instance.LevelIndex}");
         LocationName.SetText(GameConfig.LOCATIONS_NAME[Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP, 0, GameConfig.LOCATIONS_NAME.Length - 1)]);
-        LocationImage.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         TitleNextLocation.SetText($"NEXT LOCATION IN LEVEL {(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) + 1) * GameConfig.LEVEL_PER_MAP + 1}");
 
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
