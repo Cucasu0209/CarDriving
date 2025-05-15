@@ -128,6 +128,10 @@ public class TraceData : ScriptableObject
         }
         return resultIndex;
     }
+    public Vector3 GetNearistPosition(Vector3 position)
+    {
+        return LinePoints[GetIndexByPosition(position)];
+    }
     public Vector3 GetNextPoint(Vector3 position, bool isPositiveDir = true)
     {
         int resultIndex = GetIndexByPosition(position);
@@ -151,10 +155,12 @@ public class TraceData : ScriptableObject
     {
         return LinePoints[LinePoints.Count - 1];
     }
-    public List<Vector3> GetIntersectionList() => TracePoints;
-    public bool CheckHitFinishPoint(Vector3 position)
+    public Vector3 GetPointAtIndex(int index)
     {
-        return Vector3.Distance(position, GetLastPoint()) < 1;
+        index = Mathf.Clamp(index, 0, LinePoints.Count - 1);
+
+        return LinePoints[index];
     }
+    public List<Vector3> GetIntersectionList() => TracePoints;
     #endregion
 }

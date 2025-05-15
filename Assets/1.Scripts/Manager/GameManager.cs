@@ -36,14 +36,8 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator Start()
     {
-        QualitySettings.vSyncCount = 0;         
-        Application.targetFrameRate = 30;
         yield return null;
         SetupGame();
-    }
-    void OnGUI()
-    {
-        GUILayout.Label("FPS: " + (1.0f / Time.deltaTime).ToString("F1"));
     }
     public void StartGame()
     {

@@ -15,6 +15,7 @@ public class CustomerEndPoint : MonoBehaviour
     {
         GameManager.Instance.OnFinishTrace -= HidePoint;
         LevelManager.Instance.OnLoadLevelComplete -= SetupPoint;
+        transform.DOKill();
 
     }
     private void DoAnimLoopPoint()

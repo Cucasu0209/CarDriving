@@ -29,6 +29,8 @@ public class UserInput : MonoBehaviour
             }
         }
 #endif
+
+
         OnUserMouse?.Invoke(Input.GetMouseButton(0) && !IsTouchUI);
     }
 }

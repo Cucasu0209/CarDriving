@@ -15,6 +15,7 @@ public class CustomerPickupPoint : MonoBehaviour
     {
         GameManager.Instance.OnPickCustomer -= HidePoint;
         LevelManager.Instance.OnLoadLevelComplete -= SetupPoint;
+        transform.DOKill();
 
     }
     private void DoAnimLoopPoint()

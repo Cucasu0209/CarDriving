@@ -94,3 +94,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb8de88bb22b8442b5573c87a14b475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VelocDamper: 0.1
+  AngleDamper: 0.25

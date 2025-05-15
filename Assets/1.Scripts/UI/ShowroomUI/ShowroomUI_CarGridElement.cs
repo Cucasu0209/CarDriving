@@ -38,7 +38,6 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
         GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
         CurrentData = data;
         CarIcon.sprite = ShowroomManager.Instance.GetCarIcon(CurrentData.Id);
-        CarIcon.SetNativeSize();
         OnOneElementSelected();
         OnUseCarShin();
         OnOneSkinUnlock();

@@ -9,10 +9,13 @@ public class MoveableObject : MonoBehaviour
     protected Rigidbody ObjectBody;
     protected TraceData Trace;
     protected List<Vector3> Points;
+    protected Vector3 VelocDirection;
     protected float TargetSpeed;
     protected float TargetAngle;
     protected bool IsControllingVelocity = true;
     private bool isPositiveDir = true;
+    [SerializeField] private float VelocDamper = 0.01f;
+    [SerializeField] private float AngleDamper = 0.2f;
     #endregion
 
     #region Unity Behabiours
@@ -20,7 +23,7 @@ public class MoveableObject : MonoBehaviour
     {
         ObjectBody = GetComponent<Rigidbody>();
     }
-    protected virtual void Update()
+    protected virtual void FixedUpdate()
     {
         if (Trace != null && IsControllingVelocity) Run();
     }
@@ -38,26 +41,26 @@ public class MoveableObject : MonoBehaviour
     }
     public virtual void Run()
     {
-
         // Set Velocity
-        Vector3 normalizedDirection = (Trace.GetNextPoint(transform.position, isPositiveDir) - transform.position);
-        normalizedDirection = new Vector3(normalizedDirection.x, 0, normalizedDirection.z);
-        if (normalizedDirection.magnitude < 0.001f) normalizedDirection = normalizedDirection.normalized;
-        ObjectBody.velocity = new Vector3(Mathf.Lerp(ObjectBody.velocity.x, TargetSpeed * normalizedDirection.x, 0.5f),
-            ObjectBody.velocity.y,
-            Mathf.Lerp(ObjectBody.velocity.z, TargetSpeed * normalizedDirection.z, 0.5f));
+        VelocDirection = (Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (isPositiveDir ? 4 : -4)) - transform.position);
+        VelocDirection = new Vector3(VelocDirection.x, 0, VelocDirection.z);
+        if (VelocDirection.magnitude > 0.001f) VelocDirection = VelocDirection.normalized;
+        ObjectBody.velocity = (new Vector3(Mathf.Lerp(transform.forward.x, VelocDirection.x, 0.5f),
+            0,
+            Mathf.Lerp(transform.forward.z, VelocDirection.z, VelocDamper))).normalized * TargetSpeed;
 
-        LineDebug();
+   
+        LineDebug(VelocDirection);
 
         //Set Angle
         //ObjectBody.angularVelocity = Vector3.up * 20;
-        if (normalizedDirection.magnitude > 0.001f)
+        if (Vector3.Distance(Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (isPositiveDir ? 4 : -4)), transform.position) > 2)
         {
-            TargetAngle = Vector2.SignedAngle(new Vector2(normalizedDirection.x, normalizedDirection.z), Vector2.up);
+            TargetAngle = Vector2.SignedAngle(new Vector2(VelocDirection.x, VelocDirection.z), Vector2.up);
             float currentAngle = (transform.rotation.eulerAngles.y + 360 + 180) % 360 - 180;
             if (Mathf.Abs(TargetAngle - currentAngle) > 180) currentAngle = currentAngle + (TargetAngle > currentAngle ? 360 : -360);
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
-              Mathf.Lerp(currentAngle, TargetAngle, 0.25f),
+              Mathf.Lerp(currentAngle, TargetAngle, AngleDamper),
             transform.rotation.z);
         }
         else if (Trace.LoopType == TraceData.TraceLoopType.Restart)
@@ -72,9 +75,10 @@ public class MoveableObject : MonoBehaviour
 
     }
 
-    protected void LineDebug()
+    protected void LineDebug(Vector3 Direction)
     {
-        Debug.DrawRay(transform.position, (Trace.GetNextPoint(transform.position, isPositiveDir) - transform.position).normalized * 10, Color.blue);
+        Debug.DrawRay(transform.position, Direction.normalized * 10, Color.blue);
+        Debug.DrawRay(transform.position, ObjectBody.velocity.normalized * 10, Color.red);
 
         List<Vector3> points = Trace.GetIntersectionList();
         for (int i = 0; i < points.Count - 1; i++)

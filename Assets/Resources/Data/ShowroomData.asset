@@ -73,3 +73,6 @@ MonoBehaviour:
   - Id: 19
     CarName: Car19
     Price: 1300
+  - Id: 20
+    CarName: Car20
+    Price: 1300
