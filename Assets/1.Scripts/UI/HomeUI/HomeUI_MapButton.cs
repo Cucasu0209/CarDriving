@@ -34,7 +34,7 @@ public class HomeUI_MapButton : MonoBehaviour
 
     private void OnHide()
     {
-        MapButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX + 800, 0.3f);
+        MapButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX + 400, 0.3f);
     }
     private void OnShow()
     {

@@ -30,7 +30,7 @@ public class HomeUI_ShowroomButton : MonoBehaviour
 
     private void OnHide()
     {
-        ShowroomButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX - 800, 0.3f);
+        ShowroomButton.GetComponent<RectTransform>().DOAnchorPosX(StartPosX + 400, 0.3f);
     }
     private void OnShow()
     {

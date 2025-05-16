@@ -18,8 +18,9 @@ public class HomeUI_Banner : MonoBehaviour
     [Header("Level Progress")]
     [SerializeField] private Image CurrentLocation;
     [SerializeField] private Image NextLocation;
-    [SerializeField] private List<Image> ProgressKnots;
-    [SerializeField] private Color PassedColor, CurrentColor, NextColor;
+    [SerializeField] private Image ProgressImage;
+    [SerializeField] private TextMeshProUGUI ProgressText;
+
     private float StartPosY;
     private void Start()
     {
@@ -44,24 +45,8 @@ public class HomeUI_Banner : MonoBehaviour
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         NextLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 2, 1, GameConfig.LOCATIONS_NAME.Length));
 
-        for (int i = 0; i < ProgressKnots.Count; i++)
-        {
-            if (i == (LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)
-            {
-                ProgressKnots[i].transform.localScale = Vector3.one * 1.3f;
-                ProgressKnots[i].color = CurrentColor;
-            }
-            else if (i > (LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)
-            {
-                ProgressKnots[i].transform.localScale = Vector3.one;
-                ProgressKnots[i].color = NextColor;
-            }
-            else
-            {
-                ProgressKnots[i].transform.localScale = Vector3.one;
-                ProgressKnots[i].color = PassedColor;
-            }
-        }
+        ProgressImage.fillAmount = LevelManager.Instance.LevelIndex * 1f / GameConfig.LEVEL_PER_MAP;
+        ProgressText.SetText(LevelManager.Instance.LevelIndex + "/" + (GameConfig.LEVEL_PER_MAP - 1));
     }
     private void OnHide()
     {
