@@ -13,14 +13,11 @@ public class CarWheels : MonoBehaviour
     }
     public void Run()
     {
-        if (transform is null) return;
         IsRuning = true;
         transform.DOLocalRotateQuaternion(Quaternion.Euler(180, 0, 0), 0.1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Incremental);
     }
     public void Stop()
-    {
-        if (transform is null) return;
-       
+    {    
         IsRuning = false;
         transform.DOKill();
         transform.localEulerAngles = Vector3.zero;
