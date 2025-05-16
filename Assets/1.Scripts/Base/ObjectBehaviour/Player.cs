@@ -17,6 +17,7 @@ public class Player : MoveableObject
     [SerializeField] private List<Transform> SkidMarkPos;
     [SerializeField] private TrailRenderer SkidMarkPrefab;
     [SerializeField] private GameObject ExploderFX;
+    [SerializeField] private GameObject WindEffect;
 
 
     //in one session
@@ -282,13 +283,14 @@ public class Player : MoveableObject
             newSkidMark.emitting = true;
             SkidMarks.Add(newSkidMark);
             newSkidMark.transform.SetParent(SkidMarkPos[i]);
-            Destroy(newSkidMark.gameObject, 17);
+            Destroy(newSkidMark.gameObject, 5);
         }
 
 
     }
     private void StopSkidMark()
     {
+
         if (SkidMarkCount > 0) SkidMarkCount--;
         if (SkidMarkCount > 0) return;
         if (SkidMarks != null)

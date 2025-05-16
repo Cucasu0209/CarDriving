@@ -16,7 +16,7 @@ public class FPSDisplaying : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.4f);
             txt.SetText("FPS: " + (Mathf.FloorToInt(1f / Time.deltaTime)).ToString());
         }
     }

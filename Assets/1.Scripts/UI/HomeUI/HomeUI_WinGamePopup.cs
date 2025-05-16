@@ -10,15 +10,24 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     [SerializeField] private RectTransform Popup;
     [SerializeField] private Image Backgound;
     [SerializeField] private List<RectTransform> ComponentsInPopup;
-    [SerializeField] private Button NextButton;
     [SerializeField] private Image RewardProgressImage;
     [SerializeField] private TextMeshProUGUI RewardProgressText;
+
+    [Header("Money")]
+    [SerializeField] private TextMeshProUGUI Money;
+    [SerializeField] private TextMeshProUGUI MoneyMultiplier;
     [SerializeField] private TextMeshProUGUI MoneyPlus;
+
+    [Header("Buttons")]
+    [SerializeField] private Button NextButton;
+    [SerializeField] private Button AdsButton;
+
 
     void Start()
     {
         OnClosePopup();
         NextButton.onClick.AddListener(OnButtonNextClick);
+        AdsButton.onClick.AddListener(OnButtonAdsClick);
         GameManager.Instance.OnEndGame += OnOpenPopup;
     }
 
@@ -43,7 +52,9 @@ public class HomeUI_WinGamePopup : MonoBehaviour
 
             StartCoroutine(IIncreasePercentage());
 
-            MoneyPlus.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money);
+            Money.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money);
+            MoneyMultiplier.SetText("Get x" + GameConfig.WIN_REWARD_MULTIPLIER_ADS);
+            MoneyPlus.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
             PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money);
         });
     }
@@ -79,5 +90,10 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     {
         OnClosePopup();
         GameManager.Instance.NextLevel();
+    }
+    private void OnButtonAdsClick()
+    {
+        PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
+        AdsButton.transform.DOScale(0, 0.2f);
     }
 }

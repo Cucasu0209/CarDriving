@@ -13,6 +13,7 @@ public class GameConfig
     };
 
     public static float TIME_WAIT_LOSE_GAME = 10;
+    public static int WIN_REWARD_MULTIPLIER_ADS = 3;
 
 
     //Resource Link
@@ -24,4 +25,9 @@ public class GameConfig
     public static string OBSTACLE_PREFAB_LINK = "GameplayPrefab/Obstacle";
     public static int SHOWROOM_ELEMENT_PER_PAGE = 6;
 
+
+    //PlayerPref Keys
+    public static string MUSIC_KEY = "Setting_Music";
+    public static string SOUND_KEY = "Setting_Sound";
+    public static string VIBRATION_KEY = "Setting_VIBRARION";
 }

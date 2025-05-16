@@ -31,11 +31,10 @@ public class ShowroomManager : MonoBehaviour
     #region Unity Behaviours
     private IEnumerator Start()
     {
-        Application.targetFrameRate = 60;
         CurrentShowroomData = Resources.Load<ShowroomData>(GameConfig.SHOWROOM_DATA_LINK);
-        CurrentIdSelected = PlayerData.Instance.CurrentSkinId;
         CurrentPageIndex = 0;
         yield return null;
+        CurrentIdSelected = PlayerData.Instance.CurrentSkinId;
         OnLoadDataComplete?.Invoke();
         OnPageChange?.Invoke(true);
         OnSelectElement?.Invoke();
