@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameConfig 
+public class GameConfig
 {
     public static int MAX_LEVEL = 30;
     public static int LEVEL_PER_MAP = 10;
@@ -22,6 +22,6 @@ public class GameConfig
     public static string CAR_MODEL_LINK = "Vehicles/Traps/";
     public static string HUMAN_MODEL_LINK = "Humans/Models/";
     public static string OBSTACLE_PREFAB_LINK = "GameplayPrefab/Obstacle";
-    public static int SHOWROOM_ELEMENT_PER_PAGE = 9;
+    public static int SHOWROOM_ELEMENT_PER_PAGE = 6;
 
 }

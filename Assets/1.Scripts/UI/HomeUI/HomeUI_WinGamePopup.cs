@@ -35,7 +35,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
 
 
             Popup.gameObject.SetActive(true);
-            Backgound.DOFade(1, 0.3f);
+            Backgound.DOFade(0.8f, 0.3f);
             for (int i = 0; i < ComponentsInPopup.Count; i++)
             {
                 ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);

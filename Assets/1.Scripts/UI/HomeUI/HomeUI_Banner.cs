@@ -45,8 +45,8 @@ public class HomeUI_Banner : MonoBehaviour
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         NextLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 2, 1, GameConfig.LOCATIONS_NAME.Length));
 
-        ProgressImage.fillAmount = LevelManager.Instance.LevelIndex * 1f / GameConfig.LEVEL_PER_MAP;
-        ProgressText.SetText(LevelManager.Instance.LevelIndex + "/" + (GameConfig.LEVEL_PER_MAP - 1));
+        ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP) + 1) * 1f / GameConfig.LEVEL_PER_MAP;
+        ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP) + 1) + "/" + (GameConfig.LEVEL_PER_MAP));
     }
     private void OnHide()
     {

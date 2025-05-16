@@ -12,7 +12,6 @@ public class ShowroomUI_Buttons : MonoBehaviour
     [SerializeField] private Image SelectedButton;
     [SerializeField] private Button UnlockButton;
     [SerializeField] private Button AdsButton;
-    [SerializeField] private GameObject LockIcon;
     private void Start()
     {
         PrevButton.onClick.AddListener(OnPrevButtonClick);
@@ -69,7 +68,6 @@ public class ShowroomUI_Buttons : MonoBehaviour
         SelectedButton.gameObject.SetActive(false);
         SelectButton.gameObject.SetActive(false);
         UnlockButton.gameObject.SetActive(false);
-        LockIcon.gameObject.SetActive(false);
 
         if (ShowroomManager.Instance.CurrentIdSelected == PlayerData.Instance.CurrentSkinId)
         {
@@ -82,7 +80,6 @@ public class ShowroomUI_Buttons : MonoBehaviour
         else
         {
             UnlockButton.gameObject.SetActive(true);
-            LockIcon.gameObject.SetActive(true);
 
         }
     }

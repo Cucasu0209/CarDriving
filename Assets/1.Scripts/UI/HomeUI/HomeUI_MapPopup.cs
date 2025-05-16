@@ -12,16 +12,14 @@ public class HomeUI_MapPopup : MonoBehaviour
     [SerializeField] private Button BackButton;
 
     [SerializeField] private Image Progress;
-    [SerializeField] private List<TextMeshProUGUI> LevelTexts;
-    [SerializeField] private List<RectTransform> CurrentPoints;
+    [SerializeField] private RectTransform CurrentPoint;
 
 
     [Header("Levels")]
-    [SerializeField] private List<RectTransform> Locations;
-    [SerializeField] private List<TextMeshProUGUI> LocationNames;
-    [SerializeField] private List<Image> LocationImages;
-    [SerializeField] private List<Image> LockIcons;
-    [SerializeField] private Color CompleteColor, PreparedColor;
+    [SerializeField] private List<Vector2> LevelPositions;
+    [SerializeField] private List<Image> UnlockIcon;
+    [SerializeField] private List<RectTransform> LockBanner;
+
     private void Start()
     {
         BackButton.onClick.AddListener(HidePopup);
@@ -51,24 +49,15 @@ public class HomeUI_MapPopup : MonoBehaviour
     }
     private void UpdatePopup()
     {
-        Progress.fillAmount = LevelManager.Instance.LevelIndex * 1f / GameConfig.MAX_LEVEL;
-
+        Progress.fillAmount = LevelPositions[Mathf.Clamp( LevelManager.Instance.LevelIndex - 1,0, LevelPositions.Count-1)].y * 1f / Progress.rectTransform.sizeDelta.y;
+        CurrentPoint.anchoredPosition = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)];
         //Update Location positions
-        for (int i = 0; i < Locations.Count; i++)
+        for (int i = 0; i < UnlockIcon.Count; i++)
         {
-            Locations[i].anchoredPosition = new Vector2(0, Progress.rectTransform.sizeDelta.y * i / Locations.Count);
-            LockIcons[i].gameObject.SetActive(LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP);
-            LocationImages[i].color = new Color(1, 1, 1, LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP ? 0.6f : 1);
-            LocationNames[i].color = LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP ? PreparedColor : CompleteColor;
+            UnlockIcon[i].gameObject.SetActive(LevelManager.Instance.LevelIndex > i * GameConfig.LEVEL_PER_MAP);
+            LockBanner[i].gameObject.SetActive(LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP);
         }
 
-        //Current Location
-        for (int i = 0; i < CurrentPoints.Count; i++)
-        {
-            CurrentPoints[i].gameObject.SetActive(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) % 2 == i % 2);
-            LevelTexts[i].SetText(LevelManager.Instance.LevelIndex.ToString());
-            CurrentPoints[i].anchoredPosition = new Vector2(0, Progress.rectTransform.sizeDelta.y * LevelManager.Instance.LevelIndex * 1f / GameConfig.MAX_LEVEL);
-        }
 
     }
 }

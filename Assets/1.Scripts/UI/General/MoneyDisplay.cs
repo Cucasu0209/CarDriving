@@ -18,6 +18,6 @@ public class MoneyDisplay : MonoBehaviour
     }
     private void OnMoneyChange()
     {
-        Money.SetText(PlayerData.Instance.CurrentMoney.ToString());
+        Money.SetText(PlayerData.Instance.CurrentMoney.ToString()+" $");
     }
 }

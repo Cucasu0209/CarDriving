@@ -47,6 +47,7 @@ public class ShowroomUI_PagesMarker : MonoBehaviour
         for (int i = 0; i < ShowroomManager.Instance.GetPageCount(); i++)
         {
             CurrentKnots[i].DOColor(ShowroomManager.Instance.CurrentPageIndex == i ? PickedColor : NormalColor, 0.2f);
+            CurrentKnots[i].rectTransform.sizeDelta = Vector2.one * (ShowroomManager.Instance.CurrentPageIndex == i ? 32 : 20);
         }
     }
 

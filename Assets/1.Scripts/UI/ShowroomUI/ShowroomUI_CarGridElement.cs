@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using DG.Tweening;
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,9 +7,9 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
 {
     [SerializeField] private Image CarIcon;
     [SerializeField] private TextMeshProUGUI Price;
-    [SerializeField] private Image Dark;
+    [SerializeField] private Image PriceIcon;
 
-    [SerializeField] private Image BackgroundUsed;
+    [SerializeField] private RectTransform UsedMark;
     [SerializeField] private Image BackgroundSelected;
     [SerializeField] private Button ElButton;
 
@@ -21,14 +18,14 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
     {
         ElButton.onClick.AddListener(Select);
         ShowroomManager.Instance.OnSelectElement += OnOneElementSelected;
-        PlayerData.Instance.OnSkinChange += OnUseCarShin;
+        PlayerData.Instance.OnSkinChange += OnUseCarSkin;
         PlayerData.Instance.OnSkinUnlocked += OnOneSkinUnlock;
     }
 
     private void OnDestroy()
     {
         ShowroomManager.Instance.OnSelectElement -= OnOneElementSelected;
-        PlayerData.Instance.OnSkinChange -= OnUseCarShin;
+        PlayerData.Instance.OnSkinChange -= OnUseCarSkin;
         PlayerData.Instance.OnSkinUnlocked -= OnOneSkinUnlock;
 
     }
@@ -39,43 +36,39 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
         CurrentData = data;
         CarIcon.sprite = ShowroomManager.Instance.GetCarIcon(CurrentData.Id);
         OnOneElementSelected();
-        OnUseCarShin();
+        OnUseCarSkin();
         OnOneSkinUnlock();
     }
 
     private void Select()
     {
-        ShowroomManager.Instance.SelectElement(CurrentData.Id);
+        if (CurrentData.Id != ShowroomManager.Instance.CurrentIdSelected)
+        {
+            ShowroomManager.Instance.SelectElement(CurrentData.Id);
+        }
+        else if (PlayerData.Instance.HaveSkin(ShowroomManager.Instance.CurrentIdSelected))
+        {
+            PlayerData.Instance.UseSkin(ShowroomManager.Instance.CurrentIdSelected);
+        }
+        else
+        {
+            ShowroomManager.Instance.OnWantToBuyCar?.Invoke(ShowroomManager.Instance.GetDataById(ShowroomManager.Instance.CurrentIdSelected));
+        }
     }
 
     private void OnOneElementSelected()
     {
-        if (CurrentData != null && CurrentData.Id == ShowroomManager.Instance.CurrentIdSelected)
-        {
-            BackgroundSelected.DOFade(1, 0.2f);
-        }
-        else
-        {
-            BackgroundSelected.DOFade(0, 0.2f);
-        }
+        BackgroundSelected.gameObject.SetActive(CurrentData != null && CurrentData.Id == ShowroomManager.Instance.CurrentIdSelected);
     }
-    private void OnUseCarShin()
+    private void OnUseCarSkin()
     {
-        if (CurrentData != null && CurrentData.Id == PlayerData.Instance.CurrentSkinId)
-        {
-            BackgroundUsed.DOFade(1, 0.2f);
-        }
-        else
-        {
-            BackgroundUsed.DOFade(0, 0.2f);
-        }
+        UsedMark.gameObject.SetActive(CurrentData != null && CurrentData.Id == PlayerData.Instance.CurrentSkinId);
     }
     private void OnOneSkinUnlock()
     {
-        //Price.gameObject.SetActive(PlayerData.Instance.HaveSkin(CurrentData.Id) == false);
-        Dark.DOFade(PlayerData.Instance.HaveSkin(CurrentData.Id) ? 0 : 0.5f, 0.2f);
+        PriceIcon.gameObject.SetActive(PlayerData.Instance.HaveSkin(CurrentData.Id) == false);
         if (PlayerData.Instance.HaveSkin(CurrentData.Id) == false) Price.SetText(CurrentData.Price.ToString());
-        else Price.SetText(CurrentData.CarName);
+
 
     }
 }
