@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -31,6 +32,8 @@ public class Player : MoveableObject
 
     private int LastTracePosIndex;
     private Vector3 LastTracePos;
+
+    private List<CarWheels> Wheels;
     #endregion
 
     #region Unity Behaviours
@@ -70,6 +73,7 @@ public class Player : MoveableObject
                 {
                     IsRunning = true;
                     StopSkidMark();
+                    foreach (var wheel in Wheels) if (wheel != null) wheel.Run();
                 }
             }
             else
@@ -80,6 +84,8 @@ public class Player : MoveableObject
                     IsRunning = false;
                     CreateSkidMark();
                     TagetAngleBrake = 20;
+                    foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
+
                 }
 
             }
@@ -127,6 +133,8 @@ public class Player : MoveableObject
             CurrentModel = Instantiate(Model, transform);
             CurrentModel.transform.localPosition = Vector3.zero;
         }
+        if (Wheels != null) Wheels.Clear();
+        Wheels = gameObject.GetComponentsInChildren<CarWheels>().ToList();
     }
     #endregion
 
@@ -195,6 +203,8 @@ public class Player : MoveableObject
         IsRunning = false;
         SetInteracableState(false);
         StopInstantly();
+        foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
+
         transform.DOMove(new Vector3(PickupPos.x, transform.position.y, PickupPos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
             GameManager.Instance.OnPickCustomer?.Invoke(Door);
@@ -222,6 +232,7 @@ public class Player : MoveableObject
     {
         SetInteracableState(false);
         StopInstantly();
+        foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
 
         transform.DOMove(new Vector3(LastTracePos.x, transform.position.y, LastTracePos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
@@ -247,6 +258,7 @@ public class Player : MoveableObject
             obstacle.OnHit((obstacle.transform.position - transform.position));
             StopInstantly();
             Interactable = false;
+            foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
 
             if (obstacle.Data.Type == ObstacleType.Car)
             {

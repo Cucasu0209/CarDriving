@@ -135,8 +135,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -6770178547054104492, guid: 6aa14ba8442c3644ba9ba35d29d13cda,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4051627200523561434}
+    - targetCorrespondingSourceObject: {fileID: -6345322449348071005, guid: 6aa14ba8442c3644ba9ba35d29d13cda,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1767498079630084085}
   m_SourcePrefab: {fileID: 100100000, guid: 6aa14ba8442c3644ba9ba35d29d13cda, type: 3}
+--- !u!1 &5429541514546315445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6770178547054104492, guid: 6aa14ba8442c3644ba9ba35d29d13cda,
+    type: 3}
+  m_PrefabInstance: {fileID: 7589380413821006049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4051627200523561434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429541514546315445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 0
+--- !u!1 &5666099661779255618 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6345322449348071005, guid: 6aa14ba8442c3644ba9ba35d29d13cda,
+    type: 3}
+  m_PrefabInstance: {fileID: 7589380413821006049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1767498079630084085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5666099661779255618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 0
 --- !u!4 &7987235351131772682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6aa14ba8442c3644ba9ba35d29d13cda,

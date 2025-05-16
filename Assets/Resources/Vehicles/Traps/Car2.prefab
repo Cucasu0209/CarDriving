@@ -140,8 +140,54 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: -6499885712808072378, guid: bffd573dd78c44e4eb2bc26416aba5ea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8047113351411949530}
+    - targetCorrespondingSourceObject: {fileID: 8112145635066219626, guid: bffd573dd78c44e4eb2bc26416aba5ea,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 180661641517040257}
   m_SourcePrefab: {fileID: 100100000, guid: bffd573dd78c44e4eb2bc26416aba5ea, type: 3}
+--- !u!1 &2029982135535622325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8112145635066219626, guid: bffd573dd78c44e4eb2bc26416aba5ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 7836211153153217759}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &180661641517040257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029982135535622325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 1
+--- !u!1 &5292878445910884249 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6499885712808072378, guid: bffd573dd78c44e4eb2bc26416aba5ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 7836211153153217759}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8047113351411949530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5292878445910884249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 1
 --- !u!4 &7725197266442236724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bffd573dd78c44e4eb2bc26416aba5ea,

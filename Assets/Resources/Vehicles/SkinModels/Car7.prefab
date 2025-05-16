@@ -135,7 +135,15 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1774002814060090113, guid: 3aab9b24c0ee38b48bbee93bcc72b1f0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1308009126383656953}
+    - targetCorrespondingSourceObject: {fileID: -3938506802599911873, guid: 3aab9b24c0ee38b48bbee93bcc72b1f0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6251411063842239696}
   m_SourcePrefab: {fileID: 100100000, guid: 3aab9b24c0ee38b48bbee93bcc72b1f0, type: 3}
 --- !u!4 &930537920817732653 stripped
 Transform:
@@ -143,3 +151,41 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 820594331787361222}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1440536272232392903 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1774002814060090113, guid: 3aab9b24c0ee38b48bbee93bcc72b1f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 820594331787361222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1308009126383656953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440536272232392903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 0
+--- !u!1 &4770660953403483641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3938506802599911873, guid: 3aab9b24c0ee38b48bbee93bcc72b1f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 820594331787361222}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6251411063842239696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4770660953403483641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b7a7506f4c73a04e94448ac917b2e03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsRuning: 0

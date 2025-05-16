@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator Start()
     {
+        Application.targetFrameRate = FPSTarget;
         yield return null;
         SetupGame();
     }
