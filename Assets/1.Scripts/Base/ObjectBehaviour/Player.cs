@@ -110,6 +110,13 @@ public class Player : MoveableObject
         IsRunning = false;
         IsDrifting = false;
         LastTimeDrift = 0;
+
+        DOVirtual.DelayedCall(1, () => WindEffect.SetActive(true));
+        VelocDirection = (Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + 4) - transform.position);
+        TargetAngle = Vector2.SignedAngle(new Vector2(VelocDirection.x, VelocDirection.z), Vector2.up);
+        transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x,
+            TargetAngle,
+            transform.rotation.z);
     }
     private void LoadModel()
     {
@@ -215,8 +222,10 @@ public class Player : MoveableObject
     {
         SetInteracableState(false);
         StopInstantly();
+
         transform.DOMove(new Vector3(LastTracePos.x, transform.position.y, LastTracePos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            WindEffect.SetActive(false);
             UpdateProgress();
             GameManager.Instance.OnFinishTrace?.Invoke();
             GameManager.Instance.OnUpdateProgress?.Invoke(1);
@@ -250,6 +259,8 @@ public class Player : MoveableObject
                 });
             }
             GameManager.Instance.OnEndGame?.Invoke(false);
+            WindEffect.SetActive(false);
+
 
         }
     }
