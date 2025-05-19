@@ -32,6 +32,8 @@ public class HomeUI_MapPopup : MonoBehaviour
     }
     public void ShowPopup()
     {
+        DOVirtual.DelayedCall(0.4f, () => SoundManager.Instance.PlayOpenPopupSound());
+
         GameManager.Instance.OnHideHomeUI?.Invoke();
         MapPopup.gameObject.SetActive(true);
         BackButton.gameObject.SetActive(true);
@@ -40,6 +42,8 @@ public class HomeUI_MapPopup : MonoBehaviour
     }
     private void HidePopup()
     {
+        SoundManager.Instance.PlayClosePopupSound();
+
         MapPopup.DOAnchorPosY(4500, 0.6f).OnComplete(() =>
         {
             GameManager.Instance.OnShowHomeUI?.Invoke();
@@ -49,7 +53,7 @@ public class HomeUI_MapPopup : MonoBehaviour
     }
     private void UpdatePopup()
     {
-        Progress.fillAmount = LevelPositions[Mathf.Clamp( LevelManager.Instance.LevelIndex - 1,0, LevelPositions.Count-1)].y * 1f / Progress.rectTransform.sizeDelta.y;
+        Progress.fillAmount = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y;
         CurrentPoint.anchoredPosition = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)];
         //Update Location positions
         for (int i = 0; i < UnlockIcon.Count; i++)

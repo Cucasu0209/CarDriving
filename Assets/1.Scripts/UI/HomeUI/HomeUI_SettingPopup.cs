@@ -39,6 +39,8 @@ public class HomeUI_SettingPopup : MonoBehaviour
     }
     public void ShowPopup()
     {
+        DOVirtual.DelayedCall(0.4f, () => SoundManager.Instance.PlayOpenPopupSound());
+
         GameManager.Instance.OnHideHomeUI?.Invoke();
         SettingPopup.gameObject.SetActive(true);
         PopupDark.gameObject.SetActive(true);
@@ -47,6 +49,7 @@ public class HomeUI_SettingPopup : MonoBehaviour
     }
     private void HidePopup()
     {
+        SoundManager.Instance.PlayClosePopupSound();
         SettingPopup.DOScale(0, 0.3f).OnComplete(() =>
         {
             GameManager.Instance.OnShowHomeUI?.Invoke();
@@ -56,18 +59,21 @@ public class HomeUI_SettingPopup : MonoBehaviour
     }
     private void ToggleMusic()
     {
+        SoundManager.Instance.PlayButtonSound();
         isMusicOn = isMusicOn > 0 ? 0 : 1;
         PlayerPrefs.SetFloat(GameConfig.MUSIC_KEY, isMusicOn);
         MusicBtn.image.sprite = isMusicOn > 0 ? OnState : OffState;
     }
     private void ToggleSound()
     {
+        SoundManager.Instance.PlayButtonSound();
         isSoundOn = isSoundOn > 0 ? 0 : 1;
         PlayerPrefs.SetFloat(GameConfig.SOUND_KEY, isSoundOn);
         SoundBtn.image.sprite = isSoundOn > 0 ? OnState : OffState;
     }
     private void ToggleVibration()
     {
+        SoundManager.Instance.PlayButtonSound();
         isVibrationOn = isVibrationOn > 0 ? 0 : 1;
         PlayerPrefs.SetFloat(GameConfig.VIBRATION_KEY, isVibrationOn);
         VibrationBtn.image.sprite = isVibrationOn > 0 ? OnState : OffState;

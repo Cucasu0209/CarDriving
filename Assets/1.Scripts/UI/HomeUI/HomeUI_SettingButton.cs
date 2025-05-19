@@ -26,6 +26,7 @@ public class HomeUI_SettingButton : MonoBehaviour
     }
     private void OpenPopup()
     {
+        SoundManager.Instance.PlayButtonSound();
         SettingPopup.ShowPopup();
     }
    

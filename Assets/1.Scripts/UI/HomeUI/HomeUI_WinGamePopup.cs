@@ -22,7 +22,8 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     [SerializeField] private Button NextButton;
     [SerializeField] private Button AdsButton;
 
-
+    [Header("Sounds")]
+    [SerializeField] private AudioClip WinSound;
     void Start()
     {
         OnClosePopup();
@@ -41,7 +42,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
         if (isWin == false) return;
         DOVirtual.DelayedCall(3.4f, () =>
         {
-
+            SoundManager.Instance.PlayEffect(WinSound);
 
             Popup.gameObject.SetActive(true);
             Backgound.DOFade(0.8f, 0.3f);
@@ -88,11 +89,13 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     }
     private void OnButtonNextClick()
     {
+        SoundManager.Instance.PlayButtonSound();
         OnClosePopup();
         GameManager.Instance.NextLevel();
     }
     private void OnButtonAdsClick()
     {
+        SoundManager.Instance.PlayButtonSound();
         PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
         AdsButton.transform.DOScale(0, 0.2f);
     }

@@ -40,6 +40,7 @@ public class HomeUI_ShowroomButton : MonoBehaviour
 
     private void GotoShowroom()
     {
+        SoundManager.Instance.PlayButtonSound();
         ShowroomBG.gameObject.SetActive(true);
         ShowroomBG.DOFade(1, 0.2f).OnComplete(() =>
         {

@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CustomerEndPoint : MonoBehaviour
 {
+    [SerializeField] private AudioClip EndTraceSound;
+
     void Start()
     {
         GameManager.Instance.OnFinishTrace += HidePoint;
@@ -34,6 +36,7 @@ public class CustomerEndPoint : MonoBehaviour
     }
     private void HidePoint()
     {
+        SoundManager.Instance.PlayEffect(EndTraceSound);
         transform.DOKill();
         transform.DOLocalMoveY(3f, 0.3f);
         transform.DOScale(1.4f, 0.3f);

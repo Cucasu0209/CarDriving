@@ -46,6 +46,7 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
 
     private void Select()
     {
+        SoundManager.Instance.PlayButtonSound();
         if (CurrentData.Id != ShowroomManager.Instance.CurrentIdSelected)
         {
             ShowroomManager.Instance.SelectElement(CurrentData.Id);
@@ -74,6 +75,7 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
 
     private void HandleElement()
     {
+        SoundManager.Instance.PlayButtonSound();
         ShowroomManager.Instance.SelectElement(CurrentData.Id);
 
         if (PlayerData.Instance.HaveSkin(CurrentData.Id))

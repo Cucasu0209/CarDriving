@@ -29,6 +29,8 @@ public class HomeUI_MapButton : MonoBehaviour
     }
     private void OnClick()
     {
+        SoundManager.Instance.PlayButtonSound();
+
         MapPopup.ShowPopup();
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CustomerPickupPoint : MonoBehaviour
 {
+    [SerializeField] private AudioClip PickupSound;
     void Start()
     {
         GameManager.Instance.OnPickCustomer += HidePoint;
@@ -34,6 +35,7 @@ public class CustomerPickupPoint : MonoBehaviour
     }
     private void HidePoint(Transform door)
     {
+        SoundManager.Instance.PlayEffect(PickupSound);
         transform.DOKill();
         transform.DOLocalMoveY(3f, 0.3f);
         transform.DOScale(1.4f, 0.3f);

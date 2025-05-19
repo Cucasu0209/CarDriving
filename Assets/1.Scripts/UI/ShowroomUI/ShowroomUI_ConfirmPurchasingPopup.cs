@@ -15,7 +15,8 @@ public class ShowroomUI_ConfirmPurchasingPopup : MonoBehaviour
     [SerializeField] private Button NoButton;
     private CarData Data;
 
-
+    [Header("Sound")]
+    [SerializeField] private AudioClip CashSound;
 
     private void Start()
     {
@@ -29,11 +30,14 @@ public class ShowroomUI_ConfirmPurchasingPopup : MonoBehaviour
     }
     private void OnClickYes()
     {
+        SoundManager.Instance.PlayEffect(CashSound);
         ShowroomManager.Instance.BuyCar(Data);
         ClosePopup();
     }
     private void OnClickNo()
     {
+        SoundManager.Instance.PlayClosePopupSound();
+
         ClosePopup();
     }
     private void SetPopup(CarData data)

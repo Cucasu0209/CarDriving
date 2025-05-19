@@ -20,6 +20,12 @@ public class Player : MoveableObject
     [SerializeField] private GameObject ExploderFX;
     [SerializeField] private GameObject WindEffect;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip IdleSound;
+    [SerializeField] private AudioClip BreakSound;
+    [SerializeField] private AudioClip RunSound;
+    [SerializeField] private AudioClip CrashSound;
+
 
     //in one session
     private bool PickedCustomerUp = false;
@@ -71,6 +77,8 @@ public class Player : MoveableObject
 
                 if (IsRunning == false)
                 {
+                    SoundManager.Instance.StopLoopSound(IdleSound);
+                    SoundManager.Instance.PlayLoop(RunSound);
                     IsRunning = true;
                     StopSkidMark();
                     foreach (var wheel in Wheels) if (wheel != null) wheel.Run();
@@ -81,10 +89,16 @@ public class Player : MoveableObject
                 TargetSpeed = Mathf.Max(TargetSpeed - Config.MaxSpeed * Time.deltaTime / Config.Drag, 0);
                 if (IsRunning)
                 {
+                    SoundManager.Instance.PlayLoop(IdleSound);
+                    SoundManager.Instance.StopLoopSound(RunSound);
+
                     IsRunning = false;
                     CreateSkidMark();
                     if ((ObjectBody.velocity.magnitude / Config.MaxSpeed) > 0.7f)
+                    {
+                        SoundManager.Instance.PlayEffect(BreakSound);
                         TagetAngleBrake = 20;
+                    }
                     foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
 
                 }
@@ -203,14 +217,18 @@ public class Player : MoveableObject
     }
     private void PickCustomerUp()
     {
+        
+
         IsRunning = false;
         SetInteracableState(false);
         StopInstantly();
-        foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
         CurrentModel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
         transform.DOMove(new Vector3(PickupPos.x, transform.position.y, PickupPos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            SoundManager.Instance.StopLoopSound(RunSound);
+            SoundManager.Instance.PlayEffect(IdleSound);
             GameManager.Instance.OnPickCustomer?.Invoke(Door);
+            foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
             UpdateProgress();
         });
         DOVirtual.DelayedCall(1.5f, () =>
@@ -233,17 +251,21 @@ public class Player : MoveableObject
     }
     private void FinishJourney()
     {
+       
+
         SetInteracableState(false);
         StopInstantly();
-        foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
         CurrentModel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
         transform.DOMove(new Vector3(LastTracePos.x, transform.position.y, LastTracePos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            SoundManager.Instance.StopLoopSound(RunSound);
+            SoundManager.Instance.PlayEffect(IdleSound);
             WindEffect.SetActive(false);
             UpdateProgress();
             GameManager.Instance.OnFinishTrace?.Invoke();
             GameManager.Instance.OnUpdateProgress?.Invoke(1);
             GameManager.Instance.OnEndGame?.Invoke(true);
+            foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
         });
 
     }
@@ -255,6 +277,8 @@ public class Player : MoveableObject
         if (other is null || Interactable == false) return;
         if (other.gameObject.tag == "Enemy" && other.gameObject.GetComponent<MoveableObject>() != null)
         {
+            StopSkidMark();
+
             Obstacle obstacle = other.gameObject.GetComponent<Obstacle>();
 
             obstacle.StopInstantly();
@@ -273,6 +297,10 @@ public class Player : MoveableObject
                     Destroy(Exploder);
                 });
             }
+            SoundManager.Instance.StopLoopSound(RunSound);
+            SoundManager.Instance.StopLoopSound(IdleSound);
+            SoundManager.Instance.PlayEffect(CrashSound);
+
             GameManager.Instance.OnEndGame?.Invoke(false);
             WindEffect.SetActive(false);
 

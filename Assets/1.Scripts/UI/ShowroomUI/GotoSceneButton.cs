@@ -18,6 +18,7 @@ public class GotoSceneButton : MonoBehaviour
 
     private void BackToHome()
     {
+        SoundManager.Instance.PlayButtonSound();
         BG.gameObject.SetActive(true);
         BG.DOFade(1, 0.2f).OnComplete(() =>
         {
