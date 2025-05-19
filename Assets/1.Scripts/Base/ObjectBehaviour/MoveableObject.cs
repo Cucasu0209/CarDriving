@@ -13,7 +13,7 @@ public class MoveableObject : MonoBehaviour
     protected float TargetSpeed;
     protected float TargetAngle;
     protected bool IsControllingVelocity = true;
-    private bool isPositiveDir = true;
+    protected bool IsPositiveDir = true;
     [SerializeField] private float VelocDamper = 0.01f;
     [SerializeField] private float AngleDamper = 0.2f;
     #endregion
@@ -42,7 +42,7 @@ public class MoveableObject : MonoBehaviour
     public virtual void Run()
     {
         // Set Velocity
-        VelocDirection = (Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (isPositiveDir ? 4 : -4)) - transform.position);
+        VelocDirection = (Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (IsPositiveDir ? 4 : -4)) - transform.position);
         VelocDirection = new Vector3(VelocDirection.x, 0, VelocDirection.z);
         if (VelocDirection.magnitude > 0.001f) VelocDirection = VelocDirection.normalized;
         ObjectBody.velocity = (new Vector3(Mathf.Lerp(transform.forward.x, VelocDirection.x, 0.5f),
@@ -54,7 +54,7 @@ public class MoveableObject : MonoBehaviour
 
         //Set Angle
         //ObjectBody.angularVelocity = Vector3.up * 20;
-        if (Vector3.Distance(Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (isPositiveDir ? 4 : -4)), transform.position) > 2)
+        if (Vector3.Distance(Trace.GetPointAtIndex(Trace.GetIndexByPosition(transform.position) + (IsPositiveDir ? 4 : -4)), transform.position) > 2)
         {
             TargetAngle = Vector2.SignedAngle(new Vector2(VelocDirection.x, VelocDirection.z), Vector2.up);
             float currentAngle = (transform.rotation.eulerAngles.y + 360 + 180) % 360 - 180;
@@ -69,7 +69,7 @@ public class MoveableObject : MonoBehaviour
         }
         else if (Trace.LoopType == TraceData.TraceLoopType.Yoyo)
         {
-            isPositiveDir = !isPositiveDir;
+            IsPositiveDir = !IsPositiveDir;
         }
 
 

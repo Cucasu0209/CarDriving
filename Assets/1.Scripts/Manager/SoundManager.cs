@@ -204,8 +204,8 @@ namespace OnlyFun
 
             PlayerPrefs.SetInt(HapticSetting, HapticMode);
         }
-        private float HapticDelay = 0.25f;
-        private float HapticLastTime = 0;
+       // private float HapticDelay = 0.25f;
+       // private float HapticLastTime = 0;
         public void Vibrate()
         {
             //Trung Comment

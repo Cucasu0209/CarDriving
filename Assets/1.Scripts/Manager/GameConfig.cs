@@ -20,7 +20,7 @@ public class GameConfig
     public static string SHOWROOM_DATA_LINK = "Data/ShowroomData";
     public static string SHOWROOM_ICON_LINK = "Vehicles/SkinIcons/";
     public static string SHOWROOM_MODEL_LINK = "Vehicles/SkinModels/";
-    public static string CAR_MODEL_LINK = "Vehicles/Traps/";
+    public static string CAR_TRAP_LINK = "Vehicles/Traps/";
     public static string HUMAN_MODEL_LINK = "Humans/Models/";
     public static string OBSTACLE_PREFAB_LINK = "GameplayPrefab/Obstacle";
     public static int SHOWROOM_ELEMENT_PER_PAGE = 6;

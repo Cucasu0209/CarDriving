@@ -83,7 +83,8 @@ public class Player : MoveableObject
                 {
                     IsRunning = false;
                     CreateSkidMark();
-                    TagetAngleBrake = 20;
+                    if ((ObjectBody.velocity.magnitude / Config.MaxSpeed) > 0.7f)
+                        TagetAngleBrake = 20;
                     foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
 
                 }
@@ -126,12 +127,14 @@ public class Player : MoveableObject
     }
     private void LoadModel()
     {
-        if (CurrentModel != null) Destroy(CurrentModel);
+        if (CurrentModel != null) PoolingSystem.Despawn(CurrentModel);
         GameObject Model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
         if (Model != null)
         {
-            CurrentModel = Instantiate(Model, transform);
+            CurrentModel = PoolingSystem.Spawn(Model, transform.position, Quaternion.identity);
+            CurrentModel.transform.SetParent(transform);
             CurrentModel.transform.localPosition = Vector3.zero;
+            CurrentModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         if (Wheels != null) Wheels.Clear();
         Wheels = gameObject.GetComponentsInChildren<CarWheels>().ToList();
@@ -204,7 +207,7 @@ public class Player : MoveableObject
         SetInteracableState(false);
         StopInstantly();
         foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
-
+        CurrentModel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
         transform.DOMove(new Vector3(PickupPos.x, transform.position.y, PickupPos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
             GameManager.Instance.OnPickCustomer?.Invoke(Door);
@@ -233,7 +236,7 @@ public class Player : MoveableObject
         SetInteracableState(false);
         StopInstantly();
         foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
-
+        CurrentModel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
         transform.DOMove(new Vector3(LastTracePos.x, transform.position.y, LastTracePos.z), 0.4f).SetEase(Ease.Linear).OnComplete(() =>
         {
             WindEffect.SetActive(false);

@@ -70,7 +70,7 @@ public class LevelManager : MonoBehaviour
     private void CreateObstacles()
     {
         //clear cache
-        for (int i = 0; i < Obstacles.Count; i++) Destroy(Obstacles[i]);
+        for (int i = 0; i < Obstacles.Count; i++) PoolingSystem.Despawn(Obstacles[i]);
         Obstacles.Clear();
 
         //Create Obstacle
@@ -79,7 +79,7 @@ public class LevelManager : MonoBehaviour
         {
             for (int i = 0; i < CurrentLevelData.Obstacles.Count; i++)
             {
-                GameObject newObstacle = Instantiate(ObstaclePrefab, Vector3.zero, Quaternion.identity);
+                GameObject newObstacle = PoolingSystem.Spawn(ObstaclePrefab, Vector3.zero, Quaternion.identity);
                 Obstacles.Add(newObstacle);
                 newObstacle.GetComponent<Obstacle>().SetObstacleData(CurrentLevelData.Obstacles[i]);
             }

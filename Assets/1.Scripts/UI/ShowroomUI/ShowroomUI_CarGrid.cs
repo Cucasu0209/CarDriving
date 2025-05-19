@@ -7,7 +7,7 @@ public class ShowroomUI_CarGrid : MonoBehaviour
 {
     [SerializeField] private List<RectTransform> Grid;
     [SerializeField] private ShowroomUI_CarGridElement ElementPrefab;
-    private List<ShowroomUI_CarGridElement> Elements= new List<ShowroomUI_CarGridElement>();
+    private List<ShowroomUI_CarGridElement> Elements = new List<ShowroomUI_CarGridElement>();
     private int CurrentGridUsing = 0;
     private void Start()
     {
@@ -31,7 +31,10 @@ public class ShowroomUI_CarGrid : MonoBehaviour
         List<CarData> elementDatas = ShowroomManager.Instance.GetElementsInPage(ShowroomManager.Instance.CurrentPageIndex);
         for (int i = 0; i < elementDatas.Count; i++)
         {
-            ShowroomUI_CarGridElement el = Instantiate(ElementPrefab, Grid[targetIndex]);
+            ShowroomUI_CarGridElement el = PoolingSystem.Spawn(ElementPrefab.gameObject, Grid[targetIndex].position, Quaternion.identity).GetComponent<ShowroomUI_CarGridElement>();
+            el.transform.SetParent(Grid[targetIndex]);
+            el.transform.localPosition = Vector3.zero;
+            el.transform.localScale = Vector3.one;
             el.SetData(elementDatas[i]);
             Elements.Add(el);
         }
@@ -45,7 +48,7 @@ public class ShowroomUI_CarGrid : MonoBehaviour
         {
             for (int i = 0; i < LastElement.Count; i++)
             {
-                Destroy(LastElement[i].gameObject);
+                PoolingSystem.Despawn(LastElement[i].gameObject);
             }
         });
     }

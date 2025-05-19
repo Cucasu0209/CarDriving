@@ -24,6 +24,8 @@ public class Obstacle : MoveableObject
     }
     public virtual void SetObstacleData(ObstacleData data)
     {
+        IsControllingVelocity = true;
+        IsPositiveDir = true;
         Data = data;
         SetupTrace(Data.Trace);
         SpawnModel();
@@ -31,10 +33,18 @@ public class Obstacle : MoveableObject
     }
     private void SpawnModel()
     {
+        if (CurrentModel != null)
+        {
+            PoolingSystem.Despawn(CurrentModel);
+        }
+
         GameObject model = null;
         if (Data.Type == ObstacleType.Car)
         {
-            model = Resources.Load<GameObject>(GameConfig.CAR_MODEL_LINK + "Car" + Random.Range(1, 9));
+            if (Random.Range(0, 1f) > 0.5f)
+                model = Resources.Load<GameObject>(GameConfig.CAR_TRAP_LINK + "Car" + Random.Range(1, 9));
+            else
+                model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + "Car" + Random.Range(0, 9));
         }
         else if (Data.Type == ObstacleType.Character)
         {
@@ -43,7 +53,9 @@ public class Obstacle : MoveableObject
         }
         if (model != null)
         {
-            CurrentModel = Instantiate(model, transform);
+            CurrentModel = PoolingSystem.Spawn(model, transform.position, Quaternion.identity);
+            CurrentModel.transform.SetParent(transform);
+            CurrentModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
             CurrentModel.transform.localPosition = Vector3.zero;
             GetComponent<BoxCollider>().center = CurrentModel.GetComponent<BoxCollider>().center;
             GetComponent<BoxCollider>().size = CurrentModel.GetComponent<BoxCollider>().size;
