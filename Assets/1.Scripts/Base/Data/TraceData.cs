@@ -115,6 +115,7 @@ public class TraceData : ScriptableObject
     #region Handle From outside Positions
     public int GetIndexByPosition(Vector3 position)
     {
+        if (LinePoints is null || LinePoints.Count == 0) GetBezierTrace();
         float MinDis = 9999;
         int resultIndex = 0;
         position = new Vector3(position.x, LinePoints[0].y, position.z);

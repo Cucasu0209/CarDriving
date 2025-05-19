@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e5facecd60d8f469012b1e6f6d0dfe, type: 3}
+  m_Name: _2O1_T
+  m_EditorClassIdentifier: 
+  TracePoints:
+  - {x: -79.9, y: 0.4, z: 6}
+  - {x: -79.9, y: 0.4, z: -2.8}
+  - {x: -63.4, y: 0.4, z: -5.6}
+  - {x: -52.1, y: 0.4, z: -20.2}
+  - {x: -26.7, y: 0.4, z: -20.2}
+  LoopType: 0

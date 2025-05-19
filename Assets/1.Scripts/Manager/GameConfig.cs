@@ -12,14 +12,15 @@ public class GameConfig
         "ITALIA"
     };
 
-    public static float TIME_WAIT_LOSE_GAME = 10;
+    public static float TIME_WAIT_LOSE_GAME = 5;
     public static int WIN_REWARD_MULTIPLIER_ADS = 3;
 
 
     //Resource Link
     public static string SHOWROOM_DATA_LINK = "Data/ShowroomData";
-    public static string SHOWROOM_ICON_LINK = "Vehicles/SkinIcons/";
-    public static string SHOWROOM_MODEL_LINK = "Vehicles/SkinModels/";
+    public static string SKIN_ICON_LINK = "Vehicles/SkinIcons/";
+    public static string SKIN_MODEL_LINK = "Vehicles/SkinModels/";
+    public static string SKIN_SHADOW_LINK = "Vehicles/SkinShadows/";
     public static string CAR_TRAP_LINK = "Vehicles/Traps/";
     public static string HUMAN_MODEL_LINK = "Humans/Models/";
     public static string OBSTACLE_PREFAB_LINK = "GameplayPrefab/Obstacle";

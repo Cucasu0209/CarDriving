@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 6O1_T
   m_EditorClassIdentifier: 
   TracePoints:
-  - {x: -78.54, y: 0.4, z: -107.82}
-  - {x: -78.54, y: 0.4, z: -126.45}
+  - {x: -79.85, y: 0.4, z: -107.82}
+  - {x: -79.85, y: 0.4, z: -126.48}
   LoopType: 0

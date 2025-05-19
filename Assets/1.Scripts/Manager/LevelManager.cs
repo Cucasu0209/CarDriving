@@ -18,10 +18,8 @@ public class LevelManager : MonoBehaviour
 
     #region Variables
     private string LevelKey = "CurrentLevel";
-    public int MapIndex { get; private set; }
     public int LevelIndex { get; private set; }
 
-    public MapData CurrentMapData { get; private set; }
     public LevelData CurrentLevelData { get; private set; }
     #endregion
 
@@ -46,7 +44,6 @@ public class LevelManager : MonoBehaviour
     public void LoadLevel()
     {
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1);
-        MapIndex = LevelIndex / 10 + 1;
         OnLevelChange?.Invoke();
         CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{(LevelIndex - 1) % 10 + 1}/Level{(LevelIndex - 1) % 10 + 1}");
         OnLoadLevelComplete?.Invoke();
@@ -58,9 +55,6 @@ public class LevelManager : MonoBehaviour
     {
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1) + 1;
         PlayerPrefs.SetInt(LevelKey, LevelIndex);
-        MapIndex = LevelIndex / GameConfig.LEVEL_PER_MAP + 1;
-        OnLevelChange?.Invoke();
-        LoadLevel();
     }
 
     #endregion
@@ -89,6 +83,5 @@ public class LevelManager : MonoBehaviour
     #endregion
 
     #region Reset End Game
-
     #endregion
 }

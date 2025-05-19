@@ -20,22 +20,25 @@ public class Customer : MonoBehaviour
 
     }
 
+
     private void SetStartPoint()
     {
         Animator.SetTrigger("Restart");
         transform.SetParent(null);
         transform.localScale = Vector3.one;
         transform.position = LevelManager.Instance.CurrentLevelData.CustomerStartPoint;
+        transform.LookAt(LevelManager.Instance.CurrentLevelData.GetPickupPoint());
+
     }
 
     private void GoToCar(Transform doorTf)
     {
-
+        Animator.ResetTrigger("Restart");
         Animator.SetTrigger("Move");
         transform.LookAt(doorTf);
-        transform.DOMove(doorTf.position, 1f).SetEase(Ease.Linear).OnComplete(() =>
+        transform.DOMove(doorTf.position, 0.7f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(0.3f, () => transform.localScale = Vector3.zero);
+            transform.localScale = Vector3.zero;
             transform.SetParent(doorTf);
         });
     }
@@ -45,9 +48,9 @@ public class Customer : MonoBehaviour
         {
             transform.localScale = Vector3.one;
             transform.LookAt(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint);
-            transform.DOMove(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint, 2.8f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
+            transform.DOMove(LevelManager.Instance.CurrentLevelData.FinalCustomerPoint, 1.5f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
             {
-                transform.LookAt(transform.parent);
+                transform.LookAt(LevelManager.Instance.CurrentLevelData.PlayerTrace.GetLastPoint());
                 Animator.SetTrigger("Congrat");
 
             });

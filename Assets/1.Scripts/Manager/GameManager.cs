@@ -23,12 +23,13 @@ public class GameManager : MonoBehaviour
 
     public Action<float> OnUpdateProgress;
     public Action<float> OnUpdatePickupPoint;
+    public Action OnShowRewardPopup;
 
     public Action OnNextLevel;
     public Action OnReset;
     public Action OnRevive;
 
-    public Action<Vector3, Vector3> OnCameraMove; // Cam Pos, Player Pos
+    public Action<Vector3, Transform> OnCameraMove; // Cam Pos, Player Pos
     private void Awake()
     {
         IsGameRunning = false;
@@ -55,13 +56,6 @@ public class GameManager : MonoBehaviour
         OnShowHomeUI?.Invoke();
     }
 
-    public void NextLevel()
-    {
-        IsGameRunning = false;
-        OnSetupGame?.Invoke();
-        OnShowHomeUI?.Invoke();
-        OnNextLevel?.Invoke();
-    }
 
     public void ResetLevel()
     {
@@ -72,9 +66,9 @@ public class GameManager : MonoBehaviour
     }
     public void Revive()
     {
-        IsGameRunning = false;
-        OnSetupGame?.Invoke();
-        OnShowHomeUI?.Invoke();
+        IsGameRunning = true;
+        //OnSetupGame?.Invoke();
+        //OnShowHomeUI?.Invoke();
         OnRevive?.Invoke();
     }
 }

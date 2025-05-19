@@ -23,7 +23,7 @@ public class GameplayEffectManager : MonoBehaviour
 
     private void OnPickupCustomer(Transform doorpos)
     {
-        GameObject newfx = Instantiate(PickUpCustomerFx, LevelManager.Instance.CurrentLevelData.PickupPoint, Quaternion.identity);
+        GameObject newfx = Instantiate(PickUpCustomerFx, LevelManager.Instance.CurrentLevelData.GetPickupPoint(), Quaternion.identity);
         DOVirtual.DelayedCall(3, () => Destroy(newfx));
     }
 

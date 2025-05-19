@@ -30,7 +30,7 @@ public class CustomerPickupPoint : MonoBehaviour
     }
     private void SetupPoint()
     {
-        transform.position = LevelManager.Instance.CurrentLevelData.PickupPoint;
+        transform.position = LevelManager.Instance.CurrentLevelData.GetPickupPoint();
         DoAnimLoopPoint();
     }
     private void HidePoint(Transform door)

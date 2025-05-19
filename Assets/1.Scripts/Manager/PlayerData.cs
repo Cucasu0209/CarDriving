@@ -22,6 +22,8 @@ public class PlayerData : MonoBehaviour
     public int CurrentMoney { get; private set; }
     public int CurrentRewardRate { get; private set; }
     public Action OnMoneyChange;
+    public Action<int> OnAddMoney;
+    public Action<int> OnShowEffectAddMoney;
     #endregion
 
     #region Unity
@@ -99,24 +101,33 @@ public class PlayerData : MonoBehaviour
         return CurrentMoney >= price;
     }
 
-    public void MinusMoney(int count)
+    public void MinusMoney(int count, bool callEvent = true)
     {
         if (HaveEnoughMoney(count))
         {
             CurrentMoney -= count;
             SaveMoney();
-            OnMoneyChange?.Invoke();
+            if (callEvent)
+            {
+                OnMoneyChange?.Invoke();
+                OnAddMoney?.Invoke(-count);
+            }
         }
     }
-    public void AddMoney(int count)
+    public void AddMoney(int count, bool callEvent = true)
     {
         CurrentMoney += count;
         SaveMoney();
-        OnMoneyChange?.Invoke();
+        if (callEvent)
+        {
+            OnMoneyChange?.Invoke();
+            OnAddMoney?.Invoke(count);
+        }
     }
     #endregion
 
     #region Reward
+    private int CountReward = 0;
     public void LoadRewardProgress()
     {
         CurrentRewardRate = PlayerPrefs.GetInt(CURRENT_REWARD_PROGRESS_KEY, 0);
@@ -128,7 +139,29 @@ public class PlayerData : MonoBehaviour
     public void AddRewardProgress(int value)
     {
         CurrentRewardRate += value;
+        if (CurrentRewardRate >= 100)
+        {
+            CurrentRewardRate %= 100;
+            CountReward++;
+        }
         SaveRewardProgress();
+    }
+    public int GetRewardId()
+    {
+        return ((LevelManager.Instance.LevelIndex - 2) / 4 + 1) % 9;
+    }
+    public bool CanTakeReward()
+    {
+        return CountReward >= 1;
+    }
+    public void TakeReward()
+    {
+        if (CanTakeReward())
+        {
+            CountReward--;
+            UnlockSkin(GetRewardId());
+            UseSkin(GetRewardId());
+        }
     }
     #endregion
 }

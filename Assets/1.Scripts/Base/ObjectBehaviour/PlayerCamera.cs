@@ -53,7 +53,7 @@ public class PlayerCamera : MonoBehaviour
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
                        transform.position + Vector3.up * Height - Direction * Distance, Time.deltaTime * Damping);
 
-            GameManager.Instance.OnCameraMove?.Invoke(Camera.main.transform.position, transform.position);
+            GameManager.Instance.OnCameraMove?.Invoke(Camera.main.transform.position, transform);
 
         }
 

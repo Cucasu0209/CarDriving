@@ -13,12 +13,16 @@ MonoBehaviour:
   m_Name: Level3
   m_EditorClassIdentifier: 
   PlayerTrace: {fileID: 11400000, guid: 520601f18fa67064d90d6eaef8de0036, type: 2}
+  SafePoints:
+  - {x: -15.1, y: 0, z: -66.8}
   CamDirection: 3
-  CustomerStartPoint: {x: -24.08, y: 0, z: 0.8}
+  CustomerStartPoint: {x: -20.8, y: 0, z: 0.8}
   PickupPoint: {x: -15.4, y: 0, z: 0.8}
-  FinalCustomerPoint: {x: -95.1, y: 0, z: -106.7}
+  FinalCustomerPoint: {x: -86, y: 0, z: -107.9}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 230b051107f7f9a4bbe970983d3af36d, type: 2}
-  Money: 200
-  RewardRate: 7
+  - {fileID: 11400000, guid: 34970aa896bb7684c9f9ca1c3df14a88, type: 2}
+  - {fileID: 11400000, guid: 34b52edbe03c48d468d6c7a5ae3d84f9, type: 2}
+  Money: 40
+  RewardRate: 25

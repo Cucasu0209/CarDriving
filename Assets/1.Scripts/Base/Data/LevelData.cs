@@ -15,10 +15,11 @@ public class LevelData : ScriptableObject
     }
     public enum CameraDirection { Right, Left, Up, Down }
     public TraceData PlayerTrace;
+    [SerializeField] private List<Vector3> SafePoints;
     public CameraDirection CamDirection;
     [Header("Customer Infomation")]
     public Vector3 CustomerStartPoint;
-    public Vector3 PickupPoint;
+    [SerializeField] private Vector3 PickupPoint;
     public Vector3 FinalCustomerPoint;
 
     [Header("Traps")]
@@ -28,6 +29,23 @@ public class LevelData : ScriptableObject
     [Header("Reward")]
     public int Money = 200;
     public int RewardRate = 5;
+
+    public Vector3 GetSafePoint(Vector3 position)
+    {
+        int posIndex = PlayerTrace.GetIndexByPosition(position);
+        for (int i = 0; i < SafePoints.Count; i++)
+        {
+            if (PlayerTrace.GetIndexByPosition(SafePoints[i]) > posIndex)
+            {
+                return PlayerTrace.GetPointAtIndex(PlayerTrace.GetIndexByPosition(SafePoints[i]));
+            }
+        }
+        return PlayerTrace.GetStartPoint();
+    }
+    public Vector3 GetPickupPoint()
+    {
+        return PlayerTrace.GetPointAtIndex(PlayerTrace.GetIndexByPosition(PickupPoint));
+    }
 }
 public enum TrapType
 {

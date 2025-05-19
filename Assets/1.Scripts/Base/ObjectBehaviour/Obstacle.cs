@@ -11,11 +11,24 @@ public class Obstacle : MoveableObject
     {
         base.Start();
         GameManager.Instance.OnEndGame += OnEndGame;
+        GameManager.Instance.OnRevive += OnRevive;
+
     }
     protected override void OnDestroy()
     {
         base.OnDestroy();
         GameManager.Instance.OnEndGame -= OnEndGame;
+        GameManager.Instance.OnRevive -= OnRevive;
+
+    }
+
+    private void OnRevive()
+    {
+        IsControllingVelocity = true;
+        IsPositiveDir = true;
+        TargetSpeed = Data.Speed;
+        transform.position = Trace.GetStartPoint();
+        if (Data.Type == ObstacleType.Character) GetComponentInChildren<Animator>().SetBool("Alive", true);
 
     }
     private void OnEndGame(bool isWin)
@@ -30,6 +43,8 @@ public class Obstacle : MoveableObject
         SetupTrace(Data.Trace);
         SpawnModel();
         TargetSpeed = data.Speed;
+        if (Data.Type == ObstacleType.Character)
+            GetComponentInChildren<Animator>().SetBool("Alive", true);
     }
     private void SpawnModel()
     {
@@ -44,7 +59,7 @@ public class Obstacle : MoveableObject
             if (Random.Range(0, 1f) > 0.5f)
                 model = Resources.Load<GameObject>(GameConfig.CAR_TRAP_LINK + "Car" + Random.Range(1, 9));
             else
-                model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + "Car" + Random.Range(0, 9));
+                model = Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + "Car" + Random.Range(0, 9));
         }
         else if (Data.Type == ObstacleType.Character)
         {
@@ -69,7 +84,7 @@ public class Obstacle : MoveableObject
         {
             ObjectBody.AddForce(dir.normalized * 400);
             transform.LookAt(transform.position - dir);
-            GetComponentInChildren<Animator>().SetTrigger("Die");
+            GetComponentInChildren<Animator>().SetBool("Alive", false);
         }
     }
 }

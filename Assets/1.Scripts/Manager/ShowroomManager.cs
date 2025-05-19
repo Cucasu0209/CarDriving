@@ -51,11 +51,15 @@ public class ShowroomManager : MonoBehaviour
     }
     public Sprite GetCarIcon(int carID)
     {
-        return Resources.Load<Sprite>(GameConfig.SHOWROOM_ICON_LINK + GetDataById(carID).CarName);
+        return Resources.Load<Sprite>(GameConfig.SKIN_ICON_LINK + GetDataById(carID).CarName);
+    }
+    public Sprite GetCarShadow(int carID)
+    {
+        return Resources.Load<Sprite>(GameConfig.SKIN_SHADOW_LINK + GetDataById(carID).CarName);
     }
     public GameObject GetCarModel(int carID)
     {
-        return Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + GetDataById(carID).CarName);
+        return Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + GetDataById(carID).CarName);
     }
     public CarData GetDataById(int id)
     {

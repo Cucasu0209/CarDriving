@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Level5
   m_EditorClassIdentifier: 
   PlayerTrace: {fileID: 11400000, guid: c18d71e7f58de5f469fd5f6cb3091f73, type: 2}
+  SafePoints:
+  - {x: 67.1, y: 0, z: -36.1}
+  - {x: -36.3, y: 0, z: -36.1}
   CamDirection: 1
   CustomerStartPoint: {x: 114.55, y: 0, z: -29.05}
   PickupPoint: {x: 112.88, y: 0, z: -35.22}
@@ -22,5 +25,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 855ce41e04ceb254caef6fa585df2771, type: 2}
   - {fileID: 11400000, guid: 6327c171fa3803e43b45239a46425e83, type: 2}
   - {fileID: 11400000, guid: d9b5d7640acceee49b2ec56e6e198ac8, type: 2}
-  Money: 200
-  RewardRate: 9
+  Money: 40
+  RewardRate: 25

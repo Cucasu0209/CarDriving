@@ -17,14 +17,14 @@ public class HomeUI_JourneyProgress : MonoBehaviour
     {
         GameManager.Instance.OnGameStart += ShowProgress;
         GameManager.Instance.OnEndGame += HideProgress;
-
-        GameManager.Instance.OnUpdateProgress += UpdateProgress;    }
+        GameManager.Instance.OnRevive += ShowProgress;
+        GameManager.Instance.OnUpdateProgress += UpdateProgress;
+    }
     private void OnDestroy()
     {
         GameManager.Instance.OnGameStart -= ShowProgress;
         GameManager.Instance.OnEndGame -= HideProgress;
-
-
+        GameManager.Instance.OnRevive -= ShowProgress;
         GameManager.Instance.OnUpdateProgress -= UpdateProgress;
 
     }

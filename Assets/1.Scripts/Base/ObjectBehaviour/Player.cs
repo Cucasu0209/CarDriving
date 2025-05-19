@@ -48,6 +48,7 @@ public class Player : MoveableObject
         base.Start();
         UserInput.Instance.OnUserMouse += SetTargetSpeed;
         LevelManager.Instance.OnLoadLevelComplete += OnLevelComplete;
+        GameManager.Instance.OnRevive += OnRevive;
 
     }
     protected override void OnDestroy()
@@ -55,6 +56,8 @@ public class Player : MoveableObject
         base.OnDestroy();
         UserInput.Instance.OnUserMouse -= SetTargetSpeed;
         LevelManager.Instance.OnLoadLevelComplete -= OnLevelComplete;
+        GameManager.Instance.OnRevive += OnRevive;
+
     }
     #endregion
 
@@ -107,6 +110,17 @@ public class Player : MoveableObject
         }
         TagetAngleBrake = Mathf.Max(TagetAngleBrake - Time.deltaTime * 30f, 0);
     }
+
+    private void OnRevive()
+    {
+        transform.position = LevelManager.Instance.CurrentLevelData.GetSafePoint(transform.position);
+        IsControllingVelocity = true;
+        Interactable = true;
+        IsRunning = false;
+        IsDrifting = false;
+        WindEffect.SetActive(true);
+
+    }
     #endregion
 
     #region Initialize
@@ -117,13 +131,13 @@ public class Player : MoveableObject
         PickedCustomerUp = false;
         SetInteracableState(true);
 
-        PickupPos = LevelManager.Instance.CurrentLevelData.PickupPoint;
+        PickupPos = LevelManager.Instance.CurrentLevelData.GetPickupPoint();
         PickupPosIndex = Trace.GetIndexByPosition(PickupPos);
 
         LastTracePos = Trace.GetLastPoint();
         LastTracePosIndex = Trace.GetIndexByPosition(LastTracePos);
 
-        GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instance.CurrentLevelData.PickupPoint) * 1f / Points.Count);
+        GameManager.Instance.OnUpdatePickupPoint?.Invoke(Trace.GetIndexByPosition(LevelManager.Instance.CurrentLevelData.GetPickupPoint()) * 1f / Points.Count);
         GameManager.Instance.OnUpdateProgress?.Invoke(0);
         LoadModel();
         StopSkidMark();
@@ -142,7 +156,7 @@ public class Player : MoveableObject
     private void LoadModel()
     {
         if (CurrentModel != null) PoolingSystem.Despawn(CurrentModel);
-        GameObject Model = Resources.Load<GameObject>(GameConfig.SHOWROOM_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
+        GameObject Model = Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
         if (Model != null)
         {
             CurrentModel = PoolingSystem.Spawn(Model, transform.position, Quaternion.identity);
@@ -217,7 +231,7 @@ public class Player : MoveableObject
     }
     private void PickCustomerUp()
     {
-        
+
 
         IsRunning = false;
         SetInteracableState(false);
@@ -251,7 +265,7 @@ public class Player : MoveableObject
     }
     private void FinishJourney()
     {
-       
+
 
         SetInteracableState(false);
         StopInstantly();
