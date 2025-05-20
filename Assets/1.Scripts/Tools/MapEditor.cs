@@ -32,6 +32,8 @@ public class MapEditor : Editor
                 {
                     map.Level.PlayerTrace.GetIntersectionList()[i] = map.transform.InverseTransformPoint(newWorldPos);
                     EditorUtility.SetDirty(map);
+                    EditorUtility.SetDirty(map.Level.PlayerTrace);
+                    AssetDatabase.SaveAssets();
                 }
 
                 // Tên hiển thị của knot
@@ -64,13 +66,16 @@ public class MapEditor : Editor
                     {
                         map.Level.Obstacles[j].Trace.GetIntersectionList()[i] = map.transform.InverseTransformPoint(newWorldPos);
                         EditorUtility.SetDirty(map);
+                        EditorUtility.SetDirty(map.Level.Obstacles[j].Trace);
+                        AssetDatabase.SaveAssets();
+
                     }
 
                     // Tên hiển thị của knot
                     if (map.Level.Obstacles[j].Type == ObstacleType.Character)
-                        Handles.Label(worldPos + Vector3.up * 0.1f, $"Human {i}", EditorStyles.boldLabel);
+                        Handles.Label(worldPos + Vector3.up * 0.1f, $"Human_{j+1}_{i}", EditorStyles.boldLabel);
                     else
-                        Handles.Label(worldPos + Vector3.up * 0.1f, $"Car {i}", EditorStyles.boldLabel);
+                        Handles.Label(worldPos + Vector3.up * 0.1f, $"Car_{j + 1}_{i}", EditorStyles.boldLabel);
 
                 }
 
@@ -101,6 +106,9 @@ public class MapEditor : Editor
             {
                 map.Level.PickupPoint = map.transform.InverseTransformPoint(newWorldPos1);
                 EditorUtility.SetDirty(map);
+                EditorUtility.SetDirty(map.Level);
+                AssetDatabase.SaveAssets();
+
             }
 
             // Tên hiển thị của knot
@@ -118,6 +126,8 @@ public class MapEditor : Editor
             {
                 map.Level.CustomerStartPoint = map.transform.InverseTransformPoint(newWorldPos2);
                 EditorUtility.SetDirty(map);
+                EditorUtility.SetDirty(map.Level);
+                AssetDatabase.SaveAssets();
             }
 
             // Tên hiển thị của knot
@@ -134,11 +144,35 @@ public class MapEditor : Editor
             {
                 map.Level.FinalCustomerPoint = map.transform.InverseTransformPoint(newWorldPos3);
                 EditorUtility.SetDirty(map);
+                EditorUtility.SetDirty(map.Level);
+                AssetDatabase.SaveAssets();
             }
 
             // Tên hiển thị của knot
             Handles.Label(worldPos3 + Vector3.up * 0.1f, $"End Customer", EditorStyles.boldLabel);
             //------------------------------------------
+            #endregion
+
+            #region Safe Points
+            for (int i = 0; i < map.Level.SafePoints.Count; i++)
+            {
+                // Hiển thị điểm trong Scene và cho phép kéo
+                Vector3 worldPos = map.transform.TransformPoint(map.Level.SafePoints[i]);
+                Vector3 newWorldPos = Handles.PositionHandle(worldPos, Quaternion.identity);
+
+                // Nếu điểm thay đổi vị trí thì cập nhật lại list
+                if (newWorldPos != worldPos)
+                {
+                    map.Level.SafePoints[i] = map.transform.InverseTransformPoint(newWorldPos);
+                    EditorUtility.SetDirty(map);
+                    EditorUtility.SetDirty(map.Level);
+                    AssetDatabase.SaveAssets();
+                }
+
+                // Tên hiển thị của knot
+                Handles.Label(worldPos + Vector3.up * 0.1f, $"Safe point {i}", EditorStyles.boldLabel);
+            }
+
             #endregion
         }
     }

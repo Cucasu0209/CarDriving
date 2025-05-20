@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerTrace: {fileID: 11400000, guid: c18d71e7f58de5f469fd5f6cb3091f73, type: 2}
   SafePoints:
-  - {x: 67.1, y: 0, z: -36.1}
-  - {x: -36.3, y: 0, z: -36.1}
+  - {x: 67.11334, y: 0, z: -35.446316}
+  - {x: -36.465126, y: 0, z: -35.073166}
   CamDirection: 1
-  CustomerStartPoint: {x: 114.55, y: 0, z: -29.05}
-  PickupPoint: {x: 112.88, y: 0, z: -35.22}
-  FinalCustomerPoint: {x: -80.69, y: 0, z: 14.8}
+  CustomerStartPoint: {x: 112.90541, y: 0, z: -30.842804}
+  PickupPoint: {x: 112.94884, y: 0, z: -35.737556}
+  FinalCustomerPoint: {x: -35.017895, y: 0, z: 160.25717}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 855ce41e04ceb254caef6fa585df2771, type: 2}
   - {fileID: 11400000, guid: 6327c171fa3803e43b45239a46425e83, type: 2}
   - {fileID: 11400000, guid: d9b5d7640acceee49b2ec56e6e198ac8, type: 2}
+  - {fileID: 11400000, guid: 1a7a85f6f89207a4b8c5e8fe8cbebed2, type: 2}
+  - {fileID: 11400000, guid: be255ddb708caae4593854afbbc21db6, type: 2}
   Money: 40
   RewardRate: 25

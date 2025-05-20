@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: 4O3_T
   m_EditorClassIdentifier: 
   TracePoints:
-  - {x: 89.43, y: 0.4, z: -104.8}
-  - {x: 89.43, y: 0.4, z: 135.8}
+  - {x: 89.91856, y: 0.4, z: -73.14561}
+  - {x: 89.55213, y: 0.4, z: 141.78381}
   LoopType: 1

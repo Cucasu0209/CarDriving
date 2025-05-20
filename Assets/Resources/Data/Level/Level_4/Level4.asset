@@ -17,9 +17,9 @@ MonoBehaviour:
   - {x: 10, y: 0, z: -42.2}
   - {x: 95.9, y: 0, z: -23.1}
   CamDirection: 2
-  CustomerStartPoint: {x: -55.5, y: 0, z: -55}
+  CustomerStartPoint: {x: -55.768314, y: 0, z: -55.28097}
   PickupPoint: {x: -60.3, y: 0, z: -55.2}
-  FinalCustomerPoint: {x: 142.5, y: 0, z: 62.7}
+  FinalCustomerPoint: {x: 144.0132, y: 0, z: 64.63409}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 81f808fed5f57424196ada0e7ebfda13, type: 2}

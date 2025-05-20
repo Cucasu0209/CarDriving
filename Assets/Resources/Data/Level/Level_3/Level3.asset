@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerTrace: {fileID: 11400000, guid: 520601f18fa67064d90d6eaef8de0036, type: 2}
   SafePoints:
-  - {x: -15.1, y: 0, z: -66.8}
+  - {x: -15.620272, y: 0, z: -61.7818}
   CamDirection: 3
-  CustomerStartPoint: {x: -20.8, y: 0, z: 0.8}
-  PickupPoint: {x: -15.4, y: 0, z: 0.8}
-  FinalCustomerPoint: {x: -86, y: 0, z: -107.9}
+  CustomerStartPoint: {x: -20.645933, y: 0, z: 0.7968554}
+  PickupPoint: {x: -15.555115, y: 0, z: 0.7517891}
+  FinalCustomerPoint: {x: -89.927864, y: 0, z: -109.162125}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 230b051107f7f9a4bbe970983d3af36d, type: 2}

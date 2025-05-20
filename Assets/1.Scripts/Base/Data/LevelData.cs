@@ -15,7 +15,7 @@ public class LevelData : ScriptableObject
     }
     public enum CameraDirection { Right, Left, Up, Down }
     public TraceData PlayerTrace;
-    [SerializeField] private List<Vector3> SafePoints;
+    public List<Vector3> SafePoints;
     public CameraDirection CamDirection;
     [Header("Customer Infomation")]
     public Vector3 CustomerStartPoint;

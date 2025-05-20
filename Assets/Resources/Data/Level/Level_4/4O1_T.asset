@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TracePoints:
   - {x: -8.8, y: 0.4, z: -70.2}
-  - {x: -8.8, y: 0.4, z: 3.1}
+  - {x: -8.8, y: 0.4, z: 67.46463}
   LoopType: 1

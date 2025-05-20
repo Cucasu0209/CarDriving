@@ -17,15 +17,19 @@ MonoBehaviour:
   - {x: -142.5, y: 0, z: -166.4}
   - {x: -48.9, y: 0, z: -120.7}
   - {x: -11.3, y: 0, z: -35.2}
-  - {x: -162.1, y: 0, z: -10.3}
+  - {x: -161.61157, y: 0, z: -9.160744}
+  - {x: -93.38693, y: 0, z: 145.55348}
+  - {x: -93.78139, y: 0, z: 21.81994}
   CamDirection: 1
   CustomerStartPoint: {x: -3.38, y: 0, z: -65.43}
   PickupPoint: {x: -9.1, y: 0, z: -65.43}
-  FinalCustomerPoint: {x: -159.2, y: 0, z: 51.2}
+  FinalCustomerPoint: {x: -98.854546, y: 0, z: 5.8831034}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: b3b3eeb4e353d4a46acc96e48684d4ef, type: 2}
   - {fileID: 11400000, guid: d3a2899358292a14b8a7c6789dcdab96, type: 2}
   - {fileID: 11400000, guid: d57382e1a53494642b2c23c2bb535071, type: 2}
+  - {fileID: 11400000, guid: 05bb45d8ca760be4b80a011b66404cd2, type: 2}
+  - {fileID: 11400000, guid: f46e3429c613f5f459dc536061d8e97a, type: 2}
   Money: 40
   RewardRate: 25

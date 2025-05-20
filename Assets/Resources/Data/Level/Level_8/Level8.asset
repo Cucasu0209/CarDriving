@@ -19,7 +19,7 @@ MonoBehaviour:
   CamDirection: 3
   CustomerStartPoint: {x: 160.34, y: 0, z: -86.4}
   PickupPoint: {x: 166.6, y: 0, z: -86.4}
-  FinalCustomerPoint: {x: 102.2, y: 0, z: -62.7}
+  FinalCustomerPoint: {x: 100.50577, y: 0, z: 10.395274}
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: c4e456ac07ef4934a93a2d03d083a9e3, type: 2}

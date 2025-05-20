@@ -8126,6 +8126,16 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1517217922218822407, guid: 4ad594481196b9f4d9628321d456fe45,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0841
+      objectReference: {fileID: 0}
+    - target: {fileID: 1517217922218822407, guid: 4ad594481196b9f4d9628321d456fe45,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1716
+      objectReference: {fileID: 0}
     - target: {fileID: 1539885928790807565, guid: 4ad594481196b9f4d9628321d456fe45,
         type: 3}
       propertyPath: m_StaticEditorFlags
@@ -8225,6 +8235,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387052762217269657, guid: 4ad594481196b9f4d9628321d456fe45,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0903
+      objectReference: {fileID: 0}
+    - target: {fileID: 2387052762217269657, guid: 4ad594481196b9f4d9628321d456fe45,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.1628
       objectReference: {fileID: 0}
     - target: {fileID: 2519658464180065817, guid: 4ad594481196b9f4d9628321d456fe45,
         type: 3}
@@ -15783,7 +15803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ee50b98e949a564fa8daddc0b7c62a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Level: {fileID: 11400000, guid: d80e97f9330276a4cbf9d1b44d7406fa, type: 2}
+  Level: {fileID: 11400000, guid: 5a45ff5383c570f46940c54ea65b7389, type: 2}
 --- !u!1 &2023204878 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8799256667149885620, guid: 4ad594481196b9f4d9628321d456fe45,
