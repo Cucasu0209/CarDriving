@@ -18,25 +18,25 @@ MonoBehaviour:
     Price: 0
   - Id: 1
     CarName: Car1
-    Price: 250
+    Price: 500
   - Id: 2
     CarName: Car2
-    Price: 400
+    Price: 980
   - Id: 3
     CarName: Car3
-    Price: 500
+    Price: 1500
   - Id: 4
     CarName: Car4
-    Price: 800
+    Price: 2000
   - Id: 5
     CarName: Car5
-    Price: 1000
+    Price: 2500
   - Id: 6
     CarName: Car6
-    Price: 1200
+    Price: 2880
   - Id: 7
     CarName: Car7
-    Price: 1400
+    Price: 3400
   - Id: 8
     CarName: Car8
-    Price: 1500
+    Price: 3900

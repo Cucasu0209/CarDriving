@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class HomeUI_ShowroomButton : MonoBehaviour
 {
     [SerializeField] private Button ShowroomButton;
-    [SerializeField] private Image ShowroomBG;
+    [SerializeField] private HomeUI_ShowroomPopup Popup;
 
     private float StartPosX;
     private void Start()
@@ -41,11 +41,7 @@ public class HomeUI_ShowroomButton : MonoBehaviour
     private void GotoShowroom()
     {
         SoundManager.Instance.PlayButtonSound();
-        ShowroomBG.gameObject.SetActive(true);
-        ShowroomBG.DOFade(1, 0.2f).OnComplete(() =>
-        {
-            SceneManager.LoadScene("Showroom");
-        });
+        Popup.OpenPopup();
 
     }
 }
