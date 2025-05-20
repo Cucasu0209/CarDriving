@@ -15748,8 +15748,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1978281365}
+  - component: {fileID: 1978281366}
   m_Layer: 0
-  m_Name: p
+  m_Name: Map Editor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15764,12 +15765,25 @@ Transform:
   m_GameObject: {fileID: 1978281364}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.3, y: 0, z: 36.6}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1978281366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978281364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ee50b98e949a564fa8daddc0b7c62a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Level: {fileID: 11400000, guid: d80e97f9330276a4cbf9d1b44d7406fa, type: 2}
 --- !u!1 &2023204878 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8799256667149885620, guid: 4ad594481196b9f4d9628321d456fe45,

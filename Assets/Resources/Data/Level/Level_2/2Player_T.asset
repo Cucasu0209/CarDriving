@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2Player_T
   m_EditorClassIdentifier: 
   TracePoints:
-  - {x: -93.3, y: 0.4, z: 15.9}
+  - {x: -93.14548, y: 0.4, z: 14.20037}
   - {x: -93.3, y: 0.4, z: -15.7}
   - {x: -71.7, y: 0.4, z: -15.7}
   - {x: -67.4, y: 0.4, z: -21}

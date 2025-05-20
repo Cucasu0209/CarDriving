@@ -19,7 +19,7 @@ public class LevelData : ScriptableObject
     public CameraDirection CamDirection;
     [Header("Customer Infomation")]
     public Vector3 CustomerStartPoint;
-    [SerializeField] private Vector3 PickupPoint;
+    public Vector3 PickupPoint;
     public Vector3 FinalCustomerPoint;
 
     [Header("Traps")]
