@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Obstacle : MoveableObject
 {
-    [SerializeField]
+    [SerializeField] private GameObject Light;
     public ObstacleData Data { get; private set; }
     protected GameObject CurrentModel;
     protected override void Start()
@@ -75,6 +75,8 @@ public class Obstacle : MoveableObject
             GetComponent<BoxCollider>().center = CurrentModel.GetComponent<BoxCollider>().center;
             GetComponent<BoxCollider>().size = CurrentModel.GetComponent<BoxCollider>().size;
 
+            Light.SetActive(Data.Type == ObstacleType.Car && LevelManager.Instance.CurrentLevelData.Weather == WeatherType.Foggy);
+            Light.transform.localPosition = new Vector3(Light.transform.localPosition.x, Light.transform.localPosition.y, GetComponent<BoxCollider>().size.z / 2);
         }
     }
     public override void OnHit(Vector3 dir)

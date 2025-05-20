@@ -24,6 +24,7 @@ MonoBehaviour:
   CustomerStartPoint: {x: -124.4, y: 0, z: -125.7}
   PickupPoint: {x: -124.49162, y: 0, z: -120.566986}
   FinalCustomerPoint: {x: 135.24539, y: 0, z: 83.84982}
+  Weather: 0
   Traps: []
   Obstacles:
   - {fileID: 11400000, guid: 903d2acad849b294e8d796b1d5c79311, type: 2}

@@ -24,6 +24,8 @@ public class HomeUI_Banner : MonoBehaviour
     private float StartPosY;
     private void Start()
     {
+        TapToPlayTest.transform.localScale = Vector3.one;
+        TapToPlayTest.transform.DOScale(0.95f, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
         StartPosY = BodySelf.anchoredPosition.y;
         GameManager.Instance.OnHideHomeUI += OnHide;
         GameManager.Instance.OnShowHomeUI += OnShow;
@@ -32,6 +34,7 @@ public class HomeUI_Banner : MonoBehaviour
 
     private void OnDestroy()
     {
+        TapToPlayTest.DOKill();
         GameManager.Instance.OnHideHomeUI -= OnHide;
         GameManager.Instance.OnShowHomeUI -= OnShow;
         LevelManager.Instance.OnLevelChange -= UpdateLevel;
@@ -40,13 +43,13 @@ public class HomeUI_Banner : MonoBehaviour
     {
         Level.SetText($"LEVEL {LevelManager.Instance.LevelIndex}");
         LocationName.SetText(GameConfig.LOCATIONS_NAME[Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP, 0, GameConfig.LOCATIONS_NAME.Length - 1)]);
-        TitleNextLocation.SetText($"NEXT LOCATION IN LEVEL {(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) + 1) * GameConfig.LEVEL_PER_MAP + 1}");
+        TitleNextLocation.SetText($"Next location on level {(((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP) + 1) * GameConfig.LEVEL_PER_MAP + 1}");
 
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         NextLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 2, 1, GameConfig.LOCATIONS_NAME.Length));
 
-        ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP) + 1) * 1f / GameConfig.LEVEL_PER_MAP;
-        ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP) + 1) + "/" + (GameConfig.LEVEL_PER_MAP));
+        ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) * 1f / GameConfig.LEVEL_PER_MAP;
+        ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) + "/" + (GameConfig.LEVEL_PER_MAP));
     }
     private void OnHide()
     {

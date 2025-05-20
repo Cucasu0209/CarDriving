@@ -42,7 +42,7 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         Shawdow.transform.DOScale(1, 0.2f).SetDelay(0.2f);
         CarIcon.transform.DOScale(1, 0.2f).SetDelay(0.2f);
         FreeAdsBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
-        NoThanksBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+        NoThanksBtn.transform.DOScale(1, 0.2f).SetDelay(3.7f);
     }
     private void ClosePopup()
     {
@@ -56,6 +56,7 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         Shawdow.transform.DOScale(0, 0.2f);
         CarIcon.transform.DOScale(0, 0.2f);
         FreeAdsBtn.transform.DOScale(0, 0.2f);
+        NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);
         AwesomeBtn.transform.DOScale(0, 0.2f);
     }
@@ -67,6 +68,7 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         PlayerData.Instance.TakeReward();
 
         FreeAdsBtn.transform.DOScale(0, 0.2f);
+        NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);
         CongrateText.transform.DOScale(0, 0.2f);
 

@@ -11,6 +11,7 @@ public class Player : MoveableObject
     //referances
     [SerializeField] private PlayerConfig Config;
     [SerializeField] private LineRenderer RoadLine;
+    [SerializeField] private GameObject Light;
 
 
     [Header("Effect And Pos")]
@@ -163,6 +164,12 @@ public class Player : MoveableObject
             CurrentModel.transform.SetParent(transform);
             CurrentModel.transform.localPosition = Vector3.zero;
             CurrentModel.transform.localRotation = Quaternion.Euler(0, 0, 0);
+
+            GetComponent<BoxCollider>().center = CurrentModel.GetComponent<BoxCollider>().center;
+            GetComponent<BoxCollider>().size = CurrentModel.GetComponent<BoxCollider>().size;
+
+            Light.SetActive(LevelManager.Instance.CurrentLevelData.Weather == WeatherType.Foggy);
+            Light.transform.localPosition = new Vector3(Light.transform.localPosition.x, Light.transform.localPosition.y, GetComponent<BoxCollider>().size.z / 2);
         }
         if (Wheels != null) Wheels.Clear();
         Wheels = gameObject.GetComponentsInChildren<CarWheels>().ToList();

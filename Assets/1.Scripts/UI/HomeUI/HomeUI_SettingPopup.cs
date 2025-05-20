@@ -8,7 +8,6 @@ public class HomeUI_SettingPopup : MonoBehaviour
 {
     [SerializeField] private RectTransform SettingPopup;
     [SerializeField] private Image PopupDark;
-    [SerializeField] private Button SaveButton;
     [SerializeField] private Button CancelButton;
 
     [Header("Toggles")]
@@ -30,12 +29,7 @@ public class HomeUI_SettingPopup : MonoBehaviour
         SoundBtn.onClick.AddListener(ToggleSound);
         VibrationBtn.onClick.AddListener(ToggleVibration);
 
-        SaveButton.onClick.AddListener(SaveSetting);
         CancelButton.onClick.AddListener(HidePopup);
-    }
-    private void SaveSetting()
-    {
-        HidePopup();
     }
     public void ShowPopup()
     {

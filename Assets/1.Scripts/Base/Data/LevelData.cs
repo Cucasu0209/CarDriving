@@ -23,6 +23,7 @@ public class LevelData : ScriptableObject
     public Vector3 FinalCustomerPoint;
 
     [Header("Traps")]
+    public WeatherType Weather = WeatherType.Sunny;
     public List<TrapPlace> Traps;
     public List<ObstacleData> Obstacles;
 
@@ -51,4 +52,11 @@ public enum TrapType
 {
     Ice,
     Water,
+}
+
+public enum WeatherType
+{
+    Foggy,
+    Sunny,
+    Rainny
 }
