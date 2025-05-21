@@ -112,10 +112,13 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     {
         AdsButton.interactable = false;
         NextButton.interactable = false;
+
+
         PlayerData.Instance.OnShowEffectAddMoney?.Invoke(LevelManager.Instance.CurrentLevelData.Money);
         SoundManager.Instance.PlayButtonSound();
+        AdsButton.transform.DOScale(0, 0.2f);
         MoneyHolder.DOScale(0, 0.3f);
-
+        NextButton.transform.DOScale(0, 0.3f);
 
         if (PlayerData.Instance.CanTakeReward())
         {

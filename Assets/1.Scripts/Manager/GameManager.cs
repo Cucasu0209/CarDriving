@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         IsGameRunning = true;
-
+        SoundManager.Instance.SwitchToGameplay();
         OnGameStart?.Invoke();
         OnHideHomeUI?.Invoke();
     }
@@ -66,14 +66,20 @@ public class GameManager : MonoBehaviour
     public void SetupLevel()
     {
         IsGameRunning = false;
+
+        SoundManager.Instance.SwitchToMainMenuBGM();
         OnSetupGame?.Invoke();
         OnShowHomeUI?.Invoke();
     }
     public void Revive()
     {
         IsGameRunning = true;
-        //OnSetupGame?.Invoke();
-        //OnShowHomeUI?.Invoke();
         OnRevive?.Invoke();
+    }
+    public void EndGame(bool isWin)
+    {
+
+        IsGameRunning = false;
+        OnEndGame?.Invoke(isWin);
     }
 }

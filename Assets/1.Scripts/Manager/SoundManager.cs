@@ -30,11 +30,13 @@ public class SoundManager : MonoBehaviour
     #region LOAD BG MUSIC
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        SwitchToMainMenuBGM();
+
+        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -55,8 +57,7 @@ public class SoundManager : MonoBehaviour
     #region Background Music
     [SerializeField] private AudioSource BGAudioSource;
     [SerializeField] private AudioClip Background_MainMenu;
-    [Tooltip("Background music cho các game như Satisgame")]
-    [SerializeField] private AudioClip Background_Chill;
+    [SerializeField] private AudioClip Background_Gameplay;
 
     private const string BGMusicSetting = "BGMusicSetting";
     public float BGMusicVolume { get; private set; } = 1;
@@ -89,9 +90,9 @@ public class SoundManager : MonoBehaviour
         BGAudioSource.Play();
     }
 
-    public void SwitchToChillBGM()
+    public void SwitchToGameplay()
     {
-        BGAudioSource.clip = Background_Chill;
+        BGAudioSource.clip = Background_Gameplay;
         BGAudioSource.mute = false;
         BGAudioSource.Play();
     }

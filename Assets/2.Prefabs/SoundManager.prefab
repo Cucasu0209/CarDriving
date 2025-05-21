@@ -47,7 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BGAudioSource: {fileID: 1481860313690692863}
-  SoundBG: {fileID: 0}
+  Background_MainMenu: {fileID: 8300000, guid: b5256c331851ca2419e83982847d3ee9, type: 3}
+  Background_Gameplay: {fileID: 8300000, guid: 00c74fa4b12a71e4b9f0fc3b57bf95de, type: 3}
   SFXAudioSource: {fileID: 2475174470731269422}
   ButtonSound: {fileID: 8300000, guid: 810b4120342997242a272db0bddd8cc1, type: 3}
   OpenPopupSound: {fileID: 8300000, guid: 5a69f5392c38267439dc8115ce71559c, type: 3}
@@ -98,7 +99,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

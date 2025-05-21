@@ -287,7 +287,7 @@ public class Player : MoveableObject
             UpdateProgress();
             GameManager.Instance.OnFinishTrace?.Invoke();
             GameManager.Instance.OnUpdateProgress?.Invoke(1);
-            GameManager.Instance.OnEndGame?.Invoke(true);
+            GameManager.Instance.EndGame(true);
             foreach (var wheel in Wheels) if (wheel != null) wheel.Stop();
         });
 
@@ -325,7 +325,7 @@ public class Player : MoveableObject
             SoundManager.Instance.StopLoopSound(IdleSound);
             SoundManager.Instance.PlayEffect(CrashSound);
 
-            GameManager.Instance.OnEndGame?.Invoke(false);
+            GameManager.Instance.EndGame(false);
             WindEffect.SetActive(false);
 
 

@@ -15,15 +15,19 @@ public class HomeUI_SettingPopup : MonoBehaviour
     [SerializeField] private Button SoundBtn;
     [SerializeField] private Button VibrationBtn;
     [SerializeField] private Sprite OnState, OffState;
-    float isMusicOn, isSoundOn, isVibrationOn;
+    float MusicVolume, SfxVolume, isVibrationOn;
     private void Start()
     {
-        isMusicOn = PlayerPrefs.GetFloat(GameConfig.MUSIC_KEY, 1);
-        isSoundOn = PlayerPrefs.GetFloat(GameConfig.SOUND_KEY, 1);
+        MusicVolume = PlayerPrefs.GetFloat(GameConfig.MUSIC_KEY, 1);
+        SfxVolume = PlayerPrefs.GetFloat(GameConfig.SOUND_KEY, 1);
         isVibrationOn = PlayerPrefs.GetFloat(GameConfig.VIBRATION_KEY, 1);
-        MusicBtn.image.sprite = isMusicOn > 0 ? OnState : OffState;
-        SoundBtn.image.sprite = isSoundOn > 0 ? OnState : OffState;
+        MusicBtn.image.sprite = MusicVolume > 0 ? OnState : OffState;
+        SoundBtn.image.sprite = SfxVolume > 0 ? OnState : OffState;
         VibrationBtn.image.sprite = isVibrationOn > 0 ? OnState : OffState;
+
+        SoundManager.Instance.ChangeBGVolume(MusicVolume);
+        SoundManager.Instance.ChangeSFXVolume(SfxVolume);
+
 
         MusicBtn.onClick.AddListener(ToggleMusic);
         SoundBtn.onClick.AddListener(ToggleSound);
@@ -54,16 +58,19 @@ public class HomeUI_SettingPopup : MonoBehaviour
     private void ToggleMusic()
     {
         SoundManager.Instance.PlayButtonSound();
-        isMusicOn = isMusicOn > 0 ? 0 : 1;
-        PlayerPrefs.SetFloat(GameConfig.MUSIC_KEY, isMusicOn);
-        MusicBtn.image.sprite = isMusicOn > 0 ? OnState : OffState;
+        MusicVolume = MusicVolume > 0 ? 0 : 1;
+        SoundManager.Instance.ChangeBGVolume(MusicVolume);
+
+        PlayerPrefs.SetFloat(GameConfig.MUSIC_KEY, MusicVolume);
+        MusicBtn.image.sprite = MusicVolume > 0 ? OnState : OffState;
     }
     private void ToggleSound()
     {
         SoundManager.Instance.PlayButtonSound();
-        isSoundOn = isSoundOn > 0 ? 0 : 1;
-        PlayerPrefs.SetFloat(GameConfig.SOUND_KEY, isSoundOn);
-        SoundBtn.image.sprite = isSoundOn > 0 ? OnState : OffState;
+        SfxVolume = SfxVolume > 0 ? 0 : 1;
+        SoundManager.Instance.ChangeSFXVolume(SfxVolume);
+        PlayerPrefs.SetFloat(GameConfig.SOUND_KEY, SfxVolume);
+        SoundBtn.image.sprite = SfxVolume > 0 ? OnState : OffState;
     }
     private void ToggleVibration()
     {

@@ -71,7 +71,7 @@ public class HomeUI_MapPopup : MonoBehaviour
         ShowPopup();
         BackButton.transform.DOKill();
         BackButton.transform.localScale = Vector3.zero;
-        BackButton.transform.DOScale(1, 0.3f).SetDelay(4.4f);
+        BackButton.transform.DOScale(1, 0.3f).SetDelay(4f);
 
         for (int i = 0; i < UnlockIcon.Count; i++)
         {
@@ -83,16 +83,20 @@ public class HomeUI_MapPopup : MonoBehaviour
         CurrentPoint.anchoredPosition = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 2, 0, LevelPositions.Count - 1)];
 
 
-        Progress.DOFillAmount(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y, 1f).SetDelay(2f).SetEase(Ease.Linear);
-        CurrentPoint.DOAnchorPos(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)], 1f).SetDelay(2f).SetEase(Ease.Linear).OnComplete(() =>
+        Progress.DOFillAmount(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y, 1f).SetDelay(1.8f).SetEase(Ease.Linear);
+        CurrentPoint.DOAnchorPos(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)], 1f).SetDelay(1.8f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            CurrentPoint.DOScale(1.8f, 0.6f).OnComplete(() =>
+            CurrentPoint.DOScale(1.1f, 0.6f).OnComplete(() =>
             {
-                for (int i = 0; i < UnlockIcon.Count; i++)
+
+                UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
+                LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
+                DOVirtual.DelayedCall(0.4f, () =>
                 {
-                    UnlockIcon[i].gameObject.SetActive(LevelManager.Instance.LevelIndex > i * GameConfig.LEVEL_PER_MAP);
-                    LockBanner[i].gameObject.SetActive(LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP);
-                }
+                    UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(true);
+                    LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(false);
+                });
+
                 CurrentPoint.DOScale(1, 0.4f).SetDelay(0.5f);
             });
 

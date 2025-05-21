@@ -8,6 +8,7 @@ public class MoneyEffect : MonoBehaviour
     [SerializeField] private List<RectTransform> Money;
     private List<Vector2> StartPos;
     [SerializeField] private RectTransform MoneyHolder;
+    [SerializeField] private AudioClip CashSound;
 
     private void Start()
     {
@@ -44,6 +45,7 @@ public class MoneyEffect : MonoBehaviour
 
             DOVirtual.DelayedCall(1.1f, () =>
             {
+                SoundManager.Instance.PlayEffect(CashSound);
                 PlayerData.Instance.OnAddMoney?.Invoke(count);
             });
         }

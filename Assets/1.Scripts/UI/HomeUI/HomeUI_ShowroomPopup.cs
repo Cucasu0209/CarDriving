@@ -36,6 +36,7 @@ public class HomeUI_ShowroomPopup : MonoBehaviour
         CarHolder.gameObject.SetActive(true);
         CarHolder.DOScale(0.6f, 0.3f).SetDelay(0.8f).OnComplete(() =>
         {
+            SoundManager.Instance.PlayOpenPopupSound();
             LightShowroom.SetActive(true);
         });
         DOVirtual.DelayedCall(0.1f, () =>
@@ -48,8 +49,10 @@ public class HomeUI_ShowroomPopup : MonoBehaviour
     }
     public void ClosePopup()
     {
+        SoundManager.Instance.PlayButtonSound();
         LightShowroom.SetActive(false);
 
+        SoundManager.Instance.PlayButtonSound();
         Background1.DOAnchorPosY(2500, 0.4f).SetDelay(0.2f).SetEase(Ease.Linear);
         Background2.DOAnchorPosY(2500, 0.4f).SetDelay(0.2f).SetEase(Ease.Linear).OnComplete(() =>
         {
