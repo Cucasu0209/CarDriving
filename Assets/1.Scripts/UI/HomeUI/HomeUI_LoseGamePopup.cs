@@ -80,7 +80,7 @@ public class HomeUI_LoseGamePopup : MonoBehaviour
     {
         SoundManager.Instance.PlayButtonSound();
         OnClosePopup();
-        GameManager.Instance.ResetLevel();
+        GameManager.Instance.SetupLevel();
 
     }
 }

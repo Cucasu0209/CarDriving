@@ -24,11 +24,12 @@ public class HomeUI_MapPopup : MonoBehaviour
     {
         BackButton.onClick.AddListener(HidePopup);
         LevelManager.Instance.OnLevelChange += UpdatePopup;
+        LevelManager.Instance.OnUnlockNewMap += OnUnlockNewMap;
     }
     private void OnDestroy()
     {
         LevelManager.Instance.OnLevelChange -= UpdatePopup;
-
+        LevelManager.Instance.OnUnlockNewMap -= OnUnlockNewMap;
     }
     public void ShowPopup()
     {
@@ -44,7 +45,7 @@ public class HomeUI_MapPopup : MonoBehaviour
     {
         SoundManager.Instance.PlayClosePopupSound();
 
-        MapPopup.DOAnchorPosY(4500, 0.6f).OnComplete(() =>
+        MapPopup.DOAnchorPosY(2500, 0.6f).OnComplete(() =>
         {
             GameManager.Instance.OnShowHomeUI?.Invoke();
             MapPopup.gameObject.SetActive(false);
@@ -61,6 +62,41 @@ public class HomeUI_MapPopup : MonoBehaviour
             UnlockIcon[i].gameObject.SetActive(LevelManager.Instance.LevelIndex > i * GameConfig.LEVEL_PER_MAP);
             LockBanner[i].gameObject.SetActive(LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP);
         }
+
+
+    }
+
+    private void OnUnlockNewMap()
+    {
+        ShowPopup();
+        BackButton.transform.DOKill();
+        BackButton.transform.localScale = Vector3.zero;
+        BackButton.transform.DOScale(1, 0.3f).SetDelay(4.4f);
+
+        for (int i = 0; i < UnlockIcon.Count; i++)
+        {
+            UnlockIcon[i].gameObject.SetActive(LevelManager.Instance.LevelIndex - 1 > i * GameConfig.LEVEL_PER_MAP);
+            LockBanner[i].gameObject.SetActive(LevelManager.Instance.LevelIndex - 1 <= i * GameConfig.LEVEL_PER_MAP);
+        }
+
+        Progress.fillAmount = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 2, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y;
+        CurrentPoint.anchoredPosition = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 2, 0, LevelPositions.Count - 1)];
+
+
+        Progress.DOFillAmount(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y, 1f).SetDelay(2f).SetEase(Ease.Linear);
+        CurrentPoint.DOAnchorPos(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)], 1f).SetDelay(2f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            CurrentPoint.DOScale(1.8f, 0.6f).OnComplete(() =>
+            {
+                for (int i = 0; i < UnlockIcon.Count; i++)
+                {
+                    UnlockIcon[i].gameObject.SetActive(LevelManager.Instance.LevelIndex > i * GameConfig.LEVEL_PER_MAP);
+                    LockBanner[i].gameObject.SetActive(LevelManager.Instance.LevelIndex <= i * GameConfig.LEVEL_PER_MAP);
+                }
+                CurrentPoint.DOScale(1, 0.4f).SetDelay(0.5f);
+            });
+
+        });
 
 
     }

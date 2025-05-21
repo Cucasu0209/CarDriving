@@ -2,12 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+public enum CameraMode
+{
+    Gameplay,
+    Showroom,
+    Reward
+}
 public class GameManager : MonoBehaviour
 {
     public int FPSTarget = 60;
     public static GameManager Instance;
     public bool IsGameRunning { get; private set; }
+    public CameraMode CurrentCameraMode { get; private set; }
 
     //Events
     public Action OnHideHomeUI;
@@ -30,6 +36,8 @@ public class GameManager : MonoBehaviour
     public Action OnRevive;
 
     public Action<Vector3, Transform> OnCameraMove; // Cam Pos, Player Pos
+    public Action OnChangeCameraMode;
+    
     private void Awake()
     {
         IsGameRunning = false;
@@ -39,7 +47,7 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = FPSTarget;
         yield return null;
-        SetupGame();
+        SetupLevel();
     }
     public void StartGame()
     {
@@ -49,20 +57,17 @@ public class GameManager : MonoBehaviour
         OnHideHomeUI?.Invoke();
     }
 
-    public void SetupGame()
+    public void ChangeCameraMode( CameraMode mode)
     {
-        IsGameRunning = false;
-        OnSetupGame?.Invoke();
-        OnShowHomeUI?.Invoke();
+        CurrentCameraMode = mode;
+        OnChangeCameraMode?.Invoke();
     }
 
-
-    public void ResetLevel()
+    public void SetupLevel()
     {
         IsGameRunning = false;
         OnSetupGame?.Invoke();
         OnShowHomeUI?.Invoke();
-        OnReset?.Invoke();
     }
     public void Revive()
     {

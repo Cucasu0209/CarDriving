@@ -11,15 +11,19 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float Damping = 15f;
     private Vector3 Direction = Vector3.forward;
     private float YAngle = 0;
+    private bool IsMoveWithPlayer = true;
 
     private void Start()
     {
         LevelManager.Instance.OnLoadLevelComplete += UpdateDirection;
+        GameManager.Instance.OnChangeCameraMode += OnChangeCameraMode;
     }
 
     private void OnDestroy()
     {
-        LevelManager.Instance.OnLoadLevelComplete += UpdateDirection;
+        LevelManager.Instance.OnLoadLevelComplete -= UpdateDirection;
+        GameManager.Instance.OnChangeCameraMode -= OnChangeCameraMode;
+
     }
 
     private void UpdateDirection()
@@ -46,15 +50,20 @@ public class PlayerCamera : MonoBehaviour
         Camera.main.transform.rotation = Quaternion.Euler(Angle, YAngle, 0);
 
     }
+
+    private void OnChangeCameraMode()
+    {
+        IsMoveWithPlayer = GameManager.Instance.CurrentCameraMode == CameraMode.Gameplay;
+        UpdateDirection();
+    }
     void Update()
     {
-        if (LevelManager.Instance.CurrentLevelData != null)
+        if (IsMoveWithPlayer && LevelManager.Instance.CurrentLevelData != null)
         {
             Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position,
                        transform.position + Vector3.up * Height - Direction * Distance, Time.deltaTime * Damping);
 
             GameManager.Instance.OnCameraMove?.Invoke(Camera.main.transform.position, transform);
-
         }
 
     }

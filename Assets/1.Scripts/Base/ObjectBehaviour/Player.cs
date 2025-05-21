@@ -27,6 +27,8 @@ public class Player : MoveableObject
     [SerializeField] private AudioClip RunSound;
     [SerializeField] private AudioClip CrashSound;
 
+    [Header("Cheat")]
+    [SerializeField] private bool Unstopable = false;
 
     //in one session
     private bool PickedCustomerUp = false;
@@ -295,6 +297,7 @@ public class Player : MoveableObject
     #region Check Lose (hit or be hit)
     private void OnTriggerEnter(Collider other)
     {
+        if (Unstopable) return;
         if (other is null || Interactable == false) return;
         if (other.gameObject.tag == "Enemy" && other.gameObject.GetComponent<MoveableObject>() != null)
         {

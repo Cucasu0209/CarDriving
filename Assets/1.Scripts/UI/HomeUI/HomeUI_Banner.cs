@@ -18,8 +18,8 @@ public class HomeUI_Banner : MonoBehaviour
     [Header("Level Progress")]
     [SerializeField] private Image CurrentLocation;
     [SerializeField] private Image NextLocation;
-    [SerializeField] private Image ProgressImage;
-    [SerializeField] private TextMeshProUGUI ProgressText;
+    [SerializeField] private List<Image> ProgressKnots;
+    [SerializeField] private Sprite LevelOn, LevelOff, LevelPassed;
 
     private float StartPosY;
     private void Start()
@@ -48,8 +48,19 @@ public class HomeUI_Banner : MonoBehaviour
         CurrentLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 1, 1, GameConfig.LOCATIONS_NAME.Length));
         NextLocation.sprite = Resources.Load<Sprite>("Icons/Map" + Mathf.Clamp((LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP + 2, 1, GameConfig.LOCATIONS_NAME.Length));
 
-        ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) * 1f / GameConfig.LEVEL_PER_MAP;
-        ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) + "/" + (GameConfig.LEVEL_PER_MAP));
+        int levelInProgress = (LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP;
+        for (int i = 0; i < ProgressKnots.Count; i++)
+        {
+            ProgressKnots[i].transform.DOKill();
+            ProgressKnots[i].transform.localScale = Vector3.one;
+            if (i == levelInProgress)
+            {
+                ProgressKnots[i].transform.DOScale(1.1f, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+            }
+            ProgressKnots[i].sprite = (i == levelInProgress) ? LevelOn : ((i > levelInProgress) ? LevelOff : LevelPassed);
+        }
+        // ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) * 1f / GameConfig.LEVEL_PER_MAP;
+        // ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) + "/" + (GameConfig.LEVEL_PER_MAP));
     }
     private void OnHide()
     {

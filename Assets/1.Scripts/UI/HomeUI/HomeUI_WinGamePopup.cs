@@ -130,7 +130,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
             DOVirtual.DelayedCall(1, () =>
             {
                 OnClosePopup();
-                GameManager.Instance.ResetLevel();
+                GameManager.Instance.SetupLevel();
             });
         }
     }
@@ -159,7 +159,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
             DOVirtual.DelayedCall(1, () =>
             {
                 OnClosePopup();
-                GameManager.Instance.ResetLevel();
+                GameManager.Instance.SetupLevel();
             });
         }
 

@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.WSA;
 
 public class HomeUI_ReceiveRewardPopup : MonoBehaviour
 {
     [SerializeField] private Image BG;
+    [SerializeField] private Image BGInCamera;
     [SerializeField] private Image CongrateText;
     [SerializeField] private Image NewSkinText;
-    [SerializeField] private Image Shawdow;
-    [SerializeField] private Image CarIcon;
     [SerializeField] private Button FreeAdsBtn;
     [SerializeField] private Button NoThanksBtn;
     [SerializeField] private Button AwesomeBtn;
+
+
+    [Header("3D Component")]
+    [SerializeField] private GameObject Confeti;
+    [SerializeField] private HomeUI_RewardShowCar Holder;
 
     [Header("Sound")]
     [SerializeField] private AudioClip CongrateSound;
@@ -34,31 +39,58 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
 
     private void OpenPopup()
     {
-        CarIcon.sprite = ShowroomManager.Instance.GetCarIcon(PlayerData.Instance.GetRewardId());
+
 
         BG.gameObject.SetActive(true);
-        BG.DOFade(1, 0.2f);
+        BG.DOFade(0, 0.2f);
+
+        BGInCamera.gameObject.SetActive(true);
+        BGInCamera.DOFade(1, 0.2f).OnComplete(() =>
+        {
+            GameManager.Instance.ChangeCameraMode(CameraMode.Reward);
+            DOVirtual.DelayedCall(0.05f, () =>
+            {
+                Camera.main.transform.localPosition = Vector3.zero;
+                Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            });
+        });
         CongrateText.transform.DOScale(1, 0.2f).SetDelay(0.2f);
-        Shawdow.transform.DOScale(1, 0.2f).SetDelay(0.2f);
-        CarIcon.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+
         FreeAdsBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
         NoThanksBtn.transform.DOScale(1, 0.2f).SetDelay(3.7f);
+
+        //3d
+        Holder.gameObject.SetActive(true);
+        Holder.ShowCar(PlayerData.Instance.GetRewardId());
+        Holder.transform.DOScale(0.7f, 0.2f);
+        Confeti.SetActive(true);
+
     }
     private void ClosePopup()
     {
         BG.DOFade(0, 0.2f).SetDelay(0.2f).OnComplete(() =>
         {
             BG.gameObject.SetActive(false);
-
+        });
+        BGInCamera.DOFade(0, 0.2f).SetDelay(0.2f).OnComplete(() =>
+        {
+            BGInCamera.gameObject.SetActive(false);
         });
         CongrateText.transform.DOScale(0, 0.2f);
         NewSkinText.transform.DOScale(0, 0.2f);
-        Shawdow.transform.DOScale(0, 0.2f);
-        CarIcon.transform.DOScale(0, 0.2f);
         FreeAdsBtn.transform.DOScale(0, 0.2f);
         NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);
         AwesomeBtn.transform.DOScale(0, 0.2f);
+
+        //3d
+        Holder.transform.DOScale(0, 0.2f).OnComplete(() =>
+        {
+            GameManager.Instance.ChangeCameraMode(CameraMode.Gameplay);
+
+            Holder.gameObject.SetActive(false);
+        });
+        Confeti.SetActive(false);
     }
 
     private void OnWatchAdsBtnClick()
@@ -80,6 +112,6 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
     {
         SoundManager.Instance.PlayButtonSound();
         ClosePopup();
-        GameManager.Instance.ResetLevel();
+        GameManager.Instance.SetupLevel();
     }
 }

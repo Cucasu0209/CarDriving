@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance;
 
     public Action OnLevelChange;
+    public Action OnUnlockNewMap;
     public Action OnLoadLevelComplete;
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class LevelManager : MonoBehaviour
 
     #region Variables
     private string LevelKey = "CurrentLevel";
+    private string ShowedAnimLevelKey = "ShowedAnimLevel";
     public int LevelIndex { get; private set; }
 
     public LevelData CurrentLevelData { get; private set; }
@@ -29,20 +31,15 @@ public class LevelManager : MonoBehaviour
     {
         GameManager.Instance.OnSetupGame += LoadLevel;
         GameManager.Instance.OnNextLevel += NextLevel;
-        GameManager.Instance.OnReset += LoadLevel;
-    }
-    private void Update()
-    {
-        OnLevelChange?.Invoke();
     }
     private void OnDestroy()
     {
         GameManager.Instance.OnSetupGame -= LoadLevel;
         GameManager.Instance.OnNextLevel -= NextLevel;
-        GameManager.Instance.OnReset -= LoadLevel;
     }
     public void LoadLevel()
     {
+
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1);
         OnLevelChange?.Invoke();
         CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{(LevelIndex - 1) % 10 + 1}/Level{(LevelIndex - 1) % 10 + 1}");
@@ -50,11 +47,20 @@ public class LevelManager : MonoBehaviour
 
         CreateObstacles();
 
+        if (IsStartLevelOfNewMap() && PlayerPrefs.GetInt(ShowedAnimLevelKey, 1) < LevelIndex)
+        {
+            OnUnlockNewMap?.Invoke();
+            PlayerPrefs.SetInt(ShowedAnimLevelKey, LevelIndex);
+        }
     }
     public void NextLevel()
     {
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1) + 1;
         PlayerPrefs.SetInt(LevelKey, LevelIndex);
+    }
+    public bool IsStartLevelOfNewMap()
+    {
+        return LevelIndex % GameConfig.LEVEL_PER_MAP == 1;
     }
 
     #endregion

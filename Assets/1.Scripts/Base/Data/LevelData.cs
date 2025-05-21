@@ -41,7 +41,7 @@ public class LevelData : ScriptableObject
                 return PlayerTrace.GetPointAtIndex(PlayerTrace.GetIndexByPosition(SafePoints[i]));
             }
         }
-        return PlayerTrace.GetStartPoint();
+        return PlayerTrace.GetPointAtIndex(PlayerTrace.GetIndexByPosition(PlayerTrace.GetLastPoint()) - 6);
     }
     public Vector3 GetPickupPoint()
     {
