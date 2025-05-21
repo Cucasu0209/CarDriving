@@ -15,12 +15,14 @@ public class HomeUI_SettingPopup : MonoBehaviour
     [SerializeField] private Button SoundBtn;
     [SerializeField] private Button VibrationBtn;
     [SerializeField] private Sprite OnState, OffState;
-    float MusicVolume, SfxVolume, isVibrationOn;
+    float MusicVolume, SfxVolume;
+    int isVibrationOn;
     private void Start()
     {
         MusicVolume = PlayerPrefs.GetFloat(GameConfig.MUSIC_KEY, 1);
         SfxVolume = PlayerPrefs.GetFloat(GameConfig.SOUND_KEY, 1);
-        isVibrationOn = PlayerPrefs.GetFloat(GameConfig.VIBRATION_KEY, 1);
+        isVibrationOn = SoundManager.Instance.HapticMode;
+
         MusicBtn.image.sprite = MusicVolume > 0 ? OnState : OffState;
         SoundBtn.image.sprite = SfxVolume > 0 ? OnState : OffState;
         VibrationBtn.image.sprite = isVibrationOn > 0 ? OnState : OffState;
@@ -77,6 +79,8 @@ public class HomeUI_SettingPopup : MonoBehaviour
         SoundManager.Instance.PlayButtonSound();
         isVibrationOn = isVibrationOn > 0 ? 0 : 1;
         PlayerPrefs.SetFloat(GameConfig.VIBRATION_KEY, isVibrationOn);
+        SoundManager.Instance.SetHaptic(isVibrationOn);
+
         VibrationBtn.image.sprite = isVibrationOn > 0 ? OnState : OffState;
     }
 }

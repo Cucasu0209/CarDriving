@@ -40,11 +40,13 @@ public class HomeUI_LoseGamePopup : MonoBehaviour
             {
                 ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
             }
+            ContinueButton.transform.DOScale(1.1f, 0.3f).SetDelay(0.6f).SetLoops(-1, LoopType.Yoyo);
 
             SoundManager.Instance.PlayLoop(TimmingSound);
             Progress.fillAmount = 0;
             Progress.DOFillAmount(1, GameConfig.TIME_WAIT_LOSE_GAME).SetEase(Ease.Linear).OnComplete(() =>
             {
+                ContinueButton.transform.DOKill();
                 ContinueButton.transform.DOScale(0, 0.2f);
                 RetryButton.transform.DOScale(1, 0.2f).SetDelay(0.2f);
                 SoundManager.Instance.StopLoopSound(TimmingSound);
@@ -56,7 +58,7 @@ public class HomeUI_LoseGamePopup : MonoBehaviour
     private void OnClosePopup()
     {
         SoundManager.Instance.StopLoopSound(TimmingSound);
-
+        ContinueButton.transform.DOKill();
         Background.DOFade(0, 0.3f).SetDelay(0.3f).OnComplete(() =>
         {
             Background.gameObject.SetActive(false);

@@ -22,6 +22,10 @@ public class ShowroomUI_PagesMarker : MonoBehaviour
         ShowroomManager.Instance.OnLoadDataComplete -= InitKnots;
 
     }
+    private void OnEnable()
+    {
+        InitKnots();
+    }
 
     private void InitKnots()
     {
@@ -38,6 +42,8 @@ public class ShowroomUI_PagesMarker : MonoBehaviour
         {
             Image newKnot = Instantiate(KnotPrefab, KnotHolder);
             CurrentKnots.Add(newKnot);
+            newKnot.DOColor(ShowroomManager.Instance.CurrentPageIndex == i ? PickedColor : NormalColor, 0.2f);
+            newKnot.rectTransform.sizeDelta = Vector2.one * (ShowroomManager.Instance.CurrentPageIndex == i ? 32 : 20);
         }
 
     }

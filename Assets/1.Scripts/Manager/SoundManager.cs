@@ -5,6 +5,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 using UnityEngine.SceneManagement;
+using Lofelt.NiceVibrations;
 
 
 public class SoundManager : MonoBehaviour
@@ -30,7 +31,6 @@ public class SoundManager : MonoBehaviour
     #region LOAD BG MUSIC
     private void Start()
     {
-        SwitchToMainMenuBGM();
 
         //SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -96,6 +96,10 @@ public class SoundManager : MonoBehaviour
         BGAudioSource.mute = false;
         BGAudioSource.Play();
     }
+    public void StopBGMusic()
+    {
+        BGAudioSource.mute = true;
+    }
     #endregion Background Music
 
     #region SOUND EFFECT
@@ -120,6 +124,10 @@ public class SoundManager : MonoBehaviour
         SFXVolume = newVolume;
         SFXAudioSource.volume = SFXVolume;
 
+        for (int i = 0; i < CurrentLoopSounds.Count; i++)
+        {
+            CurrentLoopSounds[i].volume = SFXVolume;
+        }
         PlayerPrefs.SetFloat(SFXSetting, SFXVolume);
     }
 
@@ -174,6 +182,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayButtonSound()
     {
+        Vibrate(1);
         PlayEffect(ButtonSound);
     }
 
@@ -209,7 +218,7 @@ public class SoundManager : MonoBehaviour
 
         CurrentLoopSounds.Add(newSource);
         newSource.pitch = pitch;
-        newSource.volume = volume;
+        newSource.volume = SFXVolume;
         newSource.clip = clip;
         newSource.loop = true;
         newSource.Play();
@@ -252,43 +261,43 @@ public class SoundManager : MonoBehaviour
     public void SetHaptic(int value)
     {
         HapticMode = value;
-
         PlayerPrefs.SetInt(HapticSetting, HapticMode);
     }
-    // private float HapticDelay = 0.25f;
-    // private float HapticLastTime = 0;
-    public void Vibrate()
+    private float HapticDelay = 0.2f;
+    private float HapticLastTime = 0;
+    public void Vibrate(int strength)
     {
+        HapticMode = PlayerPrefs.GetInt(HapticSetting, 0);
+        if (HapticMode == 0) return;
         //Trung Comment
-        //HapticMode = PlayerPrefs.GetInt(HapticSetting, 0);
-        //switch (HapticMode)
-        //{
-        //    case 0: // OFF
-        //        break;
-        //    case 1: // LIGHT
-        //        if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
-        //        {
-        //            HapticLastTime = Time.realtimeSinceStartup;
-        //            HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
-        //        }
-        //        break;
-        //    case 2: // MEDIUM
-        //        if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
-        //        {
-        //            HapticLastTime = Time.realtimeSinceStartup;
-        //            HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
-        //        }
-        //        break;
-        //    case 3: // HEAVY
-        //        if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
-        //        {
-        //            HapticLastTime = Time.realtimeSinceStartup;
-        //            HapticPatterns.PlayPreset(HapticPatterns.PresetType.HeavyImpact);
-        //        }
-        //        break;
-        //    default:
-        //        break;
-        //}
+        switch (strength)
+        {
+            case 0: // OFF
+                break;
+            case 1: // LIGHT
+                if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
+                {
+                    HapticLastTime = Time.realtimeSinceStartup;
+                    HapticPatterns.PlayPreset(HapticPatterns.PresetType.LightImpact);
+                }
+                break;
+            case 2: // MEDIUM
+                if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
+                {
+                    HapticLastTime = Time.realtimeSinceStartup;
+                    HapticPatterns.PlayPreset(HapticPatterns.PresetType.MediumImpact);
+                }
+                break;
+            case 3: // HEAVY
+                if (Time.realtimeSinceStartup >= HapticLastTime + HapticDelay)
+                {
+                    HapticLastTime = Time.realtimeSinceStartup;
+                    HapticPatterns.PlayPreset(HapticPatterns.PresetType.HeavyImpact);
+                }
+                break;
+            default:
+                break;
+        }
     }
     #endregion Haptic
 }

@@ -31,6 +31,10 @@ public class ShowroomUI_Buttons : MonoBehaviour
         PlayerData.Instance.OnSkinChange -= OnSelectOneElement;
 
     }
+    private void OnEnable()
+    {
+        OnPageChange(true);
+    }
     private void OnPrevButtonClick()
     {
         SoundManager.Instance.PlayButtonSound();

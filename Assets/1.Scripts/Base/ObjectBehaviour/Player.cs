@@ -81,6 +81,8 @@ public class Player : MoveableObject
                 if (GameManager.Instance.IsGameRunning == false)
                     GameManager.Instance.StartGame();
 
+                SoundManager.Instance.Vibrate(1);
+
                 if (IsRunning == false)
                 {
                     SoundManager.Instance.StopLoopSound(IdleSound);
@@ -302,7 +304,7 @@ public class Player : MoveableObject
         if (other.gameObject.tag == "Enemy" && other.gameObject.GetComponent<MoveableObject>() != null)
         {
             StopSkidMark();
-
+            CurrentModel.transform.DOLocalRotateQuaternion(Quaternion.Euler(0, 0, 0), 0.2f);
             Obstacle obstacle = other.gameObject.GetComponent<Obstacle>();
 
             obstacle.StopInstantly();
@@ -324,6 +326,7 @@ public class Player : MoveableObject
             SoundManager.Instance.StopLoopSound(RunSound);
             SoundManager.Instance.StopLoopSound(IdleSound);
             SoundManager.Instance.PlayEffect(CrashSound);
+            SoundManager.Instance.Vibrate(2);
 
             GameManager.Instance.EndGame(false);
             WindEffect.SetActive(false);

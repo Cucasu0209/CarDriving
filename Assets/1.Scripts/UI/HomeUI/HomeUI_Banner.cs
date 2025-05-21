@@ -25,7 +25,7 @@ public class HomeUI_Banner : MonoBehaviour
     private void Start()
     {
         TapToPlayTest.transform.localScale = Vector3.one;
-        TapToPlayTest.transform.DOScale(0.95f, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        TapToPlayTest.transform.DOScale(0.93f, 0.3f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
         StartPosY = BodySelf.anchoredPosition.y;
         GameManager.Instance.OnHideHomeUI += OnHide;
         GameManager.Instance.OnShowHomeUI += OnShow;
@@ -55,7 +55,7 @@ public class HomeUI_Banner : MonoBehaviour
             ProgressKnots[i].transform.localScale = Vector3.one;
             if (i == levelInProgress)
             {
-                ProgressKnots[i].transform.DOScale(1.1f, 1f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+                ProgressKnots[i].transform.DOScale(1.2f, 0.6f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
             }
             ProgressKnots[i].sprite = (i == levelInProgress) ? LevelOn : ((i > levelInProgress) ? LevelOff : LevelPassed);
         }

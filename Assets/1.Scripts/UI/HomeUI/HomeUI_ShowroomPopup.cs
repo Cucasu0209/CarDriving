@@ -39,10 +39,10 @@ public class HomeUI_ShowroomPopup : MonoBehaviour
             SoundManager.Instance.PlayOpenPopupSound();
             LightShowroom.SetActive(true);
         });
-        DOVirtual.DelayedCall(0.1f, () =>
+        DOVirtual.DelayedCall(0.2f, () =>
         {
             ShowroomManager.Instance.OnLoadDataComplete?.Invoke();
-            ShowroomManager.Instance.OnPageChange?.Invoke(true);
+           // ShowroomManager.Instance.OnPageChange?.Invoke(true);
             ShowroomManager.Instance.OnSelectElement?.Invoke();
         });
 

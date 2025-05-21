@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.WSA;
 
 public class HomeUI_ReceiveRewardPopup : MonoBehaviour
 {
@@ -56,7 +55,11 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         });
         CongrateText.transform.DOScale(1, 0.2f).SetDelay(0.2f);
 
-        FreeAdsBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+        FreeAdsBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f).OnComplete(() =>
+        {
+            FreeAdsBtn.transform.DOScale(1.1f, 0.3f).SetLoops(-1, LoopType.Yoyo);
+
+        });
         NoThanksBtn.transform.DOScale(1, 0.2f).SetDelay(3.7f);
 
         //3d
@@ -78,6 +81,7 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         });
         CongrateText.transform.DOScale(0, 0.2f);
         NewSkinText.transform.DOScale(0, 0.2f);
+        FreeAdsBtn.transform.DOKill();
         FreeAdsBtn.transform.DOScale(0, 0.2f);
         NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);
@@ -98,7 +102,7 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         SoundManager.Instance.PlayButtonSound();
         SoundManager.Instance.PlayEffect(CongrateSound);
         PlayerData.Instance.TakeReward();
-
+        FreeAdsBtn.transform.DOKill();
         FreeAdsBtn.transform.DOScale(0, 0.2f);
         NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);

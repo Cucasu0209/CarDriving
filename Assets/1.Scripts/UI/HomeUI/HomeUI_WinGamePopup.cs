@@ -65,7 +65,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
             {
                 ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
             }
-
+            AdsButton.transform.DOScale(1.1f, 0.3f).SetDelay(0.6f).SetLoops(-1, LoopType.Yoyo);
             StartCoroutine(IIncreasePercentage());
 
             Money.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money);
@@ -94,7 +94,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     }
     private void OnClosePopup()
     {
-
+        AdsButton.transform.DOKill();
 
         Backgound.DOFade(0, 0.3f).SetDelay(0.3f).OnComplete(() =>
         {
@@ -112,6 +112,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     {
         AdsButton.interactable = false;
         NextButton.interactable = false;
+        AdsButton.transform.DOKill();
 
 
         PlayerData.Instance.OnShowEffectAddMoney?.Invoke(LevelManager.Instance.CurrentLevelData.Money);
@@ -139,6 +140,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     }
     private void OnButtonAdsClick()
     {
+        AdsButton.transform.DOKill();
         AdsButton.interactable = false;
         NextButton.interactable = false;
         SoundManager.Instance.PlayButtonSound();

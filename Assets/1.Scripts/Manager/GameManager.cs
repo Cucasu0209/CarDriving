@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     public Action<Vector3, Transform> OnCameraMove; // Cam Pos, Player Pos
     public Action OnChangeCameraMode;
-    
+
     private void Awake()
     {
         IsGameRunning = false;
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         OnHideHomeUI?.Invoke();
     }
 
-    public void ChangeCameraMode( CameraMode mode)
+    public void ChangeCameraMode(CameraMode mode)
     {
         CurrentCameraMode = mode;
         OnChangeCameraMode?.Invoke();
@@ -73,11 +73,13 @@ public class GameManager : MonoBehaviour
     }
     public void Revive()
     {
+        SoundManager.Instance.SwitchToGameplay();
         IsGameRunning = true;
         OnRevive?.Invoke();
     }
     public void EndGame(bool isWin)
     {
+        SoundManager.Instance.StopBGMusic();
 
         IsGameRunning = false;
         OnEndGame?.Invoke(isWin);
