@@ -7340,7 +7340,7 @@ PrefabInstance:
     - target: {fileID: 3274681016508197820, guid: 8b5054b0bcc578446a71e0ef1b7f3b16,
         type: 3}
       propertyPath: m_Name
-      value: Fx_Exhaust_Smoke (3)
+      value: Fx_Exhaust_Smoke
       objectReference: {fileID: 0}
     - target: {fileID: 3396608646930057194, guid: 8b5054b0bcc578446a71e0ef1b7f3b16,
         type: 3}
