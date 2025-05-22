@@ -59,16 +59,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioClip Background_MainMenu;
     [SerializeField] private AudioClip Background_Gameplay;
 
-    private const string BGMusicSetting = "BGMusicSetting";
     public float BGMusicVolume { get; private set; } = 1;
     private void SetBGMusicState()
     {
         BGAudioSource.Play();
-        if (PlayerPrefs.HasKey(BGMusicSetting) == false)
+        if (PlayerPrefs.HasKey(GameConfig.MUSIC_KEY) == false)
         {
-            PlayerPrefs.SetInt(BGMusicSetting, 1);
+            PlayerPrefs.SetInt(GameConfig.MUSIC_KEY, 1);
         }
-        BGMusicVolume = PlayerPrefs.GetFloat(BGMusicSetting, 1);
+        BGMusicVolume = PlayerPrefs.GetFloat(GameConfig.MUSIC_KEY, 1);
         BGAudioSource.volume = BGMusicVolume;
     }
 
@@ -80,7 +79,7 @@ public class SoundManager : MonoBehaviour
     {
         BGMusicVolume = newVolume;
         BGAudioSource.volume = BGMusicVolume;
-        PlayerPrefs.SetFloat(BGMusicSetting, BGMusicVolume);
+        PlayerPrefs.SetFloat(GameConfig.MUSIC_KEY, BGMusicVolume);
     }
 
     public void SwitchToMainMenuBGM()
@@ -104,16 +103,15 @@ public class SoundManager : MonoBehaviour
 
     #region SOUND EFFECT
     [SerializeField] private AudioSource SFXAudioSource;
-    private const string SFXSetting = "SFXSetting";
     public float SFXVolume { get; private set; } = 1;
 
     private void SetSFXState()
     {
-        if (PlayerPrefs.HasKey(SFXSetting) == false)
+        if (PlayerPrefs.HasKey(GameConfig.SOUND_KEY) == false)
         {
-            PlayerPrefs.SetInt(SFXSetting, 1);
+            PlayerPrefs.SetInt(GameConfig.SOUND_KEY, 1);
         }
-        SFXVolume = PlayerPrefs.GetFloat(SFXSetting, 1);
+        SFXVolume = PlayerPrefs.GetFloat(GameConfig.SOUND_KEY, 1);
         SFXAudioSource.volume = SFXVolume;
     }
     /// <summary>
@@ -128,7 +126,7 @@ public class SoundManager : MonoBehaviour
         {
             CurrentLoopSounds[i].volume = SFXVolume;
         }
-        PlayerPrefs.SetFloat(SFXSetting, SFXVolume);
+        PlayerPrefs.SetFloat(GameConfig.SOUND_KEY, SFXVolume);
     }
 
 
@@ -245,15 +243,14 @@ public class SoundManager : MonoBehaviour
     #endregion
 
     #region Haptic
-    private const string HapticSetting = "HapticSetting";
     public int HapticMode { get; private set; } = 0;
     private void SetHapticState()
     {
-        if (PlayerPrefs.HasKey(HapticSetting) == false)
+        if (PlayerPrefs.HasKey(GameConfig.VIBRATION_KEY) == false)
         {
-            PlayerPrefs.SetInt(HapticSetting, 1);
+            PlayerPrefs.SetInt(GameConfig.VIBRATION_KEY, 1);
         }
-        HapticMode = PlayerPrefs.GetInt(HapticSetting, 0);
+        HapticMode = PlayerPrefs.GetInt(GameConfig.VIBRATION_KEY, 0);
     }
     /// <summary>
     /// Bật tắt rung
@@ -261,13 +258,13 @@ public class SoundManager : MonoBehaviour
     public void SetHaptic(int value)
     {
         HapticMode = value;
-        PlayerPrefs.SetInt(HapticSetting, HapticMode);
+        PlayerPrefs.SetInt(GameConfig.VIBRATION_KEY, HapticMode);
     }
     private float HapticDelay = 0.2f;
     private float HapticLastTime = 0;
     public void Vibrate(int strength)
     {
-        HapticMode = PlayerPrefs.GetInt(HapticSetting, 0);
+        HapticMode = PlayerPrefs.GetInt(GameConfig.VIBRATION_KEY, 0);
         if (HapticMode == 0) return;
         //Trung Comment
         switch (strength)

@@ -1075,7 +1075,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ed00d8d27abc09440b121cddf9012484, type: 2}
+      objectReference: {fileID: 2100000, guid: c2de9ee12d731e14e93392e0a8046454, type: 2}
     - target: {fileID: 4370438862957244606, guid: 314b13a2c4f89c74299eabc2a4c725c7,
         type: 3}
       propertyPath: m_Controller
@@ -3771,9 +3771,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1737270119}
-  - {fileID: 978885213}
-  - {fileID: 1547245362}
   - {fileID: 1092774096}
+  - {fileID: 1547245362}
+  - {fileID: 978885213}
   - {fileID: 5319910}
   m_Father: {fileID: 1372802742}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9361,6 +9361,9 @@ MonoBehaviour:
   - {fileID: 1174563512}
   - {fileID: 1216833036}
   - {fileID: 1799218600}
+  MovePointSound: {fileID: 8300000, guid: 61bc3fbde424ad74da5a8936c1442ffc, type: 3}
+  OpenNewLocationSound: {fileID: 8300000, guid: 53fe0bb7771ca3c48a6f9541baf80286,
+    type: 3}
 --- !u!1 &901804780
 GameObject:
   m_ObjectHideFlags: 0
@@ -12332,19 +12335,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Popup: {fileID: 262786523}
   Backgound: {fileID: 262786524}
-  ComponentsInPopup:
-  - {fileID: 696137416}
-  - {fileID: 1014294700}
-  - {fileID: 1334536331}
-  - {fileID: 2117000526}
-  - {fileID: 1452994327}
+  CompleteBanner: {fileID: 696137416}
+  PercentCarHolder: {fileID: 1014294700}
+  MoneyHolder: {fileID: 2117000526}
   RewardShadow: {fileID: 934855869}
   RewardProgressImage: {fileID: 901804782}
   RewardProgressText: {fileID: 502414299}
-  MoneyHolder: {fileID: 2117000526}
   Money: {fileID: 984666314}
   MoneyMultiplier: {fileID: 1456263729}
-  MoneyPlus: {fileID: 2098205381}
   NextButton: {fileID: 1334536332}
   AdsButton: {fileID: 1452994328}
   WinSound: {fileID: 8300000, guid: 8be23dcd9b4a12f4b8e3f449ee7c8ca0, type: 3}
@@ -22104,7 +22102,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2045616887
 RectTransform:
   m_ObjectHideFlags: 0

@@ -161,7 +161,7 @@ public class Player : MoveableObject
     private void LoadModel()
     {
         if (CurrentModel != null) PoolingSystem.Despawn(CurrentModel);
-        GameObject Model = Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId).name);
+        GameObject Model = ShowroomManager.Instance.GetCarModel(PlayerData.Instance.CurrentSkinId);
         if (Model != null)
         {
             CurrentModel = PoolingSystem.Spawn(Model, transform.position, Quaternion.identity);

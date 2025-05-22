@@ -57,13 +57,13 @@ public class Obstacle : MoveableObject
         if (Data.Type == ObstacleType.Car)
         {
             if (Random.Range(0, 1f) > 0.5f)
-                model = Resources.Load<GameObject>(GameConfig.CAR_TRAP_LINK + "Car" + Random.Range(1, 9));
+                model = Resources.Load<GameObject>(GameConfig.CAR_TRAP_LINK + GameConfig.TRAP_CAR_NAME + Random.Range(1, GameConfig.TRAP_CARS_COUNT));
             else
-                model = Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + "Car" + Random.Range(0, 9));
+                model = Resources.Load<GameObject>(GameConfig.SKIN_MODEL_LINK + GameConfig.PLAYER_CAR_MODEL_NAME + Random.Range(0, GameConfig.PLAYER_CARS_COUNT));
         }
         else if (Data.Type == ObstacleType.Character)
         {
-            model = Resources.Load<GameObject>(GameConfig.HUMAN_MODEL_LINK + "Human" + Random.Range(1, 9));
+            model = Resources.Load<GameObject>(GameConfig.HUMAN_MODEL_LINK + GameConfig.TRAP_HUMAN_NAME + Random.Range(1, GameConfig.TRAP_HUMANS_COUNT));
 
         }
         if (model != null)

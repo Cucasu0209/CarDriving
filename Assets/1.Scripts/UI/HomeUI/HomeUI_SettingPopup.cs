@@ -21,7 +21,7 @@ public class HomeUI_SettingPopup : MonoBehaviour
     {
         MusicVolume = PlayerPrefs.GetFloat(GameConfig.MUSIC_KEY, 1);
         SfxVolume = PlayerPrefs.GetFloat(GameConfig.SOUND_KEY, 1);
-        isVibrationOn = SoundManager.Instance.HapticMode;
+        isVibrationOn = PlayerPrefs.GetInt(GameConfig.VIBRATION_KEY, 1);
 
         MusicBtn.image.sprite = MusicVolume > 0 ? OnState : OffState;
         SoundBtn.image.sprite = SfxVolume > 0 ? OnState : OffState;
@@ -62,8 +62,6 @@ public class HomeUI_SettingPopup : MonoBehaviour
         SoundManager.Instance.PlayButtonSound();
         MusicVolume = MusicVolume > 0 ? 0 : 1;
         SoundManager.Instance.ChangeBGVolume(MusicVolume);
-
-        PlayerPrefs.SetFloat(GameConfig.MUSIC_KEY, MusicVolume);
         MusicBtn.image.sprite = MusicVolume > 0 ? OnState : OffState;
     }
     private void ToggleSound()
@@ -71,16 +69,13 @@ public class HomeUI_SettingPopup : MonoBehaviour
         SoundManager.Instance.PlayButtonSound();
         SfxVolume = SfxVolume > 0 ? 0 : 1;
         SoundManager.Instance.ChangeSFXVolume(SfxVolume);
-        PlayerPrefs.SetFloat(GameConfig.SOUND_KEY, SfxVolume);
         SoundBtn.image.sprite = SfxVolume > 0 ? OnState : OffState;
     }
     private void ToggleVibration()
     {
         SoundManager.Instance.PlayButtonSound();
         isVibrationOn = isVibrationOn > 0 ? 0 : 1;
-        PlayerPrefs.SetFloat(GameConfig.VIBRATION_KEY, isVibrationOn);
         SoundManager.Instance.SetHaptic(isVibrationOn);
-
         VibrationBtn.image.sprite = isVibrationOn > 0 ? OnState : OffState;
     }
 }

@@ -9,16 +9,18 @@ public class HomeUI_WinGamePopup : MonoBehaviour
 {
     [SerializeField] private RectTransform Popup;
     [SerializeField] private Image Backgound;
-    [SerializeField] private List<RectTransform> ComponentsInPopup;
+    [SerializeField] private RectTransform CompleteBanner;
+    [SerializeField] private RectTransform PercentCarHolder;
+    [SerializeField] private RectTransform MoneyHolder;
+
+    [Header("Reward")]
     [SerializeField] private Image RewardShadow;
     [SerializeField] private Image RewardProgressImage;
     [SerializeField] private TextMeshProUGUI RewardProgressText;
-    [SerializeField] private RectTransform MoneyHolder;
 
     [Header("Money")]
     [SerializeField] private TextMeshProUGUI Money;
     [SerializeField] private TextMeshProUGUI MoneyMultiplier;
-    [SerializeField] private TextMeshProUGUI MoneyPlus;
 
     [Header("Buttons")]
     [SerializeField] private Button NextButton;
@@ -42,8 +44,7 @@ public class HomeUI_WinGamePopup : MonoBehaviour
     }
     private void OnOpenPopup(bool isWin)
     {
-
-
+        //reset and set data
         if (isWin == false) return;
         AdsButton.interactable = true;
         NextButton.interactable = true;
@@ -51,46 +52,66 @@ public class HomeUI_WinGamePopup : MonoBehaviour
         PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money, false);
         PlayerData.Instance.AddRewardProgress(LevelManager.Instance.CurrentLevelData.RewardRate);
 
-
+        //Wait 
         DOVirtual.DelayedCall(2f, () =>
         {
+            //Sound
             SoundManager.Instance.PlayEffect(WinSound);
 
+            //set Icon
             RewardProgressImage.sprite = ShowroomManager.Instance.GetCarIcon(PlayerData.Instance.GetRewardId());
             RewardShadow.sprite = ShowroomManager.Instance.GetCarShadow(PlayerData.Instance.GetRewardId());
 
+            //Open Animations
             Popup.gameObject.SetActive(true);
             Backgound.DOFade(0.8f, 0.3f);
-            for (int i = 0; i < ComponentsInPopup.Count; i++)
-            {
-                ComponentsInPopup[i].DOScale(1, 0.3f).SetDelay(0.3f);
-            }
-            AdsButton.transform.DOScale(1.1f, 0.3f).SetDelay(0.6f).SetLoops(-1, LoopType.Yoyo);
+            CompleteBanner.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack);
+            PercentCarHolder.transform.DOScale(1, 0.3f).SetDelay(0.3f).SetEase(Ease.OutBack);
+
+
+
+            // AdsButton.transform.DOScale(1.1f, 0.3f).SetDelay(0.6f).SetLoops(-1, LoopType.Yoyo);
             StartCoroutine(IIncreasePercentage());
 
-            Money.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money);
             MoneyMultiplier.SetText("Get x" + GameConfig.WIN_REWARD_MULTIPLIER_ADS);
-            MoneyPlus.SetText("+ " + LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
         });
     }
 
     IEnumerator IIncreasePercentage()
     {
+        //set start value
         int StartValue = ((PlayerData.Instance.CurrentRewardRate - LevelManager.Instance.CurrentLevelData.RewardRate) % 100 + 100) % 100;
         int EndValue = PlayerData.Instance.CurrentRewardRate == 0 ? 100 : PlayerData.Instance.CurrentRewardRate;
         float time = (EndValue - StartValue) * 0.05f;
+        RewardProgressText.SetText(StartValue + "%");
         RewardProgressImage.fillAmount = StartValue / 100f;
 
-        yield return new WaitForSeconds(0.6f);
+        //run percent car
+        yield return new WaitForSeconds(0.7f);
         SoundManager.Instance.PlayLoop(PercentSound);
-        RewardProgressImage.DOFillAmount(EndValue / 100f, (EndValue - StartValue) * 0.05f).SetEase(Ease.Linear);
+        RewardProgressImage.DOFillAmount(EndValue / 100f, (EndValue - StartValue + 1) * 0.03f).SetEase(Ease.Linear);
         for (int i = StartValue; i <= EndValue; i++)
         {
             RewardProgressText.SetText(i + "%");
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.03f);
         }
         SoundManager.Instance.StopLoopSound(PercentSound);
 
+        //run percent Money
+        MoneyHolder.transform.DOScale(1, 0.4f);
+        Money.SetText("+ 0");
+        yield return new WaitForSeconds(0.4f);
+        SoundManager.Instance.PlayLoop(PercentSound);
+        for (int i = 0; i <= LevelManager.Instance.CurrentLevelData.Money; i++)
+        {
+            Money.SetText("+ " + i);
+            yield return new WaitForSeconds(0.03f);
+        }
+        SoundManager.Instance.StopLoopSound(PercentSound);
+
+        yield return new WaitForSeconds(0.5f);
+        AdsButton.transform.DOScale(1, 0.3f);
+        NextButton.transform.DOScale(1, 0.3f);
     }
     private void OnClosePopup()
     {
@@ -100,13 +121,11 @@ public class HomeUI_WinGamePopup : MonoBehaviour
         {
             Popup.gameObject.SetActive(false);
         });
-        for (int i = 0; i < ComponentsInPopup.Count; i++)
-        {
-            ComponentsInPopup[i].DOScale(0, 0.3f);
-        }
-
-
-
+        CompleteBanner.transform.DOScale(0, 0.3f);
+        AdsButton.transform.DOScale(0, 0.3f);
+        NextButton.transform.DOScale(0, 0.3f);
+        MoneyHolder.transform.DOScale(0, 0.3f);
+        PercentCarHolder.transform.DOScale(0, 0.3f);
     }
     private void OnButtonNextClick()
     {

@@ -58,5 +58,6 @@ public enum WeatherType
 {
     Foggy,
     Sunny,
-    Rainny
+    Rainny,
+    Snowy,
 }

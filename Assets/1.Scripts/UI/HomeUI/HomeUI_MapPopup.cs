@@ -20,6 +20,10 @@ public class HomeUI_MapPopup : MonoBehaviour
     [SerializeField] private List<Image> UnlockIcon;
     [SerializeField] private List<RectTransform> LockBanner;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip MovePointSound;
+    [SerializeField] private AudioClip OpenNewLocationSound;
+
     private void Start()
     {
         BackButton.onClick.AddListener(HidePopup);
@@ -82,25 +86,32 @@ public class HomeUI_MapPopup : MonoBehaviour
         Progress.fillAmount = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 2, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y;
         CurrentPoint.anchoredPosition = LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 2, 0, LevelPositions.Count - 1)];
 
-
-        Progress.DOFillAmount(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y, 1f).SetDelay(1.8f).SetEase(Ease.Linear);
-        CurrentPoint.DOAnchorPos(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)], 1f).SetDelay(1.8f).SetEase(Ease.Linear).OnComplete(() =>
+        DOVirtual.DelayedCall(1.8f, () =>
         {
-            CurrentPoint.DOScale(1.1f, 0.6f).OnComplete(() =>
+            SoundManager.Instance.PlayLoop(MovePointSound);
+            Progress.DOFillAmount(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)].y * 1f / Progress.rectTransform.sizeDelta.y, 1f).SetEase(Ease.Linear);
+            CurrentPoint.DOAnchorPos(LevelPositions[Mathf.Clamp(LevelManager.Instance.LevelIndex - 1, 0, LevelPositions.Count - 1)], 1f).SetEase(Ease.Linear).OnComplete(() =>
             {
+                SoundManager.Instance.StopLoopSound(MovePointSound);
 
-                UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
-                LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
-                DOVirtual.DelayedCall(0.4f, () =>
+                CurrentPoint.DOScale(1.1f, 0.6f).OnComplete(() =>
                 {
-                    UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(true);
-                    LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(false);
+
+                    UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
+                    LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].transform.DOScale(1.3f, 0.4f).SetLoops(2, LoopType.Yoyo);
+                    DOVirtual.DelayedCall(0.4f, () =>
+                    {
+                        SoundManager.Instance.PlayEffect(OpenNewLocationSound);
+                        UnlockIcon[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(true);
+                        LockBanner[(LevelManager.Instance.LevelIndex - 1) / GameConfig.LEVEL_PER_MAP].gameObject.SetActive(false);
+                    });
+
+                    CurrentPoint.DOScale(1, 0.4f).SetDelay(0.5f);
                 });
 
-                CurrentPoint.DOScale(1, 0.4f).SetDelay(0.5f);
             });
-
         });
+
 
 
     }
