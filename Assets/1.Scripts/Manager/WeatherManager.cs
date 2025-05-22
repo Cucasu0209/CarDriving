@@ -6,6 +6,9 @@ public class WeatherManager : MonoBehaviour
 {
     [SerializeField] private GameObject Foggy;
     [SerializeField] private GameObject Rainny;
+    [SerializeField] private GameObject Snow;
+    [SerializeField] private Material CityMat;
+    [SerializeField] private Material WayMat;
 
 
     private void Start()
@@ -23,5 +26,6 @@ public class WeatherManager : MonoBehaviour
     {
         Foggy.SetActive(LevelManager.Instance.CurrentLevelData.Weather == WeatherType.Foggy);
         Rainny.SetActive(LevelManager.Instance.CurrentLevelData.Weather == WeatherType.Rainny);
+        Snow.SetActive(LevelManager.Instance.CurrentLevelData.Weather == WeatherType.Snowy);
     }
 }

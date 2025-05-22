@@ -143,6 +143,11 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         }
     }
 
+    private void CancelReceiveReward()
+    {
+        OnAwesomeBtnClick();
+        PlayerData.Instance.CancelReward();
+    }
     private void OnAwesomeBtnClick()
     {
         SoundManager.Instance.PlayButtonSound();

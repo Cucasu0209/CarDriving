@@ -177,5 +177,9 @@ public class PlayerData : MonoBehaviour
             }
         }
     }
+    public void CancelReward()
+    {
+        CountReward--;
+    }
     #endregion
 }
