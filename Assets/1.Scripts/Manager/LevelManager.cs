@@ -41,9 +41,9 @@ public class LevelManager : MonoBehaviour
     {
 
         LevelIndex = PlayerPrefs.GetInt(LevelKey, 1);
-        OnLevelChange?.Invoke();
         CurrentLevelData = Resources.Load<LevelData>($"Data/Level/Level_{(LevelIndex - 1) % 10 + 1}/Level{(LevelIndex - 1) % 10 + 1}");
         OnLoadLevelComplete?.Invoke();
+        OnLevelChange?.Invoke();
 
         CreateObstacles();
 

@@ -21,6 +21,10 @@ public class HomeUI_Banner : MonoBehaviour
     [SerializeField] private List<Image> ProgressKnots;
     [SerializeField] private Sprite LevelOn, LevelOff, LevelPassed;
 
+    [Header("Weather")]
+    [SerializeField] private Image WeatherIcon;
+    [SerializeField] private Sprite SunnyIcon, SnowwyIcon, RainnyIcon, FoggyIcon;
+
     private float StartPosY;
     private void Start()
     {
@@ -59,8 +63,22 @@ public class HomeUI_Banner : MonoBehaviour
             }
             ProgressKnots[i].sprite = (i == levelInProgress) ? LevelOn : ((i > levelInProgress) ? LevelOff : LevelPassed);
         }
-        // ProgressImage.fillAmount = (((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) * 1f / GameConfig.LEVEL_PER_MAP;
-        // ProgressText.SetText((((LevelManager.Instance.LevelIndex - 1) % GameConfig.LEVEL_PER_MAP)) + "/" + (GameConfig.LEVEL_PER_MAP));
+
+        switch (LevelManager.Instance.CurrentLevelData.Weather)
+        {
+            case WeatherType.Foggy:
+                WeatherIcon.sprite = FoggyIcon;
+                break;
+            case WeatherType.Sunny:
+                WeatherIcon.sprite = SunnyIcon;
+                break;
+            case WeatherType.Rainny:
+                WeatherIcon.sprite = RainnyIcon;
+                break;
+            case WeatherType.Snowy:
+                WeatherIcon.sprite = SnowwyIcon;
+                break;
+        }
     }
     private void OnHide()
     {
