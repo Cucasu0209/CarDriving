@@ -148,7 +148,13 @@ public class PlayerData : MonoBehaviour
     }
     public int GetRewardId()
     {
-        return ((LevelManager.Instance.LevelIndex - 2) / 4 + 1) % 9;
+        Debug.LogWarning("Khi nao co day du GD thi fix cho nay");
+        int result = ((LevelManager.Instance.LevelIndex - 2) / 4 + 1);
+        if (result >= GameConfig.PLAYER_CARS_COUNT)
+        {
+            return -1;
+        }
+        return result;
     }
     public bool CanTakeReward()
     {
@@ -159,8 +165,16 @@ public class PlayerData : MonoBehaviour
         if (CanTakeReward())
         {
             CountReward--;
-            UnlockSkin(GetRewardId());
-            UseSkin(GetRewardId());
+            if (GetRewardId() >= 0)
+            {
+                UnlockSkin(GetRewardId());
+                UseSkin(GetRewardId());
+            }
+            else
+            {
+                AddMoney(GameConfig.REWARD_MONEY, false);
+                OnShowEffectAddMoney?.Invoke(GameConfig.REWARD_MONEY);
+            }
         }
     }
     #endregion

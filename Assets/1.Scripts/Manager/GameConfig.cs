@@ -15,7 +15,7 @@ public class GameConfig
     //Relate to ads
     public static float TIME_WAIT_LOSE_GAME = 5;
     public static int WIN_REWARD_MULTIPLIER_ADS = 3;
-
+    public static int REWARD_MONEY = 200;
 
     //Resource Link
     public static string SHOWROOM_DATA_LINK = "Data/ShowroomData";

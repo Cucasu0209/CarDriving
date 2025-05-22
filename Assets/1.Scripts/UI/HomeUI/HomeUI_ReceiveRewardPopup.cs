@@ -8,12 +8,12 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
 {
     [SerializeField] private Image BG;
     [SerializeField] private Image BGInCamera;
-    [SerializeField] private Image CongrateText;
-    [SerializeField] private Image NewSkinText;
+    [SerializeField] private Image NewSkinBanner;
+    [SerializeField] private Image CongrateBanner;
     [SerializeField] private Button FreeAdsBtn;
     [SerializeField] private Button NoThanksBtn;
     [SerializeField] private Button AwesomeBtn;
-
+    [SerializeField] private RectTransform MoneyIcon;
 
     [Header("3D Component")]
     [SerializeField] private GameObject Confeti;
@@ -53,7 +53,6 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
                 Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
             });
         });
-        CongrateText.transform.DOScale(1, 0.2f).SetDelay(0.2f);
 
         FreeAdsBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f).OnComplete(() =>
         {
@@ -63,9 +62,22 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         NoThanksBtn.transform.DOScale(1, 0.2f).SetDelay(3.7f);
 
         //3d
-        Holder.gameObject.SetActive(true);
-        Holder.ShowCar(PlayerData.Instance.GetRewardId());
-        Holder.transform.DOScale(0.7f, 0.2f);
+        if (PlayerData.Instance.GetRewardId() >= 0)
+        {
+            NewSkinBanner.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+
+            Holder.gameObject.SetActive(true);
+            Holder.ShowCar(PlayerData.Instance.GetRewardId());
+            Holder.transform.DOScale(0.7f, 0.2f);
+        }
+        else
+        {
+            SoundManager.Instance.PlayEffect(CongrateSound);
+
+            CongrateBanner.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+            MoneyIcon.DOScale(1, 0.2f).SetDelay(0.2f);
+        }
+
         Confeti.SetActive(true);
 
     }
@@ -79,8 +91,8 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
         {
             BGInCamera.gameObject.SetActive(false);
         });
-        CongrateText.transform.DOScale(0, 0.2f);
-        NewSkinText.transform.DOScale(0, 0.2f);
+        NewSkinBanner.transform.DOScale(0, 0.2f);
+        CongrateBanner.transform.DOScale(0, 0.2f);
         FreeAdsBtn.transform.DOKill();
         FreeAdsBtn.transform.DOScale(0, 0.2f);
         NoThanksBtn.transform.DOKill();
@@ -95,21 +107,40 @@ public class HomeUI_ReceiveRewardPopup : MonoBehaviour
             Holder.gameObject.SetActive(false);
         });
         Confeti.SetActive(false);
+        MoneyIcon.DOScale(0, 0.2f);
+
     }
 
     private void OnWatchAdsBtnClick()
     {
         SoundManager.Instance.PlayButtonSound();
-        SoundManager.Instance.PlayEffect(CongrateSound);
+        if (PlayerData.Instance.GetRewardId() >= 0) SoundManager.Instance.PlayEffect(CongrateSound);
         PlayerData.Instance.TakeReward();
+
         FreeAdsBtn.transform.DOKill();
         FreeAdsBtn.transform.DOScale(0, 0.2f);
         NoThanksBtn.transform.DOKill();
         NoThanksBtn.transform.DOScale(0, 0.2f);
-        CongrateText.transform.DOScale(0, 0.2f);
 
-        NewSkinText.transform.DOScale(1, 0.2f).SetDelay(0.2f);
-        AwesomeBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+        MoneyIcon.DOScale(0, 0.2f);
+
+        if (PlayerData.Instance.GetRewardId() >= 0)
+        {
+
+            NewSkinBanner.transform.DOScale(0, 0.2f);
+
+            CongrateBanner.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+            AwesomeBtn.transform.DOScale(1, 0.2f).SetDelay(0.2f);
+        }
+        else
+        {
+            DOVirtual.DelayedCall(1.2f, () =>
+            {
+                ClosePopup();
+                GameManager.Instance.SetupLevel();
+            });
+
+        }
     }
 
     private void OnAwesomeBtnClick()

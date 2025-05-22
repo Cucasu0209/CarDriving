@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -59,8 +60,18 @@ public class HomeUI_WinGamePopup : MonoBehaviour
             SoundManager.Instance.PlayEffect(WinSound);
 
             //set Icon
-            RewardProgressImage.sprite = ShowroomManager.Instance.GetCarIcon(PlayerData.Instance.GetRewardId());
-            RewardShadow.sprite = ShowroomManager.Instance.GetCarShadow(PlayerData.Instance.GetRewardId());
+            if (PlayerData.Instance.GetRewardId() >= 0)
+            {
+                RewardProgressImage.sprite = ShowroomManager.Instance.GetCarIcon(PlayerData.Instance.GetRewardId());
+                RewardShadow.sprite = ShowroomManager.Instance.GetCarShadow(PlayerData.Instance.GetRewardId());
+            }
+            else
+            {
+                RewardProgressImage.sprite = Resources.Load<Sprite>(GameConfig.SKIN_ICON_LINK + GameConfig.REWARD_MONEY_ICON_NAME);
+                RewardShadow.sprite = Resources.Load<Sprite>(GameConfig.SKIN_SHADOW_LINK + GameConfig.REWARD_MONEY_SHADOW_NAME);
+            }
+            RewardProgressImage.SetNativeSize();
+            RewardShadow.SetNativeSize();
 
             //Open Animations
             Popup.gameObject.SetActive(true);
@@ -71,47 +82,58 @@ public class HomeUI_WinGamePopup : MonoBehaviour
 
 
             // AdsButton.transform.DOScale(1.1f, 0.3f).SetDelay(0.6f).SetLoops(-1, LoopType.Yoyo);
-            StartCoroutine(IIncreasePercentage());
+            StartCoroutine(IIncreasePercentage(() =>
+            {
+                AdsButton.transform.DOScale(1, 0.3f);
+                NextButton.transform.DOScale(1, 0.3f);
+            }));
 
             MoneyMultiplier.SetText("Get x" + GameConfig.WIN_REWARD_MULTIPLIER_ADS);
         });
     }
 
-    IEnumerator IIncreasePercentage()
+    IEnumerator IIncreasePercentage(Action OnComplete = null)
     {
         //set start value
         int StartValue = ((PlayerData.Instance.CurrentRewardRate - LevelManager.Instance.CurrentLevelData.RewardRate) % 100 + 100) % 100;
         int EndValue = PlayerData.Instance.CurrentRewardRate == 0 ? 100 : PlayerData.Instance.CurrentRewardRate;
-        float time = (EndValue - StartValue) * 0.05f;
+        float time = (EndValue - StartValue + 1) * 0.02f;
         RewardProgressText.SetText(StartValue + "%");
         RewardProgressImage.fillAmount = StartValue / 100f;
 
         //run percent car
         yield return new WaitForSeconds(0.7f);
         SoundManager.Instance.PlayLoop(PercentSound);
-        RewardProgressImage.DOFillAmount(EndValue / 100f, (EndValue - StartValue + 1) * 0.03f).SetEase(Ease.Linear);
+        RewardProgressImage.DOFillAmount(EndValue / 100f, time).SetEase(Ease.Linear);
         for (int i = StartValue; i <= EndValue; i++)
         {
             RewardProgressText.SetText(i + "%");
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.02f);
         }
         SoundManager.Instance.StopLoopSound(PercentSound);
 
+
+
+        StartCoroutine(IIncreaseMoney(0, LevelManager.Instance.CurrentLevelData.Money, OnComplete));
+    }
+
+    IEnumerator IIncreaseMoney(int start, int end, Action OnComplete = null)
+    {
         //run percent Money
         MoneyHolder.transform.DOScale(1, 0.4f);
-        Money.SetText("+ 0");
+        Money.SetText("+ " + start);
         yield return new WaitForSeconds(0.4f);
         SoundManager.Instance.PlayLoop(PercentSound);
-        for (int i = 0; i <= LevelManager.Instance.CurrentLevelData.Money; i++)
+        for (int i = start; i <= end; i++)
         {
             Money.SetText("+ " + i);
-            yield return new WaitForSeconds(0.03f);
+            yield return new WaitForSeconds(0.01f);
         }
         SoundManager.Instance.StopLoopSound(PercentSound);
 
-        yield return new WaitForSeconds(0.5f);
-        AdsButton.transform.DOScale(1, 0.3f);
-        NextButton.transform.DOScale(1, 0.3f);
+
+        yield return new WaitForSeconds(0.3f);
+        OnComplete?.Invoke();
     }
     private void OnClosePopup()
     {
@@ -164,28 +186,31 @@ public class HomeUI_WinGamePopup : MonoBehaviour
         NextButton.interactable = false;
         SoundManager.Instance.PlayButtonSound();
         PlayerData.Instance.AddMoney(LevelManager.Instance.CurrentLevelData.Money * (GameConfig.WIN_REWARD_MULTIPLIER_ADS - 1), false);
-        PlayerData.Instance.OnShowEffectAddMoney?.Invoke(LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
         AdsButton.transform.DOScale(0, 0.2f);
-        MoneyHolder.DOScale(0, 0.3f);
         NextButton.transform.DOScale(0, 0.3f);
 
-
-        if (PlayerData.Instance.CanTakeReward())
-        {
-            DOVirtual.DelayedCall(1, () =>
+        StartCoroutine(IIncreaseMoney(LevelManager.Instance.CurrentLevelData.Money, LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS,
+            () =>
             {
-                OnClosePopup();
-                GameManager.Instance.OnShowRewardPopup?.Invoke();
-            });
-        }
-        else
-        {
-            DOVirtual.DelayedCall(1, () =>
-            {
-                OnClosePopup();
-                GameManager.Instance.SetupLevel();
-            });
-        }
+                PlayerData.Instance.OnShowEffectAddMoney?.Invoke(LevelManager.Instance.CurrentLevelData.Money * GameConfig.WIN_REWARD_MULTIPLIER_ADS);
+                MoneyHolder.DOScale(0, 0.3f);
+                if (PlayerData.Instance.CanTakeReward())
+                {
+                    DOVirtual.DelayedCall(1, () =>
+                    {
+                        OnClosePopup();
+                        GameManager.Instance.OnShowRewardPopup?.Invoke();
+                    });
+                }
+                else
+                {
+                    DOVirtual.DelayedCall(1, () =>
+                    {
+                        OnClosePopup();
+                        GameManager.Instance.SetupLevel();
+                    });
+                }
 
+            }));
     }
 }
