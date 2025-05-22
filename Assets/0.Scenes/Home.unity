@@ -8087,7 +8087,7 @@ MonoBehaviour:
   BreakSound: {fileID: 8300000, guid: 6c7a100362eb90b408a3f667b0fb3192, type: 3}
   RunSound: {fileID: 8300000, guid: 65fe3b9b34711bb4f86388e9e4c703cf, type: 3}
   CrashSound: {fileID: 8300000, guid: e4e3220e5c56d704b9393c21e50762cd, type: 3}
-  Unstopable: 1
+  Unstopable: 0
 --- !u!114 &805014379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21997,7 +21997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &2031203092
 MeshCollider:
   m_ObjectHideFlags: 0

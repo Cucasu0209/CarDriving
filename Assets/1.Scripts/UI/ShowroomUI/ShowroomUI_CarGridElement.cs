@@ -51,6 +51,10 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
         {
             ShowroomManager.Instance.SelectElement(CurrentData.Id);
         }
+        if (PlayerData.Instance.HaveSkin(CurrentData.Id))
+        {
+            PlayerData.Instance.UseSkin(CurrentData.Id);
+        }
 
     }
 
@@ -59,9 +63,10 @@ public class ShowroomUI_CarGridElement : MonoBehaviour
         BackgroundSelected.gameObject.SetActive(CurrentData.Id == ShowroomManager.Instance.CurrentIdSelected);
         Price.SetText(CurrentData.Price.ToString());
         PriceIcon.gameObject.SetActive(PlayerData.Instance.HaveSkin(CurrentData.Id) == false);
+        HandlerButton.gameObject.SetActive(PlayerData.Instance.HaveSkin(CurrentData.Id) == false);
+
         if (PlayerData.Instance.HaveSkin(CurrentData.Id))
         {
-            HandlerButton.image.sprite = (CurrentData.Id == PlayerData.Instance.CurrentSkinId) ? GreenBtn : BlueBtn;
             UsedMark.gameObject.SetActive(CurrentData.Id == PlayerData.Instance.CurrentSkinId);
             UseMark.gameObject.SetActive(CurrentData.Id != PlayerData.Instance.CurrentSkinId);
         }
